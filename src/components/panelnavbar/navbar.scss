@@ -1,0 +1,55 @@
+.adminpanelpage {
+    width: 100%;
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1.1rem 5rem;
+        box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+
+        .inputbar {
+
+            position: relative;
+
+            input {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+                border: none;
+                border-radius: 5px;
+                height: 38px;
+                padding-left: 40px;
+                padding-right: 30px;
+                background-color: #f3f3f9;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+                cursor: pointer;
+
+                &:focus {
+                   outline: none;
+                }
+
+                &::placeholder {
+                    font-size: 0.9rem;
+                }
+            }
+
+            svg {
+                position: absolute;
+                left: 8px;
+                top: 7px;
+            }
+        }
+
+        .profile{
+           button{
+            background-color: transparent;
+            border: none;
+            svg{
+                font-size: 1.8rem;
+            }
+           }
+        }
+
+    }
+}

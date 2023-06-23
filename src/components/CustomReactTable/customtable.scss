@@ -1,0 +1,135 @@
+.table {
+    margin-top: 1rem;
+    padding: 2rem;
+
+    thead {
+        border: none !important;
+
+        tr {
+            text-align: center;
+
+            th {
+                font-size: 0.7rem;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            text-align: center;
+
+            border-top: 1px solid rgb(216, 216, 216) !important;
+            margin: 2rem !important;
+
+            td {
+
+
+                color: #405189 !important;
+
+                .actionbox{
+                    display: flex;
+                    gap: 1rem;
+                    align-items: center;
+                    justify-content: center;
+                    .update{
+                   
+                       
+                       
+                        button{
+                            background-color: transparent;
+                            border:none;
+                            border-radius:50%;
+                            background-color: #c0e0f1;
+                            &:hover{
+                                color: #3577f1;
+                            }
+                            svg{
+                                font-size: 0.6rem;
+                                color: #3577f1;
+                            }
+                        }
+                    }
+                    .enroll{
+                        font-size: 0.4rem;
+                        padding: 0.4rem;
+                        border-radius: 20px;
+                        background-color: #405189;
+                       
+                        &:disabled{
+                            background-color: #405189;
+                            color: rgb(175, 175, 175);
+                        }
+
+                        &:hover {
+                            background-color: #34457a;
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+
+    }
+}
+
+
+//height of starting box
+.css-julti5-MuiSwitch-root {
+    left: 20px;
+   height: 100%;
+   
+}
+
+
+// the height of another box
+.css-j204z7-MuiFormControlLabel-root{
+    height: 20px;
+   
+}
+
+
+
+//box of circle
+.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked {
+    left: -6px;
+    top: 1.5px;
+    color: #078c7a !important;
+   
+}
+
+
+//circle
+.css-jsexje-MuiSwitch-thumb {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+// active line 
+.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track {
+    background-color: white !important;
+    border: 2px solid #044940;
+    height: 0.6rem;
+    width: 1.2rem;
+   
+}
+
+
+.css-1yjjitx-MuiSwitch-track {
+    height: 75% !important;
+    width: 70% !important;
+    background-color: transparent !important;
+    border: 2px solid rgb(113, 113, 113);
+    
+}
+
+.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase {
+
+    top: 1.5px !important;
+    top: 20px;
+}
+
+.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase{
+    color: rgb(125, 125, 125) !important;
+}
