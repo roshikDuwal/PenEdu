@@ -7,6 +7,8 @@ import "./app.scss"
 import Learner from "./superadmin/Learner/Learner"
 import Instructor from "./superadmin/Instructor/Instructor"
 import Login from './pages/login/Login'
+import List from './superadmin/unit/List'
+import AddUnit from './superadmin/unit/add/AddUnit'
 
 const App = () => {
   return (
@@ -14,11 +16,13 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={<Home/>} />
-          
+
           <Route path='/admin'>
             <Route index element={<Adminpanel/>} />
             <Route path='/admin/learner' element={<Learner/>} />
             <Route path='/admin/instructor' element={<Instructor/>} />
+            <Route path='/admin/unit' element={<List/>} />
+            <Route path='/admin/unit/add' element={<AddUnit/>} />
           </Route>
 
           <Route path='/login' element={<Login/>}/>

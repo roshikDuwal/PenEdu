@@ -65,7 +65,7 @@ const Sidebar = () => {
                         </>}
 
                         <Dropdown.Item className="menu" href="/admin/learner"><RemoveIcon /> {currEle.subname2}</Dropdown.Item>
-                        <Dropdown.Item className="menu" href="/admin/instructor"> <RemoveIcon /> {currEle.subname3}</Dropdown.Item>
+                        <Dropdown.Item className="menu" href="/admin/unit"> <RemoveIcon /> {currEle.subname3}</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
