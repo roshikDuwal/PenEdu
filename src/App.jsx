@@ -24,6 +24,7 @@ const App = () => {
             <Route index element={<Adminpanel/>} />
             <Route path='/admin/learner' element={<Learner/>} />
             <Route path='/admin/instructor' element={<Instructor/>} />
+            <Route path='/admin/classyear' element={<Classyear/>} />
             <Route path='/admin/unit' element={<List/>} />
             <Route path='/admin/unit/add' element={<AddUnit/>} />
           </Route>

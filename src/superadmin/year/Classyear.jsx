@@ -17,8 +17,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
 
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+
 
 
 const Learner = () => {
