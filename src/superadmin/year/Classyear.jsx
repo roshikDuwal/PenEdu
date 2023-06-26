@@ -16,6 +16,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
+import { Accordan } from '../../components/TableAccordan/Accordan'
 
 
 
@@ -26,8 +27,7 @@ const Learner = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
-
+  const [openAccordan, setOpenAccordan] = useState(null);
 
 
   const data = useMemo(
@@ -46,18 +46,20 @@ const Learner = () => {
         Header: 'Action', Cell: ({ row }) => (
           <>
             <div className="actionbox">
-              <div className="update">
-                <button onClick={() => setBool(!bool)}>  <MoreHorizIcon /></button>
-              </div>
+            <div className="update">
+            
+            <button onClick={() => setOpenAccordan(row.original.id)}>
+                <MoreHorizIcon />
+              </button>
+              {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan}/>}
             </div>
-
+            </div>
           </>
-
         )
       }
     ],
-    []
-  );
+    [openAccordan]
+  );s
 
   const Values = {
     name: "",
@@ -74,7 +76,6 @@ const Learner = () => {
       console.log(values);
     }
   })
-
 
 
   return (
@@ -94,7 +95,7 @@ const Learner = () => {
               <Button onClick={handleOpen}><AddIcon /> Create</Button>
             </div>
 
-            <Modal className='modal'
+            <Modal className='classyearmodal '
               open={open}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
@@ -102,7 +103,7 @@ const Learner = () => {
             >
               <Box className="modal-box">
                 <div className='create-detail'>
-                  <p>Create Learner</p>
+                  <p>Create Year Class</p>
                   <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
                 </div>
 
@@ -113,48 +114,18 @@ const Learner = () => {
                     <input type="text" name="name" />
                   </div>
 
-                  <div className="formbox">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" name="email" />
-                  </div>
-
-                  <div className="formbox">
-                    <label htmlFor="type">Type</label>
-                    <select name="type" >
-                      <option value="Onshore">Onshore</option>
-                      <option value="Offshore">Offshore</option>
-                    </select>
-                  </div>
-
-                  <div className="formbox">
-                    <label htmlFor="name">Country</label>
-                    <input type="text" name="name" />
-                  </div>
-
-                  <div className="formbox">
-                    <label htmlFor="mobile">Mobile</label>
-                    <input type="number" name="mobile" />
-                  </div>
-
-                  <div className="formbox">
-                    <label htmlFor="studentnumber">Student Number</label>
-                    <input type="number" name="studentnumber" />
-                  </div>
-
                   <div className='submitbtn'>
                     <button type="submit">
                       <AddIcon /> Create
                     </button>
                   </div>
-
                 </form>
-
               </Box>
             </Modal>
 
             <CustomReactTable columns={columns} data={data} />
-          </div>
 
+          </div>
         </div>
       </div>
     </div>

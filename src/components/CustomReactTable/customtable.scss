@@ -32,7 +32,7 @@
                     align-items: center;
                     justify-content: center;
                     .update{
-                   
+                        position: relative;
                        
                        
                         button{
@@ -40,6 +40,7 @@
                             border:none;
                             border-radius:50%;
                             background-color: #c0e0f1;
+                          
                             &:hover{
                                 color: #3577f1;
                             }

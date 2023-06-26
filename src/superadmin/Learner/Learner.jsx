@@ -14,11 +14,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+
+
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { error, success } from '../../utils/toast'
+import { addStudents } from '../../services/addstudent'
+import { addStudentSchema } from '../../schema/validate'
+import { Accordan } from '../../components/TableAccordan/Accordan'
+
 
 
 const Learner = () => {
@@ -27,9 +34,7 @@ const Learner = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
-
-
+  const [openAccordan, setOpenAccordan] = useState(null);
 
   const data = useMemo(
     () => [
@@ -39,7 +44,7 @@ const Learner = () => {
     ], []);
 
 
-  const columns =useMemo(
+  const columns = useMemo(
     () => [
       { Header: 'Student Id', accessor: 'id' },
       { Header: 'Student Name', accessor: 'name' },
@@ -49,7 +54,7 @@ const Learner = () => {
       { Header: 'Email', accessor: 'email' },
       {
         Header: 'Status', Cell: ({ row }) => (
-          <FormControlLabel control={<Switch  defaultChecked />} />
+          <FormControlLabel control={<Switch defaultChecked />} />
         )
       },
       {
@@ -57,9 +62,13 @@ const Learner = () => {
           <>
             <div className="actionbox">
               <div className="update">
-                <button onClick={() => setBool(!bool)}>  <MoreHorizIcon /></button>
-               
+            
+              <button onClick={() => setOpenAccordan(row.original.id)}>
+                  <MoreHorizIcon />
+                </button>
+                {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan}/>}
               </div>
+             
               <Button className='enroll' variant='contained' color='success'>Enroll now</Button>
             </div>
 
@@ -68,22 +77,33 @@ const Learner = () => {
         )
       }
     ],
-    []
+    [openAccordan]
   );
 
   const Values = {
     name: "",
     email: "",
     type: "",
-    Country: "",
-    Mobile: 0,
-    Studentno: ""
+    country: "",
+    mobile: 0,
+    studentnumber: ""
   }
 
-  const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
+  const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting, setSubmitting } = useFormik({
     initialValues: Values,
+    validationSchema: addStudentSchema,
     onSubmit: (values, action) => {
-      console.log(values);
+      addStudents(values)
+        .then(() => {
+          success("Unit submitted successfully");
+          setSubmitting(false);
+          setOpen(false);
+          fetchUnits();
+        })
+        .catch((err) => {
+          error(err.message);
+          setSubmitting(false);
+        });
     }
   })
 
@@ -122,35 +142,63 @@ const Learner = () => {
 
                   <div className="formbox">
                     <label htmlFor="name">Name</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
+
+                    {errors.name && touched.name ? (<p className='errorval'>{errors.name}</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
+
+                    {errors.email && touched.email ? (<p className='errorval'>{errors.email}</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="type">Type</label>
-                    <select name="type" >
+                    <select name="type"
+                      value={values.type}
+                      onChange={handleChange}
+                      onBlur={handleBlur} >
                       <option value="Onshore">Onshore</option>
                       <option value="Offshore">Offshore</option>
                     </select>
+
+                    {errors.type && touched.type ? (<p className='errorval'>{errors.type}</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="name">Country</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="country"
+                      value={values.country}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
+
+                    {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="mobile">Mobile</label>
-                    <input type="number" name="mobile" />
+                    <input type="number" name="mobile"
+                      value={values.mobile}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
+                    {errors.mobile && touched.mobile ? (<p className='errorval'>{errors.mobile}</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="studentnumber">Student Number</label>
-                    <input type="number" name="studentnumber" />
+                    <input type="number" name="studentnumber"
+                      value={values.studentnumber}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
+                    {errors.studentnumber && touched.studentnumber ? (<p className='errorval'>{errors.studentnumber}</p>) : null}
                   </div>
 
                   <div className='submitbtn'>

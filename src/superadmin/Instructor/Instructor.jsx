@@ -19,6 +19,7 @@ import { NavLink } from 'react-router-dom'
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { Accordan } from '../../components/TableAccordan/Accordan'
 
 
 const Learner = () => {
@@ -27,11 +28,7 @@ const Learner = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
-
-
-
-
+    const [openAccordan, setOpenAccordan] = useState(null);
 
     const data = useMemo(
         () => [
@@ -51,7 +48,7 @@ const Learner = () => {
 
             {
                 Header: 'Status', Cell: ({ row }) => (
-                    <FormControlLabel control={<Switch defaultChecked/>} />
+                    <FormControlLabel control={<Switch defaultChecked />} />
                 )
             },
             {
@@ -59,18 +56,25 @@ const Learner = () => {
                     <>
                         <div className="actionbox">
                             <div className="update">
-                                <button onClick={() => setBool(!bool)}>  <MoreHorizIcon /></button>
+
+                                <button onClick={() => setOpenAccordan(row.original.id)}>
+                                    <MoreHorizIcon />
+                                </button>
+                           
+
+                                {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
 
                             </div>
 
                         </div>
+
 
                     </>
 
                 )
             }
         ],
-        []
+        [openAccordan]
     );
 
     const Values = {
@@ -157,7 +161,7 @@ const Learner = () => {
                                     <div className="formbox">
                                         <label htmlFor="type">Class</label>
                                         <select name="type" >
-                                            <option disabled  selected value="class">Select class</option>
+                                            <option disabled selected value="class">Select class</option>
                                             <option value="year11">Year 11</option>
                                             <option value="year12">Year12</option>
                                         </select>

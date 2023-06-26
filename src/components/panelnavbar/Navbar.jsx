@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Accordan } from '../Accordan/Accordan';
+import { Accordan } from '../NavbarAccordan/Accordan';
 import "./navbar.scss"
 import SearchIcon from '@mui/icons-material/Search';
 

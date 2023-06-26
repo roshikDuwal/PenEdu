@@ -2,6 +2,8 @@ import React from 'react';
 import { useTable } from 'react-table';
 import "./customtable.scss"
 
+
+
 const CustomReactTable=({columns,data})=> {
 
   const {

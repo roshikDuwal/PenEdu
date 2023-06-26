@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+
+
 // const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 // export const singUpSchema = Yup.object({
 //     firstName: Yup.string().min(3).max(25).required("Please enter your firstname"),
@@ -21,10 +23,14 @@ export const loginUpSchema = Yup.object({
 
 });
 
-// export const addProductSchema = Yup.object({
-//     title: Yup.string().min(3).required("Please enter your Product Name"),
-//     description: Yup.string().min(10).required("Please give some description"),
-// });
+export const  addStudentSchema = Yup.object({
+    name: Yup.string().min(3).required("Please enter your Product Name"),
+    email: Yup.string().email().required("Please enter your email"),
+    type: Yup.string().required("Please enter your type "),
+    country: Yup.string().min(3).required("Please enter your Country Name"),
+    mobile:Yup.number().min(10).max(10).required("Please enter your number"),
+    studentnumber:Yup.string().required("Please enter your number")
+});
 
 // export const billlingDetailSchema = Yup.object({
 //     name: Yup.string().min(3).required("Please enter your Product Name"),

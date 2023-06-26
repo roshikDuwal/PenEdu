@@ -1,0 +1,54 @@
+.tableaccordanbox {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+   top: 0.5rem;
+   right: -2rem;
+    background-color: white;
+    padding: 0.3rem;
+    margin-top: 0.8rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    
+    .btnbox{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        .accordanbtn{
+            background-color: transparent !important;
+
+            svg{
+                color: black !important;
+            }
+        }
+    }
+
+    li {
+        width: 70px;
+        list-style: none;
+        display: flex;
+        padding: 0.2rem;
+        color: #878a99;
+        white-space: nowrap;
+        margin: 0 10px;
+
+        svg{
+            font-size: 0.712rem;
+        }
+        a {
+            text-decoration: none;
+            color: #878a99;
+            font-size: 0.612rem;
+            transition: all 0.2s linear;
+
+            &:hover {
+                text-decoration: underline;
+                color: orangered;
+            }
+        }
+
+    }
+}
