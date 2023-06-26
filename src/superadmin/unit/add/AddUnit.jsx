@@ -68,7 +68,6 @@ const AddUnit = () => {
               )}
               {pdf && (
                 <div>
-                  <hr />
                   <AddAssignmentCanvas pdf={pdf} />
                 </div>
               )}

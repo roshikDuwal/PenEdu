@@ -488,7 +488,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
             ) : null}
           </div>
         </div>
-        <hr />
+
         <div className="tool">
           <div>
             <label htmlFor="">{sizeName}</label>
