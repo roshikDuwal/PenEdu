@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Sidebar from '../../components/sidebar/Sidebar'
 import "../admin.scss"
-import "./learner.scss"
+import "./classyear.scss"
 import Navbar from '../../components/panelnavbar/Navbar'
 import CustomReactTable from '../../components/CustomReactTable/CustomReactTable'
 
@@ -33,34 +33,23 @@ const Learner = () => {
 
   const data = useMemo(
     () => [
-      { id: 1, name: 'John Doe', courseno: 28261, type: 'onshore', contact: '9860077825', email: 'john@pen.edu.au' },
-      { id: 2, name: 'Jane Smith', courseno: 32261, type: 'offshore', contact: '9860077825', email: 'jane@pen.edu.au' },
-      { id: 3, name: 'Bob Johnson', courseno: 45261, type: 'onshore', contact: '9860077825', email: 'bob@pen.edu.au' },
+        {id:"1",yearname:11,studentcount:25,updatedat:"2020"},
+        {id:"2",yearname:12,studentcount:28,updatedat:"2020"},
     ], []);
 
 
   const columns =useMemo(
     () => [
-      { Header: 'Student Id', accessor: 'id' },
-      { Header: 'Student Name', accessor: 'name' },
-      { Header: 'Course', accessor: 'courseno' },
-      { Header: 'Type', accessor: 'type' },
-      { Header: 'Contact', accessor: 'contact' },
-      { Header: 'Email', accessor: 'email' },
-      {
-        Header: 'Status', Cell: ({ row }) => (
-          <FormControlLabel control={<Switch  defaultChecked />} />
-        )
-      },
+      { Header: 'Year Name', accessor: 'yearname' },
+      { Header: 'Student Count', accessor: 'studentcount' },
+      { Header: 'Updated At', accessor: 'updatedat' },
       {
         Header: 'Action', Cell: ({ row }) => (
           <>
             <div className="actionbox">
               <div className="update">
                 <button onClick={() => setBool(!bool)}>  <MoreHorizIcon /></button>
-               
               </div>
-              <Button className='enroll' variant='contained' color='success'>Enroll now</Button>
             </div>
 
           </>
@@ -97,13 +86,13 @@ const Learner = () => {
         <div className="learner-box">
 
           <div className="navigation">
-            <NavLink to="/admin">Admin</NavLink>  <ChevronRightIcon />  <p>Learner</p>
+            <NavLink to="/admin">Admin</NavLink>  <ChevronRightIcon />  <p>Class Year</p>
           </div>
 
           <div className="learner-list-box">
             <div className="modal-btn">
-              <h5>Learner Details</h5>
-              <Button onClick={handleOpen}><AddIcon /> Add Member</Button>
+              <h5>Class year</h5>
+              <Button onClick={handleOpen}><AddIcon /> Create</Button>
             </div>
 
             <Modal className='modal'

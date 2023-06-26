@@ -533,12 +533,14 @@ const AddAssignmentCanvas = ({ pdf }) => {
             </Button>
           </div>
 
+
           {/* ----------ADD Page---------------   */}
           <div>
             <Button variant="contained" onClick={handleButtonClick}>
               Add Page
             </Button>
           </div>
+
 
           <div>
             <Button onClick={undoCanvas}>

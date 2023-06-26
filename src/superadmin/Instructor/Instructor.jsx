@@ -29,11 +29,7 @@ const Learner = () => {
 
 
 
-    const [checked, setChecked] = useState(true);
 
-    const handleClick = (e) => {
-        setChecked(!checked)
-    };
 
 
 
@@ -55,7 +51,7 @@ const Learner = () => {
 
             {
                 Header: 'Status', Cell: ({ row }) => (
-                    <FormControlLabel control={<Switch checked={checked} onChange={handleClick} />} />
+                    <FormControlLabel control={<Switch defaultChecked/>} />
                 )
             },
             {
@@ -124,7 +120,7 @@ const Learner = () => {
                                     <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
                                 </div>
 
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSubmit} className='instructor-form'>
 
                                     <div className="formbox">
                                         <label htmlFor="name">Name</label>

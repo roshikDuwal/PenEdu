@@ -21,6 +21,7 @@
     "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-calendar": "^4.3.0",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.13.0",

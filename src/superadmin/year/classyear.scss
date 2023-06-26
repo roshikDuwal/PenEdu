@@ -78,7 +78,6 @@
     position: relative;
     background-color: #f3f3f9;
 
-
     .create-detail {
       display: flex;
       align-items: center;
@@ -103,13 +102,15 @@
 
     }
 
-    .instructor-form{
+    form {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      margin: 0 4rem;
-      margin-top: 0.5rem;
+      gap: 2rem;
+      margin: 4rem;
+      padding: 1rem;
       background-color: white;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
 
       .formbox {
         display: flex;

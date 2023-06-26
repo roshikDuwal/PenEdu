@@ -6,9 +6,12 @@ import "./app.scss"
 
 import Learner from "./superadmin/Learner/Learner"
 import Instructor from "./superadmin/Instructor/Instructor"
+import Classyear from "./superadmin/year/Classyear"
+
 import Login from './pages/login/Login'
 import List from './superadmin/unit/List'
 import AddUnit from './superadmin/unit/add/AddUnit'
+import Error from './pages/error/Error'
 
 const App = () => {
   return (
@@ -26,6 +29,8 @@ const App = () => {
           </Route>
 
           <Route path='/login' element={<Login/>}/>
+
+          <Route path='*' element={<Error/>}/>
         </Routes>
       </Router>
     </>
