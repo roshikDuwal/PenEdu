@@ -12,6 +12,7 @@ import Login from './pages/login/Login'
 import List from './superadmin/unit/List'
 import AddUnit from './superadmin/unit/add/AddUnit'
 import Error from './pages/error/Error'
+import Course from './superadmin/course/course'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
             <Route path='/admin/instructor' element={<Instructor/>} />
             <Route path='/admin/classyear' element={<Classyear/>} />
             <Route path='/admin/unit' element={<List/>} />
+            <Route path='/admin/course' element={<Course/>} />
             <Route path='/admin/unit/add' element={<AddUnit/>} />
           </Route>
 

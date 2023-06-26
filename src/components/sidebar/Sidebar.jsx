@@ -32,6 +32,7 @@ const Sidebar = () => {
       img: <SubjectIcon />,
       subname2: "Course",
       subname3: "Unit",
+      link2:"/admin/course",
       link3:"/admin/unit",
       display: false,
       dropdown: true
@@ -96,7 +97,7 @@ const Sidebar = () => {
                         </>
                     }
 
- 
+
                   </div>
                 );
               })}

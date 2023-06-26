@@ -5,14 +5,53 @@ import "./list.scss"
 import Navbar from '../../components/panelnavbar/Navbar'
 
 import Button from '@mui/material/Button';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import AddIcon from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { NavLink } from 'react-router-dom'
+import CustomReactTable from '../../components/CustomReactTable/CustomReactTable';
+import { useMemo, useState } from 'react';
+import { FormControlLabel, Switch } from '@mui/material';
+import { Accordan } from '../../components/tableaccordan/Accordan';
 
 
 const List = () => {
+    const [openAccordan, setOpenAccordan] = useState(null);
+
+    const data = useMemo(
+        () => [
+            { id: 1, name: 'Algebra', courseno: 28261, type: 'onshore' },
+            { id: 2, name: 'Science', courseno: 32261, type: 'offshore' },
+        ], []);
+
+
+    const columns = useMemo(
+        () => [
+            { Header: 'Unit Id', accessor: 'id' },
+            { Header: 'Unit Name', accessor: 'name' },
+            { Header: 'Course', accessor: 'courseno' },
+            {
+                Header: 'Action', Cell: ({ row }) => (
+                    <>
+                      <div className="actionbox">
+                        <div className="update">
+
+                        <button onClick={() => setOpenAccordan(row.original.id)}>
+                            <MoreHorizIcon />
+                          </button>
+                          {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
+                        </div>
+                      </div>
+
+                    </>
+
+                )
+            }
+        ],
+        [openAccordan]
+    );
 
 
     return (
@@ -32,6 +71,7 @@ const List = () => {
                             <Link to="/admin/unit/add"><Button><AddIcon />Add Unit</Button></Link>
                         </div>
 
+                        <CustomReactTable columns={columns} data={data} />
                     </div>
 
                 </div>
