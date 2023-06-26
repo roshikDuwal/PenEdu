@@ -28,7 +28,7 @@ export const  addStudentSchema = Yup.object({
     email: Yup.string().email().required("Please enter your email"),
     type: Yup.string().required("Please enter your type "),
     country: Yup.string().min(3).required("Please enter your Country Name"),
-    mobile:Yup.number().min(10).max(10).required("Please enter your number"),
+    mobile:Yup.string().min(6).max(14).required("Please enter your number"),
     studentnumber:Yup.string().required("Please enter your number")
 });
 

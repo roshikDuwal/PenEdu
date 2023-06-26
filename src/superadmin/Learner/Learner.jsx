@@ -22,7 +22,7 @@ import { NavLink } from 'react-router-dom'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { error, success } from '../../utils/toast'
-import { addStudents } from '../../services/addstudent'
+import { addStudents, getStudents } from '../../services/students'
 import { addStudentSchema } from '../../schema/validate'
 import { Accordan } from '../../components/tableaccordan/Accordan'
 
@@ -33,23 +33,11 @@ import { CountriesData } from "../../constants/countires"
 const Learner = () => {
 
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [openAccordan, setOpenAccordan] = useState(null);
-
-  console.log(CountriesData);
-
-
-  console.log(CountriesData);
-
-  const data = useMemo(
-    () => [
-      { id: 1, name: 'John Doe', courseno: 28261, type: 'onshore', contact: '9860077825', email: 'john@pen.edu.au' },
-      { id: 2, name: 'Jane Smith', courseno: 32261, type: 'offshore', contact: '9860077825', email: 'jane@pen.edu.au' },
-      { id: 3, name: 'Bob Johnson', courseno: 45261, type: 'onshore', contact: '9860077825', email: 'bob@pen.edu.au' },
-    ], []);
-
 
   const columns = useMemo(
     () => [
@@ -57,7 +45,7 @@ const Learner = () => {
       { Header: 'Student Name', accessor: 'name' },
       { Header: 'Course', accessor: 'courseno' },
       { Header: 'Type', accessor: 'type' },
-      { Header: 'Contact', accessor: 'contact' },
+      { Header: 'Contact', accessor: 'mobile' },
       { Header: 'Email', accessor: 'email' },
       {
         Header: 'Status', Cell: ({ row }) => (
@@ -102,10 +90,10 @@ const Learner = () => {
     onSubmit: (values, action) => {
       addStudents(values)
         .then(() => {
-          success("Unit submitted successfully");
+          success("Learner submitted successfully");
           setSubmitting(false);
           setOpen(false);
-          fetchUnits();
+          getStudentData();
         })
         .catch((err) => {
           error(err.message);
@@ -114,7 +102,14 @@ const Learner = () => {
     }
   })
 
+  const getStudentData = async () => {
+    const data = await getStudents();
+    setData(data);
+  }
 
+  useEffect( ()=>{
+    getStudentData();
+  },[])
 
   return (
     <div className="adminpanel">

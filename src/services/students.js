@@ -7,3 +7,10 @@ export const addStudents = async (studentData)=>{
 
     return addStudent;
 }
+
+
+export const getStudents = async ()=>{
+    const students = await axios.get(routes.getStudents)
+
+    return students.data;
+}
