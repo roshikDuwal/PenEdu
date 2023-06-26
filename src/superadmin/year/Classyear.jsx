@@ -16,7 +16,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
-import { Accordan } from '../../components/TableAccordan/Accordan'
+import { Accordan } from '../../components/tableaccordan/Accordan'
 
 
 
@@ -47,7 +47,7 @@ const Learner = () => {
           <>
             <div className="actionbox">
             <div className="update">
-            
+
             <button onClick={() => setOpenAccordan(row.original.id)}>
                 <MoreHorizIcon />
               </button>

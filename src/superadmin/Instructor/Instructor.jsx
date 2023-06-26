@@ -19,7 +19,7 @@ import { NavLink } from 'react-router-dom'
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Accordan } from '../../components/TableAccordan/Accordan'
+import { Accordan } from '../../components/tableaccordan/Accordan'
 
 
 const Learner = () => {
@@ -60,7 +60,7 @@ const Learner = () => {
                                 <button onClick={() => setOpenAccordan(row.original.id)}>
                                     <MoreHorizIcon />
                                 </button>
-                           
+
 
                                 {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
 

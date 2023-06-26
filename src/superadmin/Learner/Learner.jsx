@@ -24,7 +24,7 @@ import Switch from '@mui/material/Switch';
 import { error, success } from '../../utils/toast'
 import { addStudents } from '../../services/addstudent'
 import { addStudentSchema } from '../../schema/validate'
-import { Accordan } from '../../components/TableAccordan/Accordan'
+import { Accordan } from '../../components/tableaccordan/Accordan'
 
 
 
@@ -62,13 +62,13 @@ const Learner = () => {
           <>
             <div className="actionbox">
               <div className="update">
-            
+
               <button onClick={() => setOpenAccordan(row.original.id)}>
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan}/>}
               </div>
-             
+
               <Button className='enroll' variant='contained' color='success'>Enroll now</Button>
             </div>
 
