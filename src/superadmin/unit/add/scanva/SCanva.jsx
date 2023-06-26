@@ -56,6 +56,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
       });
     }
     setImages(imagesTmp);
+    e.target.value = null;
   };
 
   //settoDraw
