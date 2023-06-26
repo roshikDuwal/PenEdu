@@ -59,7 +59,7 @@ const Learner = () => {
       }
     ],
     [openAccordan]
-  );s
+  );
 
   const Values = {
     name: "",

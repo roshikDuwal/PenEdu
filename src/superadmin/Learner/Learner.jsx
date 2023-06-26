@@ -26,6 +26,8 @@ import { addStudents } from '../../services/addstudent'
 import { addStudentSchema } from '../../schema/validate'
 import { Accordan } from '../../components/tableaccordan/Accordan'
 
+import { CountriesData } from "../../constants/countires"
+
 
 
 const Learner = () => {
@@ -35,6 +37,11 @@ const Learner = () => {
   const handleClose = () => setOpen(false);
 
   const [openAccordan, setOpenAccordan] = useState(null);
+
+  console.log(CountriesData);
+
+
+  console.log(CountriesData);
 
   const data = useMemo(
     () => [
@@ -66,7 +73,7 @@ const Learner = () => {
               <button onClick={() => setOpenAccordan(row.original.id)}>
                   <MoreHorizIcon />
                 </button>
-                {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan}/>}
+                {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
               </div>
 
               <Button className='enroll' variant='contained' color='success'>Enroll now</Button>
@@ -166,6 +173,7 @@ const Learner = () => {
                       value={values.type}
                       onChange={handleChange}
                       onBlur={handleBlur} >
+                      <option disabled selected value="account">Select type</option>
                       <option value="Onshore">Onshore</option>
                       <option value="Offshore">Offshore</option>
                     </select>
@@ -175,10 +183,15 @@ const Learner = () => {
 
                   <div className="formbox">
                     <label htmlFor="name">Country</label>
-                    <input type="text" name="country"
-                      value={values.country}
+
+                    <select name="country" value={values.country}
                       onChange={handleChange}
-                      onBlur={handleBlur} />
+                      onBlur={handleBlur}>
+
+                      {CountriesData.map((curElem) => (
+                        <option key={curElem.code} value={curElem.name}>{curElem.name}</option>
+                      ))}
+                    </select>
 
                     {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
                   </div>
