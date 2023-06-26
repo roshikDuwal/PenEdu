@@ -40,7 +40,7 @@ const AddUnit = () => {
 
             <div className="learner-list-box">
               <div className="modal-btn">
-                <h5>Learner Details</h5>
+                <h5>Add Unit</h5>
                 {!pdf && <div>
                   Add Assignment PDF:
                   <input
