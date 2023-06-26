@@ -29,7 +29,7 @@ export const  addStudentSchema = Yup.object({
     type: Yup.string().required("Please enter your type "),
     country: Yup.string().min(3).required("Please enter your Country Name"),
     mobile:Yup.string().min(6).max(14).required("Please enter your number"),
-    studentnumber:Yup.string().required("Please enter your number")
+    student_number:Yup.string().required("Please enter your number")
 });
 
 // export const billlingDetailSchema = Yup.object({

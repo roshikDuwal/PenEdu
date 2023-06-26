@@ -80,8 +80,8 @@ const Learner = () => {
     email: "",
     type: "",
     country: "",
-    mobile: 0,
-    studentnumber: ""
+    mobile: "",
+    student_number: ""
   }
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting, setSubmitting } = useFormik({
@@ -201,12 +201,12 @@ const Learner = () => {
                   </div>
 
                   <div className="formbox">
-                    <label htmlFor="studentnumber">Student Number</label>
-                    <input type="number" name="studentnumber"
-                      value={values.studentnumber}
+                    <label htmlFor="student_number">Student Number</label>
+                    <input type="number" name="student_number"
+                      value={values.student_number}
                       onChange={handleChange}
                       onBlur={handleBlur} />
-                    {errors.studentnumber && touched.studentnumber ? (<p className='errorval'>{errors.studentnumber}</p>) : null}
+                    {errors.student_number && touched.student_number ? (<p className='errorval'>{errors.student_number}</p>) : null}
                   </div>
 
                   <div className='submitbtn'>
