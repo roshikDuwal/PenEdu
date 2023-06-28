@@ -55,9 +55,32 @@ const AddAssignmentCanvas = ({ pdf }) => {
         name: files[i].name.substring(0, files[i].name.lastIndexOf(".")),
       });
     }
+    imagesTmp.sort((a, b)=>{
+      if ( a.name < b.name ){
+        return -1;
+      }
+      if ( a.name > b.name ){
+        return 1;
+      }
+      return 0;
+    });
     setImages(imagesTmp);
     e.target.value = null;
   };
+
+  const sortImages = () => {
+    const imagesTmp = [...images];
+    imagesTmp.sort((a, b)=>{
+      if ( a.name < b.name ){
+        return -1;
+      }
+      if ( a.name > b.name ){
+        return 1;
+      }
+      return 0;
+    });
+    setImages(imagesTmp);
+  }
 
   //settoDraw
   const setToDraw = (e) => {
@@ -481,6 +504,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
                           setImages(imagesTmp);
                         }}
                         value={imgData.name}
+                        onBlur={sortImages}
                       />
                     </div>
                   </div>
