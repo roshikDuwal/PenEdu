@@ -135,6 +135,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
       formData.append(key, jsonData[key]);
     }
 
+    navigate("./../1")
     // saveQuestion(
     //   formData
     // )
