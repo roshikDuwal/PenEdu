@@ -24,17 +24,13 @@ import { useFormik } from "formik";
 
 import { addUnitSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
-import { getCourses } from "../../services/courses";
 import { addUnits, getUnits } from "../../services/units";
 
 const List = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const [data, setData] = useState([
-    { id: 1, name: "Algebra", courseno: 28261, type: "onshore" },
-    { id: 2, name: "Science", courseno: 32261, type: "offshore" },
-  ]);
+  const [data, setData] = useState([]);
   const [courses, setCourses] = useState([]);
   const handleClose = () => {
     resetForm();
@@ -241,6 +237,7 @@ const List = () => {
             <CustomReactTable
               columns={columns}
               data={data}
+              loading={loading}
               rowClickable={true}
             />
           </div>
