@@ -32,6 +32,13 @@ export const  addStudentSchema = Yup.object({
     student_number:Yup.string().required("Please enter your number")
 });
 
+export const addCourseSchema = Yup.object({
+    course_name: Yup.string().min(3).required("Please enter course name"),
+    course_code: Yup.string().min(3).required("Please enter course code"),
+    class_id: Yup.string().required("Please select class"),
+    credit_hours: Yup.number().min(1).required("Please enter credit hours"),
+});
+
 // export const billlingDetailSchema = Yup.object({
 //     name: Yup.string().min(3).required("Please enter your Product Name"),
 //     phone: Yup.string().min(10).max(10).required("Please enter your phone number").matches(phoneRegExp, 'Phone number is not valid'),

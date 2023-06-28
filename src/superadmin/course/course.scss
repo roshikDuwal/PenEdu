@@ -73,8 +73,8 @@
     flex-direction: column;
     height: 100%;
     background-color: white;
-    width: 90vw;
-    height: 90vh;
+    width: 60vw;
+    height: 45vh;
     position: relative;
     background-color: #f3f3f9;
 
@@ -148,6 +148,10 @@
             border-radius: none !important;
             padding: 2rem;
           }
+        }
+
+        .css-b62m3t-container {
+          width: 100%;
         }
       }
 

@@ -1,204 +1,244 @@
-import React, { useMemo, useState } from 'react'
-import Sidebar from '../../components/sidebar/Sidebar'
-import "../admin.scss"
-import "./course.scss"
-import Navbar from '../../components/panelnavbar/Navbar'
-import CustomReactTable from '../../components/CustomReactTable/CustomReactTable'
+import React, { useEffect, useMemo, useState } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
+import "../admin.scss";
+import "./course.scss";
+import Select from "react-select";
+import Navbar from "../../components/panelnavbar/Navbar";
+import CustomReactTable from "../../components/CustomReactTable/CustomReactTable";
 
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-import { useFormik } from 'formik';
-import { NavLink } from 'react-router-dom'
+import { useFormik } from "formik";
+import { NavLink } from "react-router-dom";
 
-import { Accordan } from '../../components/tableaccordan/Accordan'
-
+import { Accordan } from "../../components/tableaccordan/Accordan";
+import { addCourses, getCourses } from "../../services/courses";
+import { addCourseSchema } from "../../schema/validate";
+import { error, success } from "../../utils/toast";
+import { ThreeDots } from "react-loader-spinner";
 
 const Course = () => {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const [data, setData] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const handleClose = () => {
+    resetForm();
+    setOpen(false);
+  };
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const [openAccordan, setOpenAccordan] = useState(null);
 
-    const [openAccordan, setOpenAccordan] = useState(null);
-
-    const data = useMemo(
-        () => [
-            { id: 1, name: 'Math', courseno: 2826, credit: 32 },
-            { id: 2, name: 'Economics', courseno: 3226, credit: 32 },
-            { id: 3, name: 'Physics', courseno: 4526, credit: 32 },
-        ], []);
-
-
-    const columns = React.useMemo(
-        () => [
-            { Header: 'Course Id', accessor: 'id' },
-            { Header: 'Course Name', accessor: 'name' },
-            { Header: 'Course Code', accessor: 'courseno' },
-            { Header: 'Credit hours', accessor: 'credit' },
-            {
-                Header: 'Action', Cell: ({ row }) => (
-                    <>
-                        <div className="actionbox">
-                            <div className="update">
-
-                                <button onClick={() => setOpenAccordan(row.original.id)}>
-                                    <MoreHorizIcon />
-                                </button>
-
-
-                                {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
-
-                            </div>
-
-                        </div>
-
-
-                    </>
-
-                )
-            }
-        ],
-        [openAccordan]
+  const getCourseData = async () => {
+    setLoading(true)
+    const data = await getCourses();
+    setData(data.course);
+    setClasses(
+      data.class.map((data) => {
+        return { label: data.class, value: data.id };
+      })
     );
+    setLoading(false)
+  };
 
-    const Values = {
-        name: "",
-        email: "",
-        type: "",
-        Country: "",
-        Mobile: 0,
-        Studentno: ""
-    }
+  useEffect(() => {
+    getCourseData();
+  }, []);
 
-    const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
-        initialValues: Values,
-        onSubmit: (values, action) => {
-            console.log(values);
-        }
-    })
+  const columns = React.useMemo(
+    () => [
+      { Header: "Course Id", accessor: "id" },
+      { Header: "Course Name", accessor: "course_name" },
+      { Header: "Course Code", accessor: "course_code" },
+      { Header: "Credit hours", accessor: "credit_hours" },
+      {
+        Header: "Action",
+        Cell: ({ row }) => (
+          <>
+            <div className="actionbox">
+              <div className="update">
+                <button onClick={() => setOpenAccordan(row.original.id)}>
+                  <MoreHorizIcon />
+                </button>
 
-
-
-    return (
-        <div className="adminpanel">
-            <Sidebar />
-            <div className="adminpanelpage">
-                <Navbar />
-                <div className="learner-box">
-
-                    <div className="navigation">
-                        <NavLink to="/admin">Admin</NavLink>  <ChevronRightIcon />  <p>Course</p>
-                    </div>
-
-                    <div className="learner-list-box">
-                        <div className="modal-btn">
-                            <h5>Course Details</h5>
-                            <Button onClick={handleOpen}><AddIcon /> Add Course</Button>
-                        </div>
-
-                        <Modal className='modal'
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box className="modal-box">
-                                <div className='create-detail'>
-                                    <p>Create Course</p>
-                                    <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
-                                </div>
-
-                                <form onSubmit={handleSubmit} className='instructor-form'>
-
-                                    <div className="formbox">
-                                        <label htmlFor="name">Name</label>
-                                        <input type="text" name="name" />
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="email">Email</label>
-                                        <input type="email" name="email" />
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="mobile">Phone Number</label>
-                                        <input type="number" name="mobile" />
-                                    </div>
-
-
-                                    <div className="formbox">
-                                        <label htmlFor="address">Address</label>
-                                        <input type="text" name="address" />
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="license">License</label>
-                                        <input type="text" name="license" />
-                                    </div>
-
-
-                                    <div className="formbox">
-                                        <label htmlFor="name">Country</label>
-                                        <input type="text" name="name" />
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="type">Class</label>
-                                        <select name="type" >
-                                            <option disabled selected value="class">Select class</option>
-                                            <option value="year11">Year 11</option>
-                                            <option value="year12">Year12</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="type">Course</label>
-                                        <select name="type" >
-                                            <option disabled selected value="account">Select course</option>
-                                            <option value="account">Account</option>
-                                            <option value="year12">Nepali</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="type">Gender</label>
-                                        <select name="type" >
-                                            <option value="gender" disabled selected >Select gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="formbox">
-                                        <label htmlFor="dateofbirth">Date of Birth</label>
-                                        <input type="date" name="dateofbirth" />
-                                    </div>
-
-                                    <div className='submitbtn'>
-                                        <button type="submit">
-                                            <AddIcon /> Create
-                                        </button>
-                                    </div>
-
-                                </form>
-
-                            </Box>
-                        </Modal>
-
-                        <CustomReactTable columns={columns} data={data} />
-                    </div>
-
-                </div>
+                {openAccordan === row.original.id && (
+                  <Accordan setOpenAccordan={setOpenAccordan} />
+                )}
+              </div>
             </div>
-        </div>
-    )
-}
+          </>
+        ),
+      },
+    ],
+    [openAccordan]
+  );
 
-export default Course
+  const Values = {
+    course_name: "",
+    course_code: "",
+    class_id: "",
+    credit_hours: 0,
+  };
+
+  const {
+    values,
+    errors,
+    setFieldValue,
+    handleBlur,
+    resetForm,
+    handleChange,
+    touched,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    validationSchema: addCourseSchema,
+    initialValues: Values,
+    onSubmit: async (values, action) => {
+      try {
+        await addCourses({...values, credit_hours: values.credit_hours.toString()});
+        success("Course added successfully!")
+        action.resetForm();
+        getCourseData();
+        handleClose();
+      } catch (e) {
+        error(e.message || "Failed to add course!")
+      }
+    },
+  });
+
+  return (
+    <div className="adminpanel">
+      <Sidebar />
+      <div className="adminpanelpage">
+        <Navbar />
+        <div className="learner-box">
+          <div className="navigation">
+            <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
+            <p>Course</p>
+          </div>
+
+          <div className="learner-list-box">
+            <div className="modal-btn">
+              <h5>Course Details</h5>
+              <Button onClick={handleOpen}>
+                <AddIcon /> Add Course
+              </Button>
+            </div>
+
+            <Modal
+              className="modal"
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box className="modal-box">
+                <div className="create-detail">
+                  <p>Create Course</p>
+                  <Button className="closequestionicon" onClick={handleClose}>
+                    <CloseIcon />
+                  </Button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="instructor-form">
+                  <div className="formbox">
+                    <label htmlFor="course_name">Name</label>
+                    <input
+                      type="text"
+                      name="course_name"
+                      value={values.course_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.course_name && touched.course_name ? (
+                      <p className="errorval">{errors.course_name}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="formbox">
+                    <label htmlFor="course_code">Course Code</label>
+                    <input
+                      type="text"
+                      name="course_code"
+                      value={values.course_code}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.course_code && touched.course_code ? (
+                      <p className="errorval">{errors.course_code}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="formbox">
+                    <label htmlFor="class">Class</label>
+                    {JSON.stringify(
+                      classes.find((cls) => cls.id === values.class_id)
+                    )}
+                    <Select
+                      name="class"
+                      value={
+                        classes.length && values.class_id
+                          ? classes.find((cls) => cls.id === values.class_id)
+                          : ""
+                      }
+                      options={classes}
+                      onChange={(e) => setFieldValue("class_id", e.value)}
+                      onBlur={handleBlur}
+                    />
+                    {errors.class_id && touched.class_id ? (
+                      <p className="errorval">{errors.class_id}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="formbox">
+                    <label htmlFor="credit_hours">Credit Hours</label>
+                    <input
+                      type="number"
+                      name="credit_hours"
+                      value={values.credit_hours}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.credit_hours && touched.credit_hours ? (
+                      <p className="errorval">{errors.credit_hours}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="submitbtn">
+                    <button disabled={isSubmitting} type="submit">
+                      <AddIcon /> Create
+                    </button>
+                  </div>
+                </form>
+              </Box>
+            </Modal>
+            <CustomReactTable columns={columns} data={data} />
+
+            {loading && (
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#0AB39C"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
+              )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Course;

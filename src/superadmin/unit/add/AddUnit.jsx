@@ -59,7 +59,7 @@ const AddUnit = () => {
                   height="80"
                   width="80"
                   radius="9"
-                  color="#5b58ff"
+                  color="#0AB39C"
                   ariaLabel="three-dots-loading"
                   wrapperStyle={{}}
                   wrapperClassName=""

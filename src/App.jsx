@@ -2,6 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import Home from "./pages/home/Home"
 import Adminpanel from './superadmin/Adminpanel'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./app.scss"
 
 import Learner from "./superadmin/Learner/Learner"
@@ -36,6 +38,7 @@ const App = () => {
           <Route path='*' element={<Error/>}/>
         </Routes>
       </Router>
+      <ToastContainer />
     </>
   )
 }
