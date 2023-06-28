@@ -22,16 +22,16 @@ const ListAssignment = () => {
 
     const data = useMemo(
         () => [
-            { id: 1, name: 'Algebra', courseno: 28261, type: 'onshore' },
-            { id: 2, name: 'Science', courseno: 32261, type: 'offshore' },
+            { id: 1, name: 'Assignment 1', courseno: 28261, type: 'onshore' },
+            { id: 2, name: 'Assignment 2', courseno: 32261, type: 'offshore' },
         ], []);
 
 
     const columns = useMemo(
         () => [
-            { Header: 'Unit Id', accessor: 'id' },
-            { Header: 'Unit Name', accessor: 'name' },
-            { Header: 'Course', accessor: 'courseno' },
+            { Header: 'Assignment Id', accessor: 'id' },
+            { Header: 'Assignment Name', accessor: 'name' },
+            { Header: 'Unit', accessor: 'courseno' },
             {
                 Header: 'Action', Cell: ({ row }) => (
                     <>

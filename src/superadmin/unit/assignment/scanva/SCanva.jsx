@@ -441,7 +441,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
             <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
           </div> */}
             <div className="formbox">
-              <label htmlFor="name">Unit Name</label>
+              <label htmlFor="name">Title</label>
               <input type="text" name="name" className="form-control" />
             </div>
             <div className="flex">
