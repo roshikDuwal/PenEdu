@@ -18,6 +18,7 @@ const UploadVideos = () => {
     { question: "Trigonometry Advance Plus Plus 2", file: "", video: "" },
     { question: "Trigonometry Advance Plus Plus 3", file: "", video: "" },
     { question: "Trigonometry Advance Plus Plus 4", file: "", video: "" },
+    { question: "Trigonometry Advance Plus Plus 5", file: "", video: "" },
   ]);
 
   const columns = React.useMemo(

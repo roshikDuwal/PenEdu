@@ -47,6 +47,7 @@ export const addCourseSchema = Yup.object({
 
 export const addUnitSchema = Yup.object({
     unit_name: Yup.string().min(3).required("Please enter unit name"),
+    unit_code: Yup.string().min(3).required("Please enter unit code"),
     course_id: Yup.string().required("Please select course"),
     credit_hours: Yup.number().required("Please enter credit hours"),
 });
