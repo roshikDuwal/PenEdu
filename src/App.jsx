@@ -16,6 +16,7 @@ import Error from './pages/error/Error'
 import Course from './superadmin/course/course'
 import AddAssignment from './superadmin/unit/assignment/AddAssignment';
 import ListAssignment from './superadmin/unit/assignment/ListAssignment';
+import UploadVideos from './superadmin/unit/assignment/UploadVideos';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
             <Route path='/admin/course' element={<Course/>} />
             <Route path='/admin/unit/:id' element={<ListAssignment/>} />
             <Route path='/admin/unit/:id/add' element={<AddAssignment/>} />
+            <Route path='/admin/unit/:unitId/:id' element={<UploadVideos/>} />
           </Route>
 
           <Route path='/login' element={<Login/>}/>
