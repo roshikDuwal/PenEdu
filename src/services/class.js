@@ -9,7 +9,7 @@ export const classData = async()=>{
 }
 
 export const postClassData= async(classdata)=>{
-    // const postclass = await axios.post(routes.postClassData,classdata)
+    const postclass = await axios.post(routes.addClasses,classdata)
     console.log(classdata);
-    // return postclass
+    return postclass
 }

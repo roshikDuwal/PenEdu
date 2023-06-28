@@ -23,6 +23,10 @@ export const loginUpSchema = Yup.object({
 
 });
 
+export const AddClassSchema = Yup.object({
+    class: Yup.string().min(1).required("Please enter class"),
+});
+
 export const  addStudentSchema = Yup.object({
     name: Yup.string().min(3).required("Please enter your Product Name"),
     email: Yup.string().email().required("Please enter your email"),
@@ -31,7 +35,7 @@ export const  addStudentSchema = Yup.object({
     mobile:Yup.string().min(6).max(14).required("Please enter your number"),
     student_number:Yup.string().required("Please enter your number"),
     class_id:Yup.string().required("Please enter your class"),
-    
+
 });
 
 export const addCourseSchema = Yup.object({

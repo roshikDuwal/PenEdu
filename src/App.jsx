@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./app.scss"
 
-import Learner from './superadmin/learner/Learner'
+import Learner from './superadmin/Learner/Learner'
 import Instructor from "./superadmin/Instructor/Instructor"
 import Classyear from "./superadmin/class/Classyear"
 

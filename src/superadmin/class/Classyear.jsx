@@ -16,13 +16,17 @@ import { NavLink } from 'react-router-dom'
 import { Accordan } from '../../components/tableaccordan/Accordan'
 import { classData, postClassData } from '../../services/class'
 import {success,error} from "../../utils/toast"
+import { AddClassSchema } from '../../schema/validate'
 
 
 const Learner = () => {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    resetForm()
+    setOpen(false)
+  };
   const [classdata, setClassData] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
   const [loading,setLoading]=useState(false)
@@ -58,23 +62,23 @@ const Learner = () => {
   }
 
 
-  const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
+  const { values, errors, resetForm, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
     initialValues: Values,
+    validationSchema: AddClassSchema,
     onSubmit: (values, action) => {
       postClassData(values)
       .then(()=>{
         success("Class Added Successfully")
-        action.resetForm
+        action.resetForm()
         getClass()
         setOpen(false)
       }).catch((err)=>{
-        error("Error found")
-        console.error(err.message);
+        error(err.message || "Failed to add class");
       })
     }
   })
 
-  
+
 
   //getClass
   const getClass=async()=>{
@@ -86,8 +90,6 @@ const Learner = () => {
     .finally(()=>{
       setLoading(false)
     })
-
-    
 }
 
 useEffect(()=>{
@@ -128,15 +130,18 @@ useEffect(()=>{
 
                   <div className="formbox">
                     <label htmlFor="class">Class</label>
-                    <input type="text" name="class" 
-                    onChange={handleChange} 
+                    <input type="text" name="class"
+                    onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.class}/>
-                    
+                    {errors.class && touched.class ? (
+                      <p className="errorval">{errors.class}</p>
+                    ) : null}
+
                   </div>
 
                   <div className='submitbtn'>
-                    <button type="submit">
+                    <button disabled={isSubmitting} type="submit">
                       <AddIcon /> Create
                     </button>
                   </div>
