@@ -33,14 +33,14 @@
                     justify-content: center;
                     .update{
                         position: relative;
-                       
-                       
+
+
                         button{
                             background-color: transparent;
                             border:none;
                             border-radius:50%;
                             background-color: #c0e0f1;
-                          
+
                             &:hover{
                                 color: #3577f1;
                             }
@@ -55,7 +55,7 @@
                         padding: 0.4rem;
                         border-radius: 20px;
                         background-color: #405189;
-                       
+
                         &:disabled{
                             background-color: #405189;
                             color: rgb(175, 175, 175);
@@ -71,7 +71,12 @@
 
             }
         }
-
+        tr.link:hover {
+            cursor: pointer;
+            td {
+                background-color: #befcf7;
+            }
+        }
     }
 }
 
@@ -80,14 +85,14 @@
 .css-julti5-MuiSwitch-root {
     left: 20px;
    height: 100%;
-   
+
 }
 
 
 // the height of another box
 .css-j204z7-MuiFormControlLabel-root{
     height: 20px;
-   
+
 }
 
 
@@ -97,7 +102,7 @@
     left: -6px;
     top: 1.5px;
     color: #078c7a !important;
-   
+
 }
 
 
@@ -107,13 +112,13 @@
     height: 14px !important;
 }
 
-// active line 
+// active line
 .css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track {
     background-color: white !important;
     border: 2px solid #044940;
     height: 0.6rem;
     width: 1.2rem;
-   
+
 }
 
 
@@ -122,7 +127,7 @@
     width: 70% !important;
     background-color: transparent !important;
     border: 2px solid rgb(113, 113, 113);
-    
+
 }
 
 .css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase {

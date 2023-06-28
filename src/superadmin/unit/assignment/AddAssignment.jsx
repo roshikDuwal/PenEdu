@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, NavLink } from "react-router-dom";
 
-import './addunit.scss';
+import './addassignment.scss';
 import Button from '@mui/material/Button';
 import { ThreeDots } from "react-loader-spinner";
 import AddAssignmentCanvas from "./scanva/SCanva";
@@ -10,7 +10,7 @@ import Navbar from "../../../components/panelnavbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 
-const AddUnit = () => {
+const AddAssignment = () => {
   const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -36,12 +36,13 @@ const AddUnit = () => {
             <div className="navigation">
               <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
               <NavLink to="/admin/unit">Units</NavLink> <ChevronRightIcon />{" "}
+              <NavLink to="./..">Assignments</NavLink> <ChevronRightIcon />{" "}
               <p>Add</p>
             </div>
 
             <div className="learner-list-box">
               <div className="modal-btn">
-                <h5>Add Units</h5>
+                <h5>Add Assignment</h5>
                 {!pdf && <div>
                   Add Assignment PDF:
                   <input
@@ -52,7 +53,7 @@ const AddUnit = () => {
                     height={"10"}
                   />
                 </div>}
-                <NavLink to="/admin/unit"><Button><CancelOutlined /> Cancel</Button></NavLink>
+                <NavLink to="./.."><Button><CancelOutlined /> Cancel</Button></NavLink>
               </div>
               {loading && (
                 <ThreeDots
@@ -79,4 +80,4 @@ const AddUnit = () => {
   );
 };
 
-export default AddUnit;
+export default AddAssignment;

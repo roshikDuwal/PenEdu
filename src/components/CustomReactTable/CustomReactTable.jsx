@@ -2,10 +2,12 @@ import React from 'react';
 import { useTable } from 'react-table';
 import "./customtable.scss"
 import { ThreeDots } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const CustomReactTable = ({ columns, data, loading }) => {
+const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
+  let navigate = useNavigate();
 
   const {
     getTableProps,
@@ -43,7 +45,7 @@ const CustomReactTable = ({ columns, data, loading }) => {
             {rows.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} className={rowClickable ? 'link' : ''} onClick={()=>rowClickable && navigate(row.original.id.toString())}>
                   {row.cells.map(cell => (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}

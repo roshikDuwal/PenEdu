@@ -179,9 +179,6 @@ const Course = () => {
 
                   <div className="formbox">
                     <label htmlFor="class">Class</label>
-                    {JSON.stringify(
-                      classes.find((cls) => cls.id === values.class_id)
-                    )}
                     <Select
                       name="class"
                       value={

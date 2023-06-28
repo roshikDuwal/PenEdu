@@ -49,10 +49,13 @@ export const Accordan = ({ setOpenAccordan }) => {
 
   return (
     <>
-    
+
       <div className="tableaccordanbox">
         <div className="btnbox">
-          <button className="accordanbtn" onClick={() => setOpenAccordan(null)}><CloseIcon /></button>
+          <button className="accordanbtn" onClick={(e) => {
+            e.stopPropagation()
+            setOpenAccordan(null)
+          }}><CloseIcon /></button>
         </div>
 
         <li className="profile">
