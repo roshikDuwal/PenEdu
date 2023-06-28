@@ -105,7 +105,7 @@ const Learner = () => {
     initialValues: Values,
     validationSchema: addStudentSchema,
     onSubmit: (values, action) => {
-      addStudents({ ...values, course: courses.map(course => course.value) })
+      addStudents({ ...values })
         .then(() => {
           success("Learner submitted successfully");
           action.resetForm();
@@ -276,7 +276,7 @@ const Learner = () => {
                       <AddIcon /> Create
                     </button>
                   </div>
-                  
+
                 </form>
               </Box>
             </Modal>

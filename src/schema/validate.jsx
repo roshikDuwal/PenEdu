@@ -28,7 +28,7 @@ export const AddClassSchema = Yup.object({
 });
 
 export const  addStudentSchema = Yup.object({
-    name: Yup.string().min(3).required("Please enter your Product Name"),
+    name: Yup.string().min(3).required("Please enter your name"),
     email: Yup.string().email().required("Please enter your email"),
     type: Yup.string().required("Please enter your type "),
     country: Yup.string().min(3).required("Please enter your Country Name"),
