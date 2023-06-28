@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-   top: 0.5rem;
-   right: -2rem;
+    top: 0.5rem;
+    right: -2rem;
     background-color: white;
     padding: 0.3rem;
     margin-top: 0.8rem;
@@ -11,17 +11,20 @@
     z-index: 999;
     align-items: center;
     justify-content: center;
-    
-    .btnbox{
+
+    .btnbox {
         width: 100%;
         display: flex;
         justify-content: flex-end;
 
-        .accordanbtn{
+        .accordanbtn {
             background-color: transparent !important;
+            border: none;
 
-            svg{
+            svg {
                 color: black !important;
+                font-size: 0.71rem;
+                cursor: pointer;
             }
         }
     }
@@ -30,25 +33,145 @@
         width: 70px;
         list-style: none;
         display: flex;
-        padding: 0.2rem;
         color: #878a99;
         white-space: nowrap;
         margin: 0 10px;
 
-        svg{
+        svg {
             font-size: 0.712rem;
+            color: #878a99 !important;
         }
-        a {
+
+        .button {
+            background-color: transparent !important;
             text-decoration: none;
             color: #878a99;
             font-size: 0.612rem;
             transition: all 0.2s linear;
+           
 
             &:hover {
                 text-decoration: underline;
                 color: orangered;
             }
         }
+
+    }
+}
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+
+    .modal-box {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: white;
+        width: 90vw;
+        height: 90vh;
+        position: relative;
+        background-color: #f3f3f9;
+
+
+
+        .create-detail {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 5rem;
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+            p {
+                padding-top: 1rem;
+                width: 10rem;
+                font-size: 1.1rem;
+            }
+
+
+            // button {
+            //   background-color: transparent;
+            //   color: black;
+
+            //   &:hover {
+            //     background-color: transparent;
+            //   }
+            // }
+        }
+
+
+        .instructor-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            margin: 0 4rem;
+            margin-top: 0.5rem;
+            background-color: white;
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            gap: 2rem;
+
+            .formbox {
+                label {
+                    padding-left: 1rem;
+                    font-size: 0.8rem;
+                }
+
+                input {
+                    width: 90%;
+                    font-size: 0.7rem;
+                    padding: 0.5rem;
+                    border-radius: 15px;
+                    border: 1px solid rgb(228, 228, 228);
+                }
+
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+
+
+                select {
+                    width: 100%;
+                    font-size: 0.7rem;
+                    padding: 0.5rem;
+                    border-radius: 15px;
+                    border: 1px solid rgb(228, 228, 228);
+
+                    option {
+                        border-radius: none !important;
+                        padding: 2rem;
+                    }
+                }
+            }
+
+            .submitbtn {
+                button {
+                    font-size: 0.7rem;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    background-color: #0ab39c;
+                    color: white;
+                    border: none;
+                    padding: 0.3rem 0.7rem;
+
+                    &:hover {
+                        background-color: #078c7a;
+                    }
+
+                }
+
+                svg {
+                    font-size: 1rem;
+                }
+            }
+
+        }
+
+
 
     }
 }

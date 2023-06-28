@@ -14,3 +14,9 @@ export const getStudents = async ()=>{
 
     return students.data.learner;
 }
+
+// export const deleteStudentData = async(id)=>{
+//     const deleteStudent = await axios.delete(routes.getStudents + id)
+
+//     return deleteStudent
+// }

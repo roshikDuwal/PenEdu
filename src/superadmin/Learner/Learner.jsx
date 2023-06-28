@@ -4,29 +4,40 @@ import "../admin.scss"
 import "./learner.scss"
 import Navbar from '../../components/panelnavbar/Navbar'
 import CustomReactTable from '../../components/CustomReactTable/CustomReactTable'
-
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
-
-
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
-
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { error, success } from '../../utils/toast'
 import { addStudents, getStudents } from '../../services/students'
 import { addStudentSchema } from '../../schema/validate'
 import { Accordan } from '../../components/tableaccordan/Accordan'
-
 import { CountriesData } from "../../constants/countires"
+import { classData } from '../../services/class'
+
+
+// import Select from 'react-select';
+// const coursedata=[
+//   {
+//     value:"1",
+//     label:"Math"
+//   },
+//   {
+//     value:"2",
+//     label:"Science"
+//   },
+//   {
+//     value:"3",
+//     label:"Social"
+//   },
+// ]
 
 
 
@@ -34,16 +45,19 @@ const Learner = () => {
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  // const [courses, setCourses] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const [openAccordan, setOpenAccordan] = useState(null);
+  const [classdata,setClassData]=useState([])
+  const [loading, setLoading] =useState(true);
+
 
   const columns = useMemo(
     () => [
-      { Header: 'Student Id', accessor: 'id' },
+      { Header: 'Student Id', accessor: 'student_number' },
       { Header: 'Student Name', accessor: 'name' },
-      { Header: 'Course', accessor: 'courseno' },
+      { Header: 'Class', accessor: 'class' },
       { Header: 'Type', accessor: 'type' },
       { Header: 'Contact', accessor: 'mobile' },
       { Header: 'Email', accessor: 'email' },
@@ -58,17 +72,15 @@ const Learner = () => {
             <div className="actionbox">
               <div className="update">
 
-              <button onClick={() => setOpenAccordan(row.original.id)}>
+                <button onClick={() => setOpenAccordan(row.original.id)}>
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
               </div>
 
-              <Button className='enroll' variant='contained' color='success'>Enroll now</Button>
+              {/* <Button className='enroll' variant='contained' color='success'>Enroll now</Button> */}
             </div>
-
           </>
-
         )
       }
     ],
@@ -79,18 +91,24 @@ const Learner = () => {
     name: "",
     email: "",
     type: "",
+    class_id: "",
     country: "",
     mobile: "",
     student_number: ""
   }
 
+  // const onCourseChange = (e) => {
+  //   setCourses(e)
+  // }
+
   const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting, setSubmitting } = useFormik({
     initialValues: Values,
     validationSchema: addStudentSchema,
     onSubmit: (values, action) => {
-      addStudents(values)
+      addStudents({ ...values, course: courses.map(course => course.value) })
         .then(() => {
           success("Learner submitted successfully");
+          action.resetForm();
           setSubmitting(false);
           setOpen(false);
           getStudentData();
@@ -102,14 +120,30 @@ const Learner = () => {
     }
   })
 
+
+  //get Student data
   const getStudentData = async () => {
-    const data = await getStudents();
-    setData(data);
+    setLoading(true)
+    getStudents()
+    .then(studentdata=>{
+      setData(studentdata)
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
   }
 
-  useEffect( ()=>{
+  //getclassdata
+  const getClass = async () => {
+    const data = await classData();
+    setClassData(data)
+  }
+
+  useEffect(() => {
+    getClass();
     getStudentData();
-  },[])
+  }, [])
+
 
   return (
     <div className="adminpanel">
@@ -137,6 +171,7 @@ const Learner = () => {
               <Box className="modal-box">
                 <div className='create-detail'>
                   <p>Create Learner</p>
+
                   <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
                 </div>
 
@@ -168,12 +203,39 @@ const Learner = () => {
                       value={values.type}
                       onChange={handleChange}
                       onBlur={handleBlur} >
-                      <option disabled selected value="account">Select type</option>
+                      <option value="">Select type</option>
                       <option value="Onshore">Onshore</option>
                       <option value="Offshore">Offshore</option>
                     </select>
 
                     {errors.type && touched.type ? (<p className='errorval'>{errors.type}</p>) : null}
+                  </div>
+
+                  {/* <div className='formbox'>
+                  <label htmlFor="course">Course</label>
+                    <Select
+                      isMulti
+                      name="course"
+                      options={coursedata}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      value={courses}
+                      onChange={onCourseChange}
+                      onBlur={handleBlur}
+                    />
+                  </div> */}
+
+                  <div className="formbox">
+                    <label htmlFor="name">Class</label>
+                    <select name="class_id" value={values.class_id}
+                      onChange={handleChange}
+                      onBlur={handleBlur}>
+                      <option value="">Select Class</option>
+                      {classdata.map((curElem) => (
+                        <option key={curElem.id} value={curElem.id}>{curElem.class}</option>
+                      ))}
+                    </select>
+                    {errors.class_id && touched.class_id ? (<p className='errorval'>{errors.class_id}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -182,7 +244,7 @@ const Learner = () => {
                     <select name="country" value={values.country}
                       onChange={handleChange}
                       onBlur={handleBlur}>
-
+                      <option value="">Select Country</option>
                       {CountriesData.map((curElem) => (
                         <option key={curElem.code} value={curElem.name}>{curElem.name}</option>
                       ))}
@@ -193,7 +255,7 @@ const Learner = () => {
 
                   <div className="formbox">
                     <label htmlFor="mobile">Mobile</label>
-                    <input type="number" name="mobile"
+                    <input type="text" name="mobile"
                       value={values.mobile}
                       onChange={handleChange}
                       onBlur={handleBlur} />
@@ -202,7 +264,7 @@ const Learner = () => {
 
                   <div className="formbox">
                     <label htmlFor="student_number">Student Number</label>
-                    <input type="number" name="student_number"
+                    <input type="text" name="student_number"
                       value={values.student_number}
                       onChange={handleChange}
                       onBlur={handleBlur} />
@@ -214,15 +276,15 @@ const Learner = () => {
                       <AddIcon /> Create
                     </button>
                   </div>
-
+                  
                 </form>
-
               </Box>
             </Modal>
 
-            <CustomReactTable columns={columns} data={data} />
-          </div>
 
+
+            <CustomReactTable columns={columns} data={data} loading={loading} />
+          </div>
         </div>
       </div>
     </div>

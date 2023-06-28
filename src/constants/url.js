@@ -7,4 +7,7 @@ export const routes={
     getStudents:SERVER_BASE_URL + "learner/index",
     addCourse:SERVER_BASE_URL + "course/create",
     getCourses:SERVER_BASE_URL + "course/index",
+    getStudents:SERVER_BASE_URL + "learner/index/",
+    getClasses:SERVER_BASE_URL + "class/index/",
+    addClasses:SERVER_BASE_URL + "class/create/"
 }

@@ -22,7 +22,7 @@ import { Accordan } from "../../components/tableaccordan/Accordan";
 import { addCourses, getCourses } from "../../services/courses";
 import { addCourseSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
-import { ThreeDots } from "react-loader-spinner";
+
 
 const Course = () => {
   const [open, setOpen] = React.useState(false);
@@ -140,7 +140,7 @@ const Course = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box className="modal-box">
+              <Box className="modal-box ">
                 <div className="create-detail">
                   <p>Create Course</p>
                   <Button className="closequestionicon" onClick={handleClose}>
@@ -220,20 +220,9 @@ const Course = () => {
                 </form>
               </Box>
             </Modal>
-            <CustomReactTable columns={columns} data={data} />
+            <CustomReactTable columns={columns} data={data} loading={loading} />
 
-            {loading && (
-                <ThreeDots
-                  height="80"
-                  width="80"
-                  radius="9"
-                  color="#0AB39C"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClassName=""
-                  visible={true}
-                />
-              )}
+
           </div>
         </div>
       </div>

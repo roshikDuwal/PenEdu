@@ -4,21 +4,18 @@ import "../admin.scss"
 import "./classyear.scss"
 import Navbar from '../../components/panelnavbar/Navbar'
 import CustomReactTable from '../../components/CustomReactTable/CustomReactTable'
-
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
 import { Accordan } from '../../components/tableaccordan/Accordan'
-
-
+import { classData, postClassData } from '../../services/class'
+import {success,error} from "../../utils/toast"
 
 
 const Learner = () => {
@@ -26,22 +23,16 @@ const Learner = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const [classdata, setClassData] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
-
-
-  const data = useMemo(
-    () => [
-        {id:"1",yearname:11,studentcount:25,updatedat:"2020"},
-        {id:"2",yearname:12,studentcount:28,updatedat:"2020"},
-    ], []);
-
+  const [loading,setLoading]=useState(false)
 
   const columns =useMemo(
     () => [
-      { Header: 'Year Name', accessor: 'yearname' },
+      { Header: 'Class id', accessor: 'id' },
+      { Header: 'Class Year', accessor: 'class' },
       { Header: 'Student Count', accessor: 'studentcount' },
-      { Header: 'Updated At', accessor: 'updatedat' },
+      { Header: 'Updated At', accessor: 'updated_at' },
       {
         Header: 'Action', Cell: ({ row }) => (
           <>
@@ -61,21 +52,47 @@ const Learner = () => {
     [openAccordan]
   );
 
+
   const Values = {
-    name: "",
-    email: "",
-    type: "",
-    Country: "",
-    Mobile: 0,
-    Studentno: ""
+    class: "",
   }
+
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
     initialValues: Values,
     onSubmit: (values, action) => {
-      console.log(values);
+      postClassData(values)
+      .then(()=>{
+        success("Class Added Successfully")
+        action.resetForm
+        getClass()
+        setOpen(false)
+      }).catch((err)=>{
+        error("Error found")
+        console.error(err.message);
+      })
     }
   })
+
+  
+
+  //getClass
+  const getClass=async()=>{
+    setLoading(true)
+    classData()
+    .then(classdata=>{
+      setClassData(classdata)
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+
+    
+}
+
+useEffect(()=>{
+  getClass()
+},[])
 
 
   return (
@@ -110,8 +127,12 @@ const Learner = () => {
                 <form onSubmit={handleSubmit}>
 
                   <div className="formbox">
-                    <label htmlFor="name">Name</label>
-                    <input type="text" name="name" />
+                    <label htmlFor="class">Class</label>
+                    <input type="text" name="class" 
+                    onChange={handleChange} 
+                    onBlur={handleBlur}
+                    value={values.class}/>
+                    
                   </div>
 
                   <div className='submitbtn'>
@@ -123,7 +144,7 @@ const Learner = () => {
               </Box>
             </Modal>
 
-            <CustomReactTable columns={columns} data={data} />
+            <CustomReactTable columns={columns} data={classdata} loading={loading} />
 
           </div>
         </div>

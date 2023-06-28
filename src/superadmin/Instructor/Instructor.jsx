@@ -161,7 +161,7 @@ const Learner = () => {
                                     <div className="formbox">
                                         <label htmlFor="type">Class</label>
                                         <select name="type" >
-                                            <option disabled selected value="class">Select class</option>
+                                            <option value="">Select class</option>
                                             <option value="year11">Year 11</option>
                                             <option value="year12">Year12</option>
                                         </select>
@@ -170,7 +170,7 @@ const Learner = () => {
                                     <div className="formbox">
                                         <label htmlFor="type">Course</label>
                                         <select name="type" >
-                                            <option disabled selected value="account">Select course</option>
+                                            <option value="">Select course</option>
                                             <option value="account">Account</option>
                                             <option value="year12">Nepali</option>
                                         </select>
@@ -179,7 +179,7 @@ const Learner = () => {
                                     <div className="formbox">
                                         <label htmlFor="type">Gender</label>
                                         <select name="type" >
-                                            <option value="gender" disabled selected >Select gender</option>
+                                            <option value="">Select gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                         </select>
