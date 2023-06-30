@@ -39,13 +39,17 @@ const Course = () => {
 
   const getCourseData = async () => {
     setLoading(true)
-    const data = await getCourses();
-    setData(data.course);
-    setClasses(
-      data.class.map((data) => {
-        return { label: data.class, value: data.id };
-      })
-    );
+    try {
+      const data = await getCourses();
+      setData(data.course);
+      setClasses(
+        data.class.map((data) => {
+          return { label: data.class, value: data.id };
+        })
+      );
+    } catch (e) {
+      error(e.message);
+    }
     setLoading(false)
   };
 

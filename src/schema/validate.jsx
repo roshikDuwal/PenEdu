@@ -52,6 +52,10 @@ export const addUnitSchema = Yup.object({
     credit_hours: Yup.number().required("Please enter credit hours"),
 });
 
+export const addAssignment = Yup.object({
+    title: Yup.string().required("Please enter assignment title"),
+});
+
 
 // export const billlingDetailSchema = Yup.object({
 //     name: Yup.string().min(3).required("Please enter your Product Name"),

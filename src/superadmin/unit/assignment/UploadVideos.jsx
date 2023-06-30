@@ -9,29 +9,37 @@ import Navbar from "../../../components/panelnavbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
+import { getAssignment } from "../../../services/assignments";
+import { ASSIGNMENT_QUESTION_IMAGE_PREFIX } from "../../../constants/url";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([
-    { question: "Trigonometry", file: "/logo.png", video: "/file_example_MP4_1280_10MG.mp4" },
-    { question: "Trigonometry Advance Plus Plus 1", file: "/vite.svg", video: "" },
-    { question: "Trigonometry Advance Plus Plus 2", file: "", video: "" },
-    { question: "Trigonometry Advance Plus Plus 3", file: "", video: "" },
-    { question: "Trigonometry Advance Plus Plus 4", file: "", video: "" },
-    { question: "Trigonometry Advance Plus Plus 5", file: "", video: "" },
-  ]);
+  const [data, setData] = useState([]);
+  const {id} = useParams();
+
+  const getData = async () => {
+    setLoading(true);
+    const data = await getAssignment(id);
+    setData(data.unitAssignmentQuestions);
+
+    setLoading(false);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
   const columns = React.useMemo(
     () => [
       { Header: "Question", Cell: ({ row }) => (
-        <h5>{row.original.question}</h5>
+        <h5>{row.original.title}</h5>
       ) },
       {
         Header: "File",
         Cell: ({ row }) => (
           <>
             <div className="que-ans">
-              <img src={row.original.file} alt={row.original.question} />
+              <img src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image} alt={row.original.title} />
             </div>
           </>
         ),

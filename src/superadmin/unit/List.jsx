@@ -41,13 +41,17 @@ const List = () => {
 
   const getData = async () => {
     setLoading(true);
-    const data = await getUnits();
-    setCourses(
-      data.course.map((data) => {
-        return { label: data.course_name, value: data.id };
-      })
-    );
-    setData(data.unit);
+    try {
+      const data = await getUnits();
+      setCourses(
+        data.course.map((data) => {
+          return { label: data.course_name, value: data.id };
+        })
+      );
+      setData(data.unit);
+    } catch (e) {
+      error(e.message);
+    }
     setLoading(false);
   };
 

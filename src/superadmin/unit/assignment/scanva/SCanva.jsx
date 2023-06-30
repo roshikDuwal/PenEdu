@@ -8,6 +8,9 @@ import { Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import { DeleteForeverRounded } from "@mui/icons-material";
+import { addAssignments } from "../../../../services/assignments";
+import { addAssignment } from "../../../../schema/validate";
+import { useFormik } from "formik";
 
 const AddAssignmentCanvas = ({ pdf }) => {
   const canvasRef = useRef(null);
@@ -24,7 +27,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
-  const { unit_id } = useParams();
+  const { id } = useParams();
 
   //change font size
   const handleChange = (e) => {
@@ -46,20 +49,35 @@ const AddAssignmentCanvas = ({ pdf }) => {
   //   };
   // }
 
-  const handleIndividualUpload = (e) => {
+  const blobToBase64 = async (url) => {
+    return new Promise((resolve, _) => {
+      var img = new Image();
+      img.src = url;
+      img.onload = () => {
+        var myCanvas = document.createElement('canvas');
+        var ctx = myCanvas.getContext('2d');
+        ctx.drawImage(img, 0,0);
+        resolve(myCanvas.toDataURL())
+      }
+    });
+  }
+
+  const handleIndividualUpload = async (e) => {
     const files = e.target.files;
     const imagesTmp = [...images];
     for (var i = 0; i < files.length; i++) {
+      const base64 = await blobToBase64(URL.createObjectURL(files[i]))
+
       imagesTmp.push({
-        imgUrl: URL.createObjectURL(files[i]),
-        name: files[i].name.substring(0, files[i].name.lastIndexOf(".")),
+        file: base64,
+        title: files[i].name.substring(0, files[i].name.lastIndexOf(".")),
       });
     }
-    imagesTmp.sort((a, b)=>{
-      if ( a.name < b.name ){
+    imagesTmp.sort((a, b) => {
+      if (a.title < b.title) {
         return -1;
       }
-      if ( a.name > b.name ){
+      if (a.title > b.title) {
         return 1;
       }
       return 0;
@@ -70,17 +88,17 @@ const AddAssignmentCanvas = ({ pdf }) => {
 
   const sortImages = () => {
     const imagesTmp = [...images];
-    imagesTmp.sort((a, b)=>{
-      if ( a.name < b.name ){
+    imagesTmp.sort((a, b) => {
+      if (a.title < b.title) {
         return -1;
       }
-      if ( a.name > b.name ){
+      if (a.title > b.title) {
         return 1;
       }
       return 0;
     });
     setImages(imagesTmp);
-  }
+  };
 
   //settoDraw
   const setToDraw = (e) => {
@@ -138,42 +156,53 @@ const AddAssignmentCanvas = ({ pdf }) => {
 
   const navigate = useNavigate();
 
-  //submit question
-  const submitQuestion = (event) => {
-    setLoading(true);
-    event.preventDefault();
-    // const newCanvas = trimCanvas(canvasRef.current);
-    const newCanvas = canvasRef.current;
-    const image = newCanvas.toDataURL("image/png");
-    const jsonData = {
-      unit_id,
-      question: new Date().toDateString(),
-      title: "Question",
-      file: image,
-    };
-
-    var formData = new FormData();
-    formData.append("video", video);
-    for (var key in jsonData) {
-      formData.append(key, jsonData[key]);
-    }
-
-    navigate("./../1")
-    // saveQuestion(
-    //   formData
-    // )
-    //   .then(() => {
-    //     success("Question submitted successfully");
-    //     setTimeout(()=>{
-    //       navigate("/teacherpanel/tcourse1");
-    //     },1500)
-    //   })
-    //   .catch((err) => {
-    //     error(err.message);
-    //   }).finally(() => {
-    //     setLoading(false);
-    //   });
+  const Values = {
+    title: "",
   };
+
+  const {
+    values,
+    errors,
+    setFieldValue,
+    handleBlur,
+    handleChange: handleFormChange,
+    touched,
+    handleSubmit,
+  } = useFormik({
+    validationSchema: addAssignment,
+    initialValues: Values,
+    onSubmit: async (values, action) => {
+      setLoading(true);
+      // const newCanvas = trimCanvas(canvasRef.current);
+      const newCanvas = canvasRef.current;
+      const image = newCanvas.toDataURL("image/png");
+      const jsonData = {
+        unit_id: id,
+        questions: images,
+        title: values.title,
+        file: image,
+      };
+
+      // var formData = new FormData();
+      // for (var key in jsonData) {
+      //   formData.append(key, jsonData[key]);
+      // }
+
+      addAssignments(jsonData)
+        .then((data) => {
+          success("Question submitted successfully");
+          setTimeout(() => {
+            navigate("./../"+ data.assessment.id);
+          }, 1500);
+        })
+        .catch((err) => {
+          error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+  });
 
   ///increase decrease size and color
   useEffect(() => {
@@ -465,8 +494,18 @@ const AddAssignmentCanvas = ({ pdf }) => {
             <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
           </div> */}
             <div className="formbox">
-              <label htmlFor="name">Title</label>
-              <input type="text" name="name" className="form-control" />
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                name="title"
+                className="form-control"
+                value={values.title}
+                onChange={handleFormChange}
+                onBlur={handleBlur}
+              />
+              {errors.title && touched.title ? (
+                <p className="errorval">{errors.title}</p>
+              ) : null}
             </div>
             <div className="flex">
               <label htmlFor="">Individual question/answer: </label>
@@ -476,7 +515,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
               <Button
                 variant="contained"
                 disabled={loading}
-                onClick={submitQuestion}
+                onClick={handleSubmit}
               >
                 Submit Question
               </Button>
@@ -485,14 +524,16 @@ const AddAssignmentCanvas = ({ pdf }) => {
               <div className="flex-container">
                 {images.map((imgData, i) => (
                   <div className="img-box" key={i}>
-                    <img src={imgData.imgUrl} alt={imgData.name} />
+                    <img src={imgData.file} alt={imgData.title} />
                     <div className="flex-container">
-                      <span onClick={()=>{
-                        const imagesTmp = [...images];
-                        imagesTmp.splice(i, 1);
-                        setImages(imagesTmp)
-                      }}>
-                      <DeleteForeverRounded />
+                      <span
+                        onClick={() => {
+                          const imagesTmp = [...images];
+                          imagesTmp.splice(i, 1);
+                          setImages(imagesTmp);
+                        }}
+                      >
+                        <DeleteForeverRounded />
                       </span>
                       <input
                         minLength={1}
@@ -500,12 +541,15 @@ const AddAssignmentCanvas = ({ pdf }) => {
                         type="text"
                         onChange={(e) => {
                           const imagesTmp = [...images];
-                          imagesTmp[i] = { ...imgData, name: e.target.value };
+                          imagesTmp[i] = { ...imgData, title: e.target.value };
                           setImages(imagesTmp);
                         }}
-                        value={imgData.name}
+                        value={imgData.title}
                         onBlur={sortImages}
                       />
+                      {!imgData.title.length ? (
+                        <p className="errorval">Please enter question</p>
+                      ) : null}
                     </div>
                   </div>
                 ))}
@@ -558,14 +602,12 @@ const AddAssignmentCanvas = ({ pdf }) => {
             </Button>
           </div>
 
-
           {/* ----------ADD Page---------------   */}
           <div>
             <Button variant="contained" onClick={handleButtonClick}>
               Add Page
             </Button>
           </div>
-
 
           <div>
             <Button onClick={undoCanvas}>
