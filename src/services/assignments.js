@@ -8,6 +8,11 @@ export const addAssignments = async (data)=>{
     return addAssignment.data;
 }
 
+export const addVideo = async (id, data)=>{
+    const addAssignment = await axios.post(routes.addVideo + id,data)
+
+    return addAssignment.data;
+}
 
 export const getAssignments = async (id)=>{
     const assignment = await axios.get(routes.getAssignments + id)
