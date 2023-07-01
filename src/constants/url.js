@@ -11,6 +11,8 @@ export const SOLUTION_VIDEO_PREFIX = SERVER_URL + "/uploads/assessment/"
 export const routes={
     addStudent:SERVER_BASE_URL + "learner/create",
     getStudents:SERVER_BASE_URL + "learner/index",
+    addInstructor:SERVER_BASE_URL + "users/instructor/create",
+    getInstructors:SERVER_BASE_URL + "users/instructor/index",
     addCourse:SERVER_BASE_URL + "course/create",
     getCourses:SERVER_BASE_URL + "course/index",
     addUnit:SERVER_BASE_URL + "unit/create",

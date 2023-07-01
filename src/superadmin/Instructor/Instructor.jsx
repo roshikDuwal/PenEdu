@@ -20,6 +20,7 @@ import { NavLink } from 'react-router-dom'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Accordan } from '../../components/tableaccordan/Accordan'
+import { getInstructors } from '../../services/instructors'
 
 
 import Select from 'react-select';
@@ -34,6 +35,9 @@ const Learner = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [loading, setLoading] =useState(true);
+    const [data, setData] = useState([]);
+
     const [openAccordan, setOpenAccordan] = useState(null);
     const [coursedata, setCourseData] = useState([]);
     const [courses, setCourses] = useState([]);
@@ -47,14 +51,6 @@ const Learner = () => {
     const onCourseChange = (e) => {
         setCourses(e)
     }
-
-    const data = useMemo(
-        () => [
-            { id: 1, name: 'John Doe', courseno: 28261, type: 'onshore', contact: '9860077825', email: 'john@pen.edu.au' },
-            { id: 2, name: 'Jane Smith', courseno: 32261, type: 'offshore', contact: '9860077825', email: 'jane@pen.edu.au' },
-            { id: 3, name: 'Bob Johnson', courseno: 45261, type: 'onshore', contact: '9860077825', email: 'bob@pen.edu.au' },
-        ], []);
-
 
     const columns = React.useMemo(
         () => [
@@ -92,12 +88,33 @@ const Learner = () => {
         [openAccordan]
     );
 
+  //get Student data
+  const getInstructorData = async () => {
+    setLoading(true)
+    getInstructors()
+    .then(instructorData=>{
+      setData([])
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+  }
+  //getclassdata
+//   const getClass = async () => {
+//     const data = await classData();
+//     setClassData(data)
+//   }
+
+  useEffect(() => {
+    getInstructorData();
+  }, [])
+
     const Values = {
         name: "",
         email: "",
         type: "",
-        Country: "",
-        Mobile: "",
+        country: "",
+        mobile: "",
         Studentno: ""
     }
 
@@ -118,7 +135,7 @@ const Learner = () => {
 
         const courseOptions = rescourse.map(course => ({ label: course.course_name, value: course.course_code }));
         const classOptions = resclass.map(course => ({ label: course.class, value: course.id }));
-        
+
         setCourseData(courseOptions);
         setClassData(classOptions)
 

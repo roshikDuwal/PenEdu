@@ -10,7 +10,7 @@ import 'react-tabs/style/react-tabs.css';
 import "../../../student.scss"
 import Overview from '../../overview/Overview'
 import Navbar from '../../../../components/panelnavbar/Navbar'
-import CustomReactTable from '../../../../components/customreacttable/CustomReactTable'
+import CustomReactTable from '../../../../components/CustomReactTable/CustomReactTable'
 
 const StudentCourse = () => {
   const [course, setCourse] = useState([])

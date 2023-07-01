@@ -5,7 +5,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Overview from './tabbar/overview/Overview';
-import StudentCourse from './tabbar/course/StudentCOurse';
+import StudentCourse from './tabbar/course/StudentCourse';
 
 const Student = () => {
     const data = {
