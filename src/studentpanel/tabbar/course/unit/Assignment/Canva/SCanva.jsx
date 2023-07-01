@@ -6,6 +6,7 @@ import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ASSIGNMENT_IMAGE_PREFIX } from "../../../../../../constants/url";
 
 
 
@@ -123,7 +124,7 @@ const navigate=useNavigate();
   //   saveAnswer(ansData)
   //     .then(() => {
   //       // success("Answer submitted successfully");
-      
+
   //       setTimeout(()=>{
   //         navigate("/studentpanel/scourse1")
   //       },1500)
@@ -135,12 +136,12 @@ const navigate=useNavigate();
   // };
 
   // ///increase decrease size and color
-  
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.lineWidth = value;
-    
+
   }, [value]);
 
   //load question in canvas
@@ -151,7 +152,7 @@ const navigate=useNavigate();
   const loadQuestion = (file_name) => {
     if(file_name && canvasRef) {
       const question = new Image();
-      question.src = IMAGE_PREFIX+file_name;
+      question.src = ASSIGNMENT_IMAGE_PREFIX+file_name;
       question.crossOrigin = "";
       question.onload = () => {
         const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
@@ -178,7 +179,7 @@ const navigate=useNavigate();
     canvas.style.backgroundColor = "rgb(255, 255, 255)";
     canvas.style.borderRadius = "12px";
     canvas.style.cursor = "crosshair";
-    
+
     //Draw
     const context = canvas.getContext("2d",{willReadFrequently: true});
     // context.scale(2, 2);
@@ -482,7 +483,7 @@ const navigate=useNavigate();
 
         <div className="canvasbox">
           <canvas
-      
+
             id="0"
             onMouseDown={startDrawing}
             onMouseUp={finishDrawing}

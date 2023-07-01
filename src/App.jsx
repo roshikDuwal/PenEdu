@@ -35,7 +35,7 @@ const App = () => {
             <Route path='/admin/learner' element={<Learner/>} />
             <Route path='/admin/instructor' element={<Instructor/>} />
             <Route path='/admin/classyear' element={<Classyear/>} />
-         
+
             <Route path='/admin/course' element={<Course/>} />
             <Route path='/admin/unit' element={<List/>} />
             <Route path='/admin/unit/:id' element={<ListAssignment/>} />
@@ -46,7 +46,7 @@ const App = () => {
           <Route path='/student' element={<Student/>}/>
           <Route path='student/unit' element={<StudentUnit/>} />
           <Route path='/student/unit/:id' element={<StudentAssignment/>} />
-          <Route path='/student/unit/:id/:id' element={<ShowAssignment/>} />
+          <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment/>} />
 
           <Route path='/login' element={<Login/>}/>
 

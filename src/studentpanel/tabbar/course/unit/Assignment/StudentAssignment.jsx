@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { Button } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -10,28 +10,50 @@ import Overview from '../../../overview/Overview';
 import Navbar from '../../../../../components/panelnavbar/Navbar';
 // import CustomReactTable from "../../../../../components/customreacttable/CustomReactTable"
 import CustomReactTable from '../../../../../components/CustomReactTable/CustomReactTable';
+import { getAssignments } from '../../../../../services/assignments';
+import { getUnits } from '../../../../../services/units';
 
 const StudentAssignment = () => {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [units, setUnits] = useState([]);
+  const [openAccordan, setOpenAccordan] = useState(null);
+  const {id} = useParams();
 
 
-  const assignment = useMemo(
-    () => [
-        { id: 1, name: 'Assignment 1', courseno: 28261, credit_hours:"4" },
-        { id: 2, name: 'Assignment 2', courseno: 32261, credit_hours:"4" }
-    ], []);
+  const getData = async () => {
+    setLoading(true);
+    const data = await getAssignments(id);
+    setData(data.unitAssignment);
+
+    const units = await getUnits();
+    setUnits(units.unit);
+
+    setLoading(false);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
   const columns = useMemo(
     () => [
-      { Header: "Assignment Id", accessor: "id" },
-      { Header: "Assignment Name", accessor: "name" },
-      { Header: "Assignment Code", accessor: "courseno" },
-      { Header: "Credit hours", accessor: "credit_hours" },
+        { Header: 'Assignment Id', accessor: 'id' },
+        { Header: 'Assignment Name', accessor: 'title' },
+        {
+            Header: "Unit",
+            Cell: ({ row }) =>
+              (<>{units.length && row.original.unit_id
+                ? units.find((unit) =>
+                    unit.id.toString() === row.original.unit_id
+                  ).unit_name
+                : ""}</>),
+        }
     ],
-  );
+    [openAccordan, units]
+);
 
-  const data = {
-    name: "Roshin Lakhemaru"
-  }
+
   return (
     <>
       <div className="studentpanel">
@@ -76,7 +98,7 @@ const StudentAssignment = () => {
                   <TabPanel>
                     <div className='tabbar'>
                       <NavLink to="/student"><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={assignment}  rowClickable={true} />
+                      <CustomReactTable columns={columns} data={data}  rowClickable={true} />
                     </div>
                   </TabPanel>
 
