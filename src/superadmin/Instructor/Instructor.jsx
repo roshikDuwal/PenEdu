@@ -26,6 +26,7 @@ import Select from "react-select";
 import { getCourses } from "../../services/courses";
 import { error, success } from "../../utils/toast";
 import { addTeacherSchema } from "../../schema/validate";
+import { CountriesData } from "../../constants/countires"
 
 const Learner = () => {
   const [open, setOpen] = React.useState(false);
@@ -138,7 +139,9 @@ const Learner = () => {
       addInstructors({
         ...values,
         mobile: values.mobile.toString(),
-        classes: classes.map((c) => c.value),
+        course_id: courses[0].value,
+        class_id: classes[0].value,
+        type: "Onshore"
       })
         .then(() => {
           success("Instructor submitted successfully");
@@ -164,7 +167,7 @@ const Learner = () => {
 
     const courseOptions = rescourse.map((course) => ({
       label: course.course_name,
-      value: course.course_code,
+      value: course.id,
     }));
     const classOptions = resclass.map((course) => ({
       label: course.class,
@@ -277,14 +280,17 @@ const Learner = () => {
 
                   <div className="formbox">
                     <label htmlFor="name">Country</label>
-                    <input
-                      type="text"
-                      name="country"
-                      value={values.country}
+
+                    <select name="country" value={values.country}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                     {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
+                      onBlur={handleBlur}>
+                      <option value="">Select Country</option>
+                      {CountriesData.map((curElem) => (
+                        <option key={curElem.code} value={curElem.name}>{curElem.name}</option>
+                      ))}
+                    </select>
+
+                    {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
                   </div>
 
                   <div className="formbox">
