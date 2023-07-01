@@ -12,5 +12,5 @@ export const addInstructors = async (InstructorData)=>{
 export const getInstructors = async ()=>{
     const instructors = await axios.get(routes.getInstructors)
 
-    return instructors.data;
+    return instructors.data.teacher;
 }

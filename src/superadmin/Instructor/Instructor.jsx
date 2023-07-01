@@ -54,9 +54,9 @@ const Learner = () => {
     () => [
       { Header: "Instructor Id", accessor: "id" },
       { Header: "Instructor Name", accessor: "name" },
-      { Header: "Course", accessor: "courseno" },
+      { Header: "Course", accessor: "course_id" },
       { Header: "Email", accessor: "email" },
-      { Header: "Contact", accessor: "contact" },
+      { Header: "Contact", accessor: "mobile" },
 
       {
         Header: "Status",
@@ -91,7 +91,7 @@ const Learner = () => {
     setLoading(true);
     getInstructors()
       .then((instructorData) => {
-        setData([]);
+        setData(instructorData);
       })
       .finally(() => {
         setLoading(false);
