@@ -299,7 +299,7 @@ const Learner = () => {
                       onChange={onClassChange}
                       onBlur={handleBlur}
                     />
-                     {errors.classes && touched.classes ? (<p className='errorval'>{errors.classes}</p>) : null}
+                     {errors. class_id && touched. class_id ? (<p className='errorval'>{errors. class_id}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -314,7 +314,7 @@ const Learner = () => {
                       onChange={onCourseChange}
                       onBlur={handleBlur}
                     />
-                     {errors.course && touched.course ? (<p className='errorval'>{errors.course}</p>) : null}
+                     {errors.course_id && touched.course_id ? (<p className='errorval'>{errors.course_id}</p>) : null}
                   </div>
 
                   <div className="formbox">
