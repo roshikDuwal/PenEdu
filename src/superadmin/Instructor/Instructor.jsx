@@ -341,7 +341,7 @@ const Learner = () => {
               </Box>
             </Modal>
 
-            <CustomReactTable columns={columns} data={data} />
+            <CustomReactTable columns={columns} data={data} loading={loading} />
           </div>
         </div>
       </div>
