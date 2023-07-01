@@ -12,8 +12,6 @@ import { ASSIGNMENT_IMAGE_PREFIX } from "../../../../../../constants/url";
 
 const App = (props) => {
 
-
-
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -38,16 +36,16 @@ const App = (props) => {
   //   setColor(e.target.value);
   // };
 
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
-    const blobURL = URL.createObjectURL(file);
-    const img     = new Image();
-    img.src       = blobURL;
-    img.onLoad(() => {
-      const canvas = canvasRef.current;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-    })
-  }
+  // const uploadImage = (e) => {
+  //   const file = e.target.files[0];
+  //   const blobURL = URL.createObjectURL(file);
+  //   const img     = new Image();
+  //   img.src       = blobURL;
+  //   img.onLoad(() => {
+  //     const canvas = canvasRef.current;
+  //     canvas.getContext("2d").drawImage(img, 0, 0);
+  //   })
+  // }
 
   //settoDraw
   const setToDraw = (e) => {
@@ -64,50 +62,47 @@ const App = (props) => {
   };
 
 
-
-
-
   // //save image into pdf
-  // const saveImage = () => {
-  //   const canvas = canvasRef.current;
-  //   const canvasWidth = canvas.width;
-  //   const canvasHeight = canvas.height;
-  //   const partHeight = 1122; // Define the height of each part (adjust as needed)
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const partHeight = 1122; // Define the height of each part (adjust as needed)
 
-  //   // Calculate the total number of parts required
-  //   const totalParts = Math.ceil(canvasHeight / partHeight);
+    // Calculate the total number of parts required
+    const totalParts = Math.ceil(canvasHeight / partHeight);
 
-  //   // Create a new jsPDF instance
-  //   const pdf = new jsPDF({
-  //     orientation: 'p', // set orientation to landscape if needed
-  //     unit: 'px', // set unit to pixels
-  //     format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
-  //   });
+    // Create a new jsPDF instance
+    const pdf = new jsPDF({
+      orientation: 'p', // set orientation to landscape if needed
+      unit: 'px', // set unit to pixels
+      format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
+    });
 
-  //   // Loop through each part and add it to the PDF document
-  //   for (let part = 0; part < totalParts; part++) {
-  //     const startY = part * partHeight;
-  //     const canvasPart = document.createElement('canvas');
-  //     canvasPart.width = canvasWidth;
-  //     canvasPart.height = partHeight;
+    // Loop through each part and add it to the PDF document
+    for (let part = 0; part < totalParts; part++) {
+      const startY = part * partHeight;
+      const canvasPart = document.createElement('canvas');
+      canvasPart.width = canvasWidth;
+      canvasPart.height = partHeight;
 
-  //     const contextPart = canvasPart.getContext('2d');
-  //     contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
+      const contextPart = canvasPart.getContext('2d');
+      contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
 
-  //     const imgData = canvasPart.toDataURL('image/png');
-  //     pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
+      const imgData = canvasPart.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
 
-  //     // Add a new page if there are more parts remaining
-  //     if (part < totalParts - 1) {
-  //       pdf.addPage();
-  //     }
-  //   }
+      // Add a new page if there are more parts remaining
+      if (part < totalParts - 1) {
+        pdf.addPage();
+      }
+    }
 
-  //   // Save the PDF file
-  //   pdf.save('image.pdf');
-  // };
+    // Save the PDF file
+    pdf.save('image.pdf');
+  };
 
-const navigate=useNavigate();
+
 
   //submit answer
 
@@ -256,10 +251,8 @@ const navigate=useNavigate();
   }
 
   function handleWritingInProgress() {
-
     if (isDrawing) {
       const mousePos = getMousePositionOnCanvas(event);
-
       contextRef.current.lineTo(mousePos.x, mousePos.y);
       contextRef.current.stroke();
     }
@@ -321,7 +314,6 @@ const navigate=useNavigate();
         canvasImgData.data[index+3] = imgDataBg.data[index+3];
       }
     }
-
     ctx.putImageData(canvasImgData, 0, 0);
   }
 
@@ -473,7 +465,7 @@ const navigate=useNavigate();
           </button> */}
 
           <div>
-          <Button variant="contained"  >
+          <Button variant="contained" onClick={saveImage}  >
             Submit Answer
           </Button>
 

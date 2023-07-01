@@ -38,17 +38,18 @@ const StudentAssignment = () => {
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Unit",
+        Cell: ({ row }) =>
+          (<>{units.length && row.original.unit_id
+            ? units.find((unit) =>
+                unit.id.toString() === row.original.unit_id
+              ).unit_name
+            : ""}</>),
+    },
         { Header: 'Assignment Id', accessor: 'id' },
         { Header: 'Assignment Name', accessor: 'title' },
-        {
-            Header: "Unit",
-            Cell: ({ row }) =>
-              (<>{units.length && row.original.unit_id
-                ? units.find((unit) =>
-                    unit.id.toString() === row.original.unit_id
-                  ).unit_name
-                : ""}</>),
-        }
+
     ],
     [openAccordan, units]
 );
