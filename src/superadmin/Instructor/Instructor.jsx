@@ -138,7 +138,9 @@ const Learner = () => {
       addInstructors({
         ...values,
         mobile: values.mobile.toString(),
-        classes: classes.map((c) => c.value),
+        course_id: courses[0].value,
+        class_id: classes[0].value,
+        type: "Onshore"
       })
         .then(() => {
           success("Instructor submitted successfully");
@@ -164,7 +166,7 @@ const Learner = () => {
 
     const courseOptions = rescourse.map((course) => ({
       label: course.course_name,
-      value: course.course_code,
+      value: course.id,
     }));
     const classOptions = resclass.map((course) => ({
       label: course.class,
