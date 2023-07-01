@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
+const CustomStudentReactTable = ({ columns, data, loading, rowClickable }) => {
   let navigate = useNavigate();
 
   const {
@@ -47,7 +47,7 @@ const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
             {rows.map(row => {
               prepareRow(row);
               return (
-                <tr  {...row.getRowProps()} className={rowClickable ? 'link' : ''} onClick={()=>rowClickable && navigate(row.original.id.toString())}>
+                <tr  {...row.getRowProps()} className={rowClickable ? 'link' : ''} onClick={()=>rowClickable && navigate("/student/unit")}>
                   {row.cells.map(cell => (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}
@@ -62,4 +62,4 @@ const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
   );
 }
 
-export default CustomReactTable;
+export default CustomStudentReactTable;

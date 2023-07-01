@@ -146,12 +146,19 @@
           font-size: 0.7rem;
           padding: 0.5rem;
           border-radius: 15px;
-          border: 1px solid rgb(228, 228, 228);
+          background-color: #ffffff !important;
+         
+          // option{
+          //  background-color: #f3f3f9 !important;
+          //   color: black;
+          //   font-size: 0.7rem;
+          //   padding: 0.5rem;
+          //   border-radius: 15px;
 
-          option {
-            border-radius: none !important;
-            padding: 2rem;
-          }
+          //   &:hover{
+          //      background-color: #e0e0e0;
+          //   }
+          // }
         }
       }
 
@@ -187,3 +194,4 @@
 
   }
 }
+

@@ -13,10 +13,10 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom'
-import { Accordan } from '../../components/tableaccordan/Accordan'
-import { classData, postClassData } from '../../services/class'
-import {success,error} from "../../utils/toast"
+import { classData, deleteClassData, postClassData } from '../../services/class'
+import { success, error } from "../../utils/toast"
 import { AddClassSchema } from '../../schema/validate'
+import { ClassAccordan } from '../../components/tableaccordan/ClassAccordan'
 
 
 const Learner = () => {
@@ -29,25 +29,27 @@ const Learner = () => {
   };
   const [classdata, setClassData] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const columns =useMemo(
+
+
+  const columns = useMemo(
     () => [
-      { Header: 'Class id', accessor: 'id' },
+      // { Header: 'Class id', accessor: 'id' },
       { Header: 'Class Year', accessor: 'class' },
-      { Header: 'Student Count', accessor: 'studentcount' },
+      // { Header: 'Student Count', accessor: 'studentcount' },
       { Header: 'Updated At', accessor: 'updated_at' },
       {
         Header: 'Action', Cell: ({ row }) => (
           <>
             <div className="actionbox">
-            <div className="update">
+              <div className="update">
 
-            <button onClick={() => setOpenAccordan(row.original.id)}>
-                <MoreHorizIcon />
-              </button>
-              {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan}/>}
-            </div>
+                <button onClick={() => setOpenAccordan(row.original.id)}>
+                  <MoreHorizIcon />
+                </button>
+                {openAccordan === row.original.id && <ClassAccordan setOpenAccordan={setOpenAccordan} id={row.original.id}  />}
+              </div>
             </div>
           </>
         )
@@ -55,6 +57,8 @@ const Learner = () => {
     ],
     [openAccordan]
   );
+
+
 
 
   const Values = {
@@ -67,34 +71,34 @@ const Learner = () => {
     validationSchema: AddClassSchema,
     onSubmit: (values, action) => {
       postClassData(values)
-      .then(()=>{
-        success("Class Added Successfully")
-        action.resetForm()
-        getClass()
-        setOpen(false)
-      }).catch((err)=>{
-        error(err.message || "Failed to add class");
-      })
+        .then(() => {
+          success("Class Added Successfully")
+          action.resetForm()
+          getClass()
+          setOpen(false)
+        }).catch((err) => {
+          error(err.message || "Failed to add class");
+        })
     }
   })
 
 
 
   //getClass
-  const getClass=async()=>{
+  const getClass = async () => {
     setLoading(true)
     classData()
-    .then(classdata=>{
-      setClassData(classdata)
-    })
-    .finally(()=>{
-      setLoading(false)
-    })
-}
+      .then(classdata => {
+        setClassData(classdata)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
 
-useEffect(()=>{
-  getClass()
-},[])
+  useEffect(() => {
+    getClass()
+  }, [])
 
 
   return (
@@ -102,7 +106,7 @@ useEffect(()=>{
       <Sidebar />
       <div className="adminpanelpage">
         <Navbar />
-        <div className="learner-box">
+        <div className="class-box">
 
           <div className="navigation">
             <NavLink to="/admin">Admin</NavLink>  <ChevronRightIcon />  <p>Class Year</p>
@@ -131,9 +135,9 @@ useEffect(()=>{
                   <div className="formbox">
                     <label htmlFor="class">Class</label>
                     <input type="text" name="class"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.class}/>
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.class} />
                     {errors.class && touched.class ? (
                       <p className="errorval">{errors.class}</p>
                     ) : null}

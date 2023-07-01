@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.overview{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+    padding: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    .detail{
+        width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        .heading{
+            text-align: center;
+            align-items: center;
+            padding: 0.5rem  0;
+            background-color: #405189;
+            color: white;
+            font-size: 0.88rem;
+        }
+    }
+
+    table{
+        display: flex;
+        padding: 0 1rem;
+        thead{
+      
+            width: 50%;
+            tr{
+            
+                display: flex;
+                flex-direction: column;
+
+                th{
+                    padding: 0.3rem;
+                }
+               
+            }
+        }
+
+        tbody{
+           
+            width: 50%;
+            tr{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+               td{
+                padding: 0.3rem;
+               }
+            }
+        }
+    }
+
+    .coursedetail{
+        .courselist{
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem !important;
+            align-items: flex-start !important;
+            li{
+                list-style: disc !important;
+                padding: 0;
+                color: rgb(82, 82, 82) !important;
+                font-weight: 600;
+                font-size: 0.71rem !important;
+            }
+      
+        }
+    }
+
+}

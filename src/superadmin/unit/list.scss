@@ -61,7 +61,7 @@
 }
 
 
-.modal {
+.unitmodal {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,10 +71,8 @@
   .modal-box {
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: white;
     width: 90vw;
-    height: 90vh;
     position: relative;
     background-color: #f3f3f9;
 
@@ -135,8 +133,6 @@
           -webkit-appearance: none;
           margin: 0;
         }
-
-
 
         select {
           width: 100%;

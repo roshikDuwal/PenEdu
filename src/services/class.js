@@ -10,5 +10,12 @@ export const classData = async()=>{
 
 export const postClassData= async(classdata)=>{
     const postclass = await axios.post(routes.addClasses,classdata)
+
     return postclass
+}
+
+export const deleteClassData =async (id) =>{
+    const deleteClass = await axios.delete(routes.deleteClasses + id )
+
+    return deleteClass.data
 }

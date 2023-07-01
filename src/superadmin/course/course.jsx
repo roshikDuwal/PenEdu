@@ -138,7 +138,7 @@ const Course = () => {
             </div>
 
             <Modal
-              className="modal"
+              className="coursemodal"
               open={open}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"

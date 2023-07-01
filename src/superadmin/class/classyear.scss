@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-.learner-box {
+.class-box {
   min-height: 100vh;
   background-color: #f3f3f9;
 
@@ -114,6 +114,10 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+
+        p{
+          color: red;
+        }
 
         label {
           padding-left: 1rem;

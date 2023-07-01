@@ -23,29 +23,12 @@ import { CountriesData } from "../../constants/countires"
 import { classData } from '../../services/class'
 
 
-// import Select from 'react-select';
-// const coursedata=[
-//   {
-//     value:"1",
-//     label:"Math"
-//   },
-//   {
-//     value:"2",
-//     label:"Science"
-//   },
-//   {
-//     value:"3",
-//     label:"Social"
-//   },
-// ]
-
 
 
 const Learner = () => {
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  // const [courses, setCourses] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [openAccordan, setOpenAccordan] = useState(null);
@@ -97,9 +80,7 @@ const Learner = () => {
     student_number: ""
   }
 
-  // const onCourseChange = (e) => {
-  //   setCourses(e)
-  // }
+
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting, setSubmitting } = useFormik({
     initialValues: Values,
@@ -211,19 +192,7 @@ const Learner = () => {
                     {errors.type && touched.type ? (<p className='errorval'>{errors.type}</p>) : null}
                   </div>
 
-                  {/* <div className='formbox'>
-                  <label htmlFor="course">Course</label>
-                    <Select
-                      isMulti
-                      name="course"
-                      options={coursedata}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      value={courses}
-                      onChange={onCourseChange}
-                      onBlur={handleBlur}
-                    />
-                  </div> */}
+
 
                   <div className="formbox">
                     <label htmlFor="name">Class</label>
@@ -232,7 +201,7 @@ const Learner = () => {
                       onBlur={handleBlur}>
                       <option value="">Select Class</option>
                       {classdata.map((curElem) => (
-                        <option key={curElem.id} value={curElem.id}>{curElem.class}</option>
+                        <option className='classoption' key={curElem.id} value={curElem.class}>{curElem.class}</option>
                       ))}
                     </select>
                     {errors.class_id && touched.class_id ? (<p className='errorval'>{errors.class_id}</p>) : null}

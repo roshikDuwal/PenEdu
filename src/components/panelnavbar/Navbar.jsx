@@ -4,7 +4,7 @@ import { Accordan } from '../navbaraccordan/Accordan';
 import "./navbar.scss"
 import SearchIcon from '@mui/icons-material/Search';
 
-const Navbar = () => {
+const Navbar = ({data}) => {
   const [bool, setBool] = useState(false)
   return (
     <>
@@ -16,7 +16,7 @@ const Navbar = () => {
 
         <div className="profile">
           <button onClick={() => setBool(!bool)}>  <AccountCircleIcon /></button>
-          {bool && <Accordan />}
+          {bool && <Accordan data={data} />}
         </div>
       </nav>
     </>

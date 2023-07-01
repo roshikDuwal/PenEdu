@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Sidebar from '../../components/sidebar/Sidebar'
 import "../admin.scss"
 import "./instructor.scss"
@@ -22,13 +22,31 @@ import Switch from '@mui/material/Switch';
 import { Accordan } from '../../components/tableaccordan/Accordan'
 
 
+import Select from 'react-select';
+import { getCourses } from '../../services/courses'
+
+
+
+
+
 const Learner = () => {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
     const [openAccordan, setOpenAccordan] = useState(null);
+    const [coursedata, setCourseData] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [classData, setClassData] = useState([])
+    const [classes, setClasses] = useState([]);
+
+    const onClassChange = (e) => {
+        setClasses(e)
+    }
+
+    const onCourseChange = (e) => {
+        setCourses(e)
+    }
 
     const data = useMemo(
         () => [
@@ -61,14 +79,11 @@ const Learner = () => {
                                     <MoreHorizIcon />
                                 </button>
 
-
                                 {openAccordan === row.original.id && <Accordan setOpenAccordan={setOpenAccordan} />}
 
                             </div>
 
                         </div>
-
-
                     </>
 
                 )
@@ -82,17 +97,36 @@ const Learner = () => {
         email: "",
         type: "",
         Country: "",
-        Mobile: 0,
+        Mobile: "",
         Studentno: ""
     }
 
     const { values, errors, handleBlur, handleChange, touched, handleSubmit, isSubmitting } = useFormik({
         initialValues: Values,
         onSubmit: (values, action) => {
-            console.log(values);
+            console.log({...values, classes: classes.map(c=>c.value)});
         }
     })
 
+    //getcourse
+
+    const GetCourse = async () => {
+        const data = await getCourses()
+
+        const rescourse = await data.course
+        const resclass = await data.class
+
+        const courseOptions = rescourse.map(course => ({ label: course.course_name, value: course.course_code }));
+        const classOptions = resclass.map(course => ({ label: course.class, value: course.id }));
+        
+        setCourseData(courseOptions);
+        setClassData(classOptions)
+
+    }
+
+    useEffect(() => {
+        GetCourse()
+    }, [])
 
 
     return (
@@ -158,22 +192,32 @@ const Learner = () => {
                                         <input type="text" name="name" />
                                     </div>
 
-                                    <div className="formbox">
-                                        <label htmlFor="type">Class</label>
-                                        <select name="type" >
-                                            <option value="">Select class</option>
-                                            <option value="year11">Year 11</option>
-                                            <option value="year12">Year12</option>
-                                        </select>
+                                    <div className='formbox'>
+                                        <label htmlFor="class">Class</label>
+                                        <Select
+                                            isMulti
+                                            name="class"
+                                            options={classData}
+                                            className="basic-multi-select"
+                                            classNamePrefix="select"
+                                            value={classes}
+                                            onChange={onClassChange}
+                                            onBlur={handleBlur}
+                                        />
                                     </div>
 
-                                    <div className="formbox">
-                                        <label htmlFor="type">Course</label>
-                                        <select name="type" >
-                                            <option value="">Select course</option>
-                                            <option value="account">Account</option>
-                                            <option value="year12">Nepali</option>
-                                        </select>
+                                    <div className='formbox'>
+                                        <label htmlFor="course">Course</label>
+                                        <Select
+                                            isMulti
+                                            name="course"
+                                            options={coursedata}
+                                            className="basic-multi-select"
+                                            classNamePrefix="select"
+                                            value={courses}
+                                            onChange={onCourseChange}
+                                            onBlur={handleBlur}
+                                        />
                                     </div>
 
                                     <div className="formbox">

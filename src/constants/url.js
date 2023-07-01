@@ -20,5 +20,6 @@ export const routes={
     getAssignment:SERVER_BASE_URL + "unit/assignment/questions/",
     addVideo:SERVER_BASE_URL + "unit/assignment/questions/update/",
     getClasses:SERVER_BASE_URL + "class/index",
-    addClasses:SERVER_BASE_URL + "class/create"
+    addClasses:SERVER_BASE_URL + "class/create",                                                     
+    deleteClasses:SERVER_BASE_URL + "class/delete/"
 }
