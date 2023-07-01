@@ -25,6 +25,7 @@ import { addInstructors, getInstructors } from "../../services/instructors";
 import Select from "react-select";
 import { getCourses } from "../../services/courses";
 import { error, success } from "../../utils/toast";
+import { addTeacherSchema } from "../../schema/validate";
 
 const Learner = () => {
   const [open, setOpen] = React.useState(false);
@@ -131,6 +132,7 @@ const Learner = () => {
     isSubmitting,
   } = useFormik({
     initialValues: Values,
+    validationSchema: addTeacherSchema,
     onSubmit: (values, action) => {
       setLoading(true);
       addInstructors({
@@ -221,6 +223,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.name && touched.name ? (<p className='errorval'>{errors.name}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -232,6 +235,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.email && touched.email ? (<p className='errorval'>{errors.email}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -243,6 +247,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.mobile && touched.mobile ? (<p className='errorval'>{errors.mobile}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -255,6 +260,7 @@ const Learner = () => {
                       value={values.address}
                       onChange={handleChange}
                       onBlur={handleBlur}/>
+                       {errors.address && touched.address ? (<p className='errorval'>{errors.address}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -266,6 +272,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.license && touched.license ? (<p className='errorval'>{errors.license}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -277,6 +284,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -291,6 +299,7 @@ const Learner = () => {
                       onChange={onClassChange}
                       onBlur={handleBlur}
                     />
+                     {errors.classes && touched.classes ? (<p className='errorval'>{errors.classes}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -305,6 +314,7 @@ const Learner = () => {
                       onChange={onCourseChange}
                       onBlur={handleBlur}
                     />
+                     {errors.course && touched.course ? (<p className='errorval'>{errors.course}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -319,6 +329,7 @@ const Learner = () => {
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                     </select>
+                    {errors.gender && touched.gender ? (<p className='errorval'>{errors.gender}</p>) : null}
                   </div>
 
                   <div className="formbox">
@@ -330,6 +341,7 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                     {errors.date_of_birth && touched.date_of_birth ? (<p className='errorval'>{errors.date_of_birth}</p>) : null}
                   </div>
 
                   <div className="submitbtn">

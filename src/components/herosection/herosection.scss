@@ -1,0 +1,47 @@
+.container{
+    .grid-two-column{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .grid{
+        display: grid;
+        place-items: center;
+        padding: 5rem;
+        
+
+        .hero-section-data{
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            p{
+                font-size: 0.91rem;
+            }
+
+            h1{
+                font-size: 2.4rem;
+                font-weight: 900;
+                color: #77b53b;
+            }
+
+            a{
+                text-align: center;
+                .hero-button{
+                    background-color: #77b53b;
+                    color: white;
+                    font-size: 0.8rem;
+                }
+            }
+
+        }
+
+        .hero-section-image{
+            .heroimage{
+                width: 70%;
+            }
+        }
+    }
+
+
+}

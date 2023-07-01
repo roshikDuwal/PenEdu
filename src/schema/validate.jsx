@@ -35,8 +35,21 @@ export const  addStudentSchema = Yup.object({
     mobile:Yup.string().min(6).max(14).required("Please enter your number"),
     student_number:Yup.string().required("Please enter your number"),
     class_id:Yup.string().required("Please enter your class"),
-
 });
+
+export const addTeacherSchema=Yup.object({
+    name: Yup.string().min(3).required("Please enter your name"),
+    email: Yup.string().email().required("Please enter your email"),
+    type: Yup.string().required("Please enter your type "),
+    country: Yup.string().min(3).required("Please enter your Country Name"),
+    mobile:Yup.string().min(6).max(14).required("Please enter your number"),
+    classes:Yup.string().required("Please enter your class"),
+    license:Yup.string().required("Please enter your license number"),
+    address:Yup.string().required("Please enter your address"),
+    course:Yup.string().required("Please enter your course"),
+    gender:Yup.string().required("Please enter your gender"),
+    date_of_birth:Yup.string().required("Please enter your date of birth"),
+})
 
 export const addCourseSchema = Yup.object({
     course_name: Yup.string().min(3).required("Please enter course name"),

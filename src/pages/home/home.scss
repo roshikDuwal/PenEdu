@@ -1,0 +1,44 @@
+.homenav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 5rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    .logo {
+        width: 170px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .navbar {
+        padding-top: 1rem;
+
+        ul {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2.4rem;
+
+            li {
+                list-style: none;
+                font-size: 1rem;
+                cursor: pointer;
+
+                &:hover {
+                    color: #77b53b;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+
+                    &:hover {
+                        color: #77b53b;
+                    }
+                }
+            }
+        }
+    }
+}
