@@ -34,7 +34,7 @@ export const  addStudentSchema = Yup.object({
     country: Yup.string().min(3).required("Please enter your Country Name"),
     mobile:Yup.string().min(6).max(14).required("Please enter your number"),
     student_number:Yup.string().required("Please enter your number"),
-    class_id:Yup.string().required("Please enter your class"),
+    class_id:Yup.number().required("Please enter your class"),
 });
 
 export const addTeacherSchema=Yup.object({

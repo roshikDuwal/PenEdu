@@ -74,7 +74,7 @@ const Learner = () => {
     name: "",
     email: "",
     type: "",
-    class_id: "",
+    class_id: null,
     country: "",
     mobile: "",
     student_number: ""
@@ -86,7 +86,7 @@ const Learner = () => {
     initialValues: Values,
     validationSchema: addStudentSchema,
     onSubmit: (values, action) => {
-      addStudents({ ...values })
+      addStudents({ ...values, class_id: parseInt(values.class_id) })
         .then(() => {
           success("Learner submitted successfully");
           action.resetForm();
@@ -201,7 +201,7 @@ const Learner = () => {
                       onBlur={handleBlur}>
                       <option value="">Select Class</option>
                       {classdata.map((curElem) => (
-                        <option className='classoption' key={curElem.id} value={curElem.class}>{curElem.class}</option>
+                        <option className='classoption' key={curElem.id} value={curElem.id}>{curElem.class}</option>
                       ))}
                     </select>
                     {errors.class_id && touched.class_id ? (<p className='errorval'>{errors.class_id}</p>) : null}
