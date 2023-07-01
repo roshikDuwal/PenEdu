@@ -56,7 +56,7 @@ const Learner = () => {
     () => [
       { Header: "Instructor Id", accessor: "id" },
       { Header: "Instructor Name", accessor: "name" },
-      { Header: "Course", accessor: "course_id" },
+      // { Header: "Course", accessor: "course_id" },
       { Header: "Email", accessor: "email" },
       { Header: "Contact", accessor: "mobile" },
 

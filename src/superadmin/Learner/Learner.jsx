@@ -40,7 +40,7 @@ const Learner = () => {
     () => [
       { Header: 'Student Id', accessor: 'student_number' },
       { Header: 'Student Name', accessor: 'name' },
-      { Header: 'Class', accessor: 'class' },
+      // { Header: 'Class', accessor: 'class' },
       { Header: 'Type', accessor: 'type' },
       { Header: 'Contact', accessor: 'mobile' },
       { Header: 'Email', accessor: 'email' },
