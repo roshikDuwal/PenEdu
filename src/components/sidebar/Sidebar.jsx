@@ -133,13 +133,13 @@ const Sidebar = () => {
                                 <>
                                   {classList.map((classElem, index) => {
 
-                                
+
                                     return (
                                       <DropdownButton className="dropdownbtn" id="dropdown-basic-button" title={classElem.class} key={index}>
-                                        { 
-                                      
+                                        {
+
                                         //  courseList.filter((courseElem) => courseElem.class_id === classElem.id).map((filteredCourse,index)=>{
-                                          courseList.map((filteredCourse,index)=>{
+                                          courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse,index)=>{
                                           console.log(filteredCourse);
                                             return (
                                               <>
@@ -147,7 +147,7 @@ const Sidebar = () => {
 
                                               </>
                                             )
-                                            
+
                                           })
                                         }
                                       </DropdownButton>
