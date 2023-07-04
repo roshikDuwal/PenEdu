@@ -21,7 +21,7 @@ export const routes={
     addAssignment:"unit/assignment/create",
     getAssignments:"unit/assignment/",
     getAssignment:"unit/assignment/questions/",
-    addVideo:"unit/assignment/questions/update/",
+    addVideo:"unit/assignment/question/update/",
     getClasses:"class/index",
     addClasses:"class/create",
     deleteClasses:"class/delete/"

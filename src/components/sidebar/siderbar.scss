@@ -31,6 +31,11 @@ div {
         justify-content: center;
         align-items: center;
         border-bottom: 2px solid rgb(185, 185, 185);
+
+        a{
+          text-decoration: none;
+          color: black;
+        }
   
         img {
           width: 100px;
@@ -116,6 +121,16 @@ div {
                   padding: 0.4rem;
                   padding-left: 5rem;
                   color: #6d7080;
+
+                  a{
+                    text-decoration: none;
+                    color: #6d7080;
+
+                    &:hover {
+                    
+                      color: rgb(22, 150, 219);
+                    }
+                  }
   
                   &:hover {
                     background-color: rgba(143, 187, 201, 0.233) !important;

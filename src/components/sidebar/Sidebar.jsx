@@ -6,7 +6,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SubjectIcon from '@mui/icons-material/Subject';
 import RemoveIcon from '@mui/icons-material/Remove';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import ClassIcon from '@mui/icons-material/Class';
 
 import { NavLink } from "react-router-dom";
@@ -62,7 +62,7 @@ const Sidebar = () => {
     {
       id: "2",
       name: "Year List",
-      img: <SubjectIcon />,
+      img: <ViewListIcon />,
       subname2: "list",
       subname3: "Unit",
       link2: "/admin/course",
@@ -104,7 +104,7 @@ const Sidebar = () => {
           <div className="position">
             <div className="logo-title">
               {/* <img src="/logo.png" alt="Logo" /> */}
-              <h2>Logo</h2>
+              <NavLink to="/admin">  <h2>Logo</h2></NavLink>
             </div>
 
 
@@ -132,18 +132,15 @@ const Sidebar = () => {
                                 :
                                 <>
                                   {classList.map((classElem, index) => {
-
-
                                     return (
                                       <DropdownButton className="dropdownbtn" id="dropdown-basic-button" title={classElem.class} key={index}>
                                         {
-
-                                        //  courseList.filter((courseElem) => courseElem.class_id === classElem.id).map((filteredCourse,index)=>{
-                                          courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse,index)=>{
+                                          courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse, index) => {
+                                          
                                             return (
                                               <>
-                                                <Dropdown.Item className="submenu-btn" href="#" key={filteredCourse.id} > <FiberManualRecordIcon /> {filteredCourse.course_name} </Dropdown.Item>
-
+                                                <Dropdown.Item className="submenu-btn" key={filteredCourse.id} >
+                                                  <NavLink to= {`/admin/${filteredCourse.id}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
                                               </>
                                             )
 

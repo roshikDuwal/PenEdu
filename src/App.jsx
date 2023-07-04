@@ -22,7 +22,8 @@ import Student from './studentpanel/Student';
 import StudentUnit from "./studentpanel/tabbar/course/unit/StudentUnit"
 import StudentAssignment from './studentpanel/tabbar/course/unit/Assignment/StudentAssignment';
 import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAssignment"
-import axios from 'axios';
+
+import Unitlist from "./superadmin/yearlist/unitlist/Unitlist"
 
 
 const App = () => {
@@ -50,6 +51,9 @@ const App = () => {
           <Route path='student/unit' element={<StudentUnit/>} />
           <Route path='/student/unit/:id' element={<StudentAssignment/>} />
           <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment/>} />
+
+          <Route path='admin/:courseid' element={<Unitlist/>}/>
+          <Route path='/admin/:courseid/:id' element={<ListAssignment/>} />
 
           <Route path='/login' element={<Login/>}/>
 
