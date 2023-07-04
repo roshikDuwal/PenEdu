@@ -1,5 +1,5 @@
 // import { useEffect, useRef, useState } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImagePart from "../imagepart/ImagePart";
 import Pdf from "../pdfpart/Pdf";
 import "./scanva.scss";
@@ -25,12 +25,20 @@ const AddAssignmentCanvas = ({ pdf }) => {
   // const [color, setColor] = useState("#000000");
   // const [video, setVideo] = useState("");
   // const [images, setImages] = useState([]);
-  // const [pdfImages, setPdfImages] = useState([]);
+  const [pdfImages, setPdfImages] = useState([]);
   // const [sizeName, setSizeName] = useState("Font Size");
-  // const [canvasDrawn, setCanvasDrawn] = useState([]);
-  // const [canvasStage, setCanvasStage] = useState(-1);
+  const [canvasDrawn, setCanvasDrawn] = useState([]);
+  const [canvasStage, setCanvasStage] = useState(-1);
   // const [height, setHeight] = useState(1122);
   // const { id } = useParams();
+
+  useEffect(()=>{
+    var canvasPic = new Image();
+    canvasPic.src = canvasDrawn[canvasStage];
+    canvasPic.onload = function () {
+      setPdfImages([canvasPic]);
+    };
+  },[canvasStage, canvasDrawn])
 
   // //change font size
   // const handleChange = (e) => {
@@ -64,8 +72,6 @@ const AddAssignmentCanvas = ({ pdf }) => {
   //     }
   //   });
   // }
-
-
 
   // //settoDraw
   // const setToDraw = (e) => {
@@ -489,54 +495,57 @@ const AddAssignmentCanvas = ({ pdf }) => {
   //   }
   // }, [pdfImages, canvasStage]);
 
-  const [page,setPage] = useState(0);
-  const FormTitles=["Add Pdf","Add Images"]
+  const [page, setPage] = useState(0);
+  const FormTitles = ["Add Pdf", "Add Images"];
 
-  const PageDisplay = ()=>{
-    if(page=== 0 ){
-      return <Pdf pdf={pdf}/>
+  const PageDisplay = () => {
+    if (page === 0) {
+      return (
+        <Pdf
+          canvasDrawn={canvasDrawn}
+          setCanvasStage={setCanvasStage}
+          canvasStage={canvasStage}
+          setCanvasDrawn={setCanvasDrawn}
+          pdf={pdf}
+        />
+      );
     }
-    if(page=== 1){
-      return <ImagePart pdf={pdf}/>
+    if (page === 1) {
+      return <ImagePart pdfImages={pdfImages} />;
     }
-  }
+  };
 
   return (
     <>
       <div className="container grid">
-
-      
-            <div className="form">
-              <div className="progressbar"></div>
-              <div className="form-container">
-                <div className="header">
-                  <h1>{FormTitles[page]}</h1>
-                </div>
-                <div className="footer">
-                  <button
-                   disabled ={page == 0 }
-                   onClick={()=>{setPage((currPage)=>currPage-1)}}
-                  >Prev</button>
-                  <button 
-                  disabled ={page == FormTitles.length-1 }
-                  onClick={()=>{setPage((currPage)=>currPage+1)}}>Next</button>
-                </div>
-                <div className="body">
-                  {PageDisplay()}
-                </div>
-              </div>
+        <div className="form">
+          <div className="progressbar"></div>
+          <div className="form-container">
+            <div className="header">
+              <h1>{FormTitles[page]}</h1>
             </div>
-
- 
-
-
-
-
-    
-
+            <div className="footer">
+              <button
+                disabled={page == 0}
+                onClick={() => {
+                  setPage((currPage) => currPage - 1);
+                }}
+              >
+                Prev
+              </button>
+              <button
+                disabled={page == FormTitles.length - 1}
+                onClick={() => {
+                  setPage((currPage) => currPage + 1);
+                }}
+              >
+                Next
+              </button>
+            </div>
+            <div className="body">{PageDisplay()}</div>
+          </div>
+        </div>
       </div>
-
-
     </>
   );
 };

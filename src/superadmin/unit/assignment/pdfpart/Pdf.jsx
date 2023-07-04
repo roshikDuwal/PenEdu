@@ -12,7 +12,13 @@ import { addAssignments } from "../../../../services/assignments";
 import { addAssignment } from "../../../../schema/validate";
 import { useFormik } from "formik";
 
-const Pdf = ({ pdf }) => {
+const Pdf = ({
+  pdf,
+  canvasDrawn,
+  setCanvasDrawn,
+  canvasStage,
+  setCanvasStage,
+}) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -24,8 +30,6 @@ const Pdf = ({ pdf }) => {
   const [images, setImages] = useState([]);
   const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size");
-  const [canvasDrawn, setCanvasDrawn] = useState([]);
-  const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
   const { id } = useParams();
 
@@ -54,19 +58,19 @@ const Pdf = ({ pdf }) => {
       var img = new Image();
       img.src = url;
       img.onload = () => {
-        var myCanvas = document.createElement('canvas');
-        var ctx = myCanvas.getContext('2d');
-        ctx.drawImage(img, 0,0);
-        resolve(myCanvas.toDataURL())
-      }
+        var myCanvas = document.createElement("canvas");
+        var ctx = myCanvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(myCanvas.toDataURL());
+      };
     });
-  }
+  };
 
   const handleIndividualUpload = async (e) => {
     const files = e.target.files;
     const imagesTmp = [...images];
     for (var i = 0; i < files.length; i++) {
-      const base64 = await blobToBase64(URL.createObjectURL(files[i]))
+      const base64 = await blobToBase64(URL.createObjectURL(files[i]));
 
       imagesTmp.push({
         file: base64,
@@ -192,7 +196,7 @@ const Pdf = ({ pdf }) => {
         .then((data) => {
           success("Question submitted successfully");
           setTimeout(() => {
-            navigate("./../"+ data.assessment.id);
+            navigate("./../" + data.assessment.id);
           }, 1500);
         })
         .catch((err) => {
@@ -356,7 +360,6 @@ const Pdf = ({ pdf }) => {
   };
 
   useEffect(() => {
-    setLoading(true);
     var currentPage = 1,
       canvasImages = [];
 
@@ -404,7 +407,21 @@ const Pdf = ({ pdf }) => {
         });
       }
     }
-    iterate(pdf);
+    if (canvasStage < 0){
+      setLoading(true);
+        iterate(pdf);
+    }
+    else {
+      const canvas = canvasRef.current;
+      var canvasPic = new Image();
+      canvasPic.src = canvasDrawn[canvasStage];
+      canvasPic.onload = function () {
+        canvas.height = canvasPic.height
+        const ctx = canvas.getContext("2d");
+        canvas.width = canvasPic.width
+        ctx.drawImage(canvasPic, 0, 0);
+      };
+    }
   }, [pdf]);
 
   const replacePixel = (x, y) => {
@@ -488,12 +505,12 @@ const Pdf = ({ pdf }) => {
     <>
       <div className="container grid">
         {/* <div> */}
-          {/* <div className="flex-wrap"> */}
-            {/* <div className="flex">
+        {/* <div className="flex-wrap"> */}
+        {/* <div className="flex">
             <label htmlFor="">Solution video: </label>
             <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
           </div> */}
-            {/* <div className="formbox">
+        {/* <div className="formbox">
               <label htmlFor="title">Title</label>
               <input
                 type="text"
@@ -520,7 +537,7 @@ const Pdf = ({ pdf }) => {
                 Submit Question
               </Button>
             </div> */}
-            {/* {images.length ? (
+        {/* {images.length ? (
               <div className="flex-container">
                 {images.map((imgData, i) => (
                   <div className="img-box" key={i}>
@@ -555,7 +572,7 @@ const Pdf = ({ pdf }) => {
                 ))}
               </div>
             ) : null} */}
-          {/* </div> */}
+        {/* </div> */}
         {/* </div> */}
 
         <div className="tool">

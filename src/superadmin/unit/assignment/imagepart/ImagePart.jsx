@@ -12,7 +12,7 @@ import { addAssignments } from "../../../../services/assignments";
 import { addAssignment } from "../../../../schema/validate";
 import { useFormik } from "formik";
 
-const ImagePart = ({ pdf }) => {
+const ImagePart = ({ pdf, pdfImages }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -22,7 +22,6 @@ const ImagePart = ({ pdf }) => {
   const [color, setColor] = useState("#000000");
   const [video, setVideo] = useState("");
   const [images, setImages] = useState([]);
-  const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size");
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
@@ -355,57 +354,57 @@ const ImagePart = ({ pdf }) => {
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    var currentPage = 1,
-      canvasImages = [];
+  // useEffect(() => {
+  //   setLoading(true);
+  //   var currentPage = 1,
+  //     canvasImages = [];
 
-    function iterate(pdf) {
-      // init parsing of first page
-      if (currentPage <= pdf.numPages) getPage();
+  //   function iterate(pdf) {
+  //     // init parsing of first page
+  //     if (currentPage <= pdf.numPages) getPage();
 
-      // main entry point/function for loop
-      // main entry point/function for loop
-      function getPage() {
-        // when promise is returned do as usual
-        pdf.getPage(currentPage).then(function (page) {
-          var scale = 1.25;
-          var viewport = page.getViewport({ scale: scale });
+  //     // main entry point/function for loop
+  //     // main entry point/function for loop
+  //     function getPage() {
+  //       // when promise is returned do as usual
+  //       pdf.getPage(currentPage).then(function (page) {
+  //         var scale = 1.25;
+  //         var viewport = page.getViewport({ scale: scale });
 
-          // Prepare canvas using PDF page dimensions
-          var canvas = document.createElement("canvas");
-          var context = canvas.getContext("2d");
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
+  //         // Prepare canvas using PDF page dimensions
+  //         var canvas = document.createElement("canvas");
+  //         var context = canvas.getContext("2d");
+  //         canvas.height = viewport.height;
+  //         canvas.width = viewport.width;
 
-          // Render PDF page into canvas context
-          var renderContext = {
-            canvasContext: context,
-            viewport: viewport,
-          };
-          var renderTask = page.render(renderContext);
-          renderTask.promise.then(function () {
-            // store compressed image data in array
-            const imgData = canvas.toDataURL();
-            var image = new Image();
-            image.src = imgData;
-            image.onload = function () {
-              canvasImages.push(image);
-            };
+  //         // Render PDF page into canvas context
+  //         var renderContext = {
+  //           canvasContext: context,
+  //           viewport: viewport,
+  //         };
+  //         var renderTask = page.render(renderContext);
+  //         renderTask.promise.then(function () {
+  //           // store compressed image data in array
+  //           const imgData = canvas.toDataURL();
+  //           var image = new Image();
+  //           image.src = imgData;
+  //           image.onload = function () {
+  //             canvasImages.push(image);
+  //           };
 
-            if (currentPage < pdf.numPages) {
-              currentPage++;
-              getPage(); // get next page
-            } else {
-              setPdfImages(canvasImages);
-              setLoading(false);
-            }
-          });
-        });
-      }
-    }
-    iterate(pdf);
-  }, [pdf]);
+  //           if (currentPage < pdf.numPages) {
+  //             currentPage++;
+  //             getPage(); // get next page
+  //           } else {
+  //             setPdfImages(canvasImages);
+  //             setLoading(false);
+  //           }
+  //         });
+  //       });
+  //     }
+  //   }
+  //   iterate(pdf);
+  // }, [pdf]);
 
   const replacePixel = (x, y) => {
     const canvas = canvasRef.current;
@@ -559,7 +558,7 @@ const ImagePart = ({ pdf }) => {
         </div>
 
         {/* <div className="tool"> */}
-          {/*           
+          {/*
           <div>
             <label htmlFor="">{sizeName}</label>
             <select value={value} onChange={handleChange}>
