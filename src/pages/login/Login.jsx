@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./login.scss"
-import { NavLink} from 'react-router-dom'
+import { NavLink, useNavigate} from 'react-router-dom'
+import { redirect } from "react-router-dom";
 import { useFormik } from "formik"
 import {loginUpSchema} from "../../schema/validate"
 
@@ -10,6 +11,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import TextField from '@mui/material/TextField';
 import { login } from '../../services/login'
+import { error, success } from '../../utils/toast';
 
 
 const Values = {
@@ -18,15 +20,25 @@ const Values = {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
 
 
   //--SUBMIT FORMIK---
   const { values, errors, handleBlur, handleChange, touched, handleSubmit,setSubmitting,isSubmitting } = useFormik({
     initialValues: Values,
     validationSchema: loginUpSchema,
-    onSubmit: (values, action) => {
-        console.log(values);
-        login(values)
+    onSubmit: async (values, action) => {
+          setSubmitting(true);
+      login(values).then(()=> {
+        setSubmitting(false);
+        success("Logged in successfully")
+        navigate("/admin")
+      })
+      .catch(e => {
+        console.log(e)
+        setSubmitting(false);
+        error(e?.response?.data?.message || "Login failed")
+      })
     }
   })
 

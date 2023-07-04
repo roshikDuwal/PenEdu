@@ -19,8 +19,6 @@ export const loginUpSchema = Yup.object({
     email: Yup.string().email().required("Please enter your email"),
     password: Yup.string().min(6)
         .required("Please enter your password")
-        .matches(/^.*((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/, "Password must contain at least one uppercase, one number and one special case character")
-
 });
 
 export const AddClassSchema = Yup.object({

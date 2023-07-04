@@ -1,8 +1,10 @@
-import axios from "axios";
+import { Axios } from "../utils/axios";
+const axios = new Axios()
 import {routes} from "../constants/url";
 
 
 export const addInstructors = async (InstructorData)=>{
+
     const addInstructor = await axios.post(routes.addInstructor,InstructorData)
 
     return addInstructor;
@@ -10,6 +12,7 @@ export const addInstructors = async (InstructorData)=>{
 
 
 export const getInstructors = async ()=>{
+
     const instructors = await axios.get(routes.getInstructors)
 
     return instructors.data.teacher;

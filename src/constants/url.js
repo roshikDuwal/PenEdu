@@ -1,5 +1,5 @@
 const SERVER_URL="https://v2pen.gesic.edu.np"
-const SERVER_BASE_URL=SERVER_URL +"/api/";
+export const SERVER_BASE_URL=SERVER_URL +"/api/";
 
 export const IMAGE_PREFIX = SERVER_URL + "/uploads/assessment/"
 export const ASSIGNMENT_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment/"
@@ -9,19 +9,20 @@ export const VIDEO_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/vide
 export const SOLUTION_VIDEO_PREFIX = SERVER_URL + "/uploads/assessment/"
 
 export const routes={
-    addStudent:SERVER_BASE_URL + "learner/create",
-    getStudents:SERVER_BASE_URL + "learner/index",
-    addInstructor:SERVER_BASE_URL + "users/instructor/create",
-    getInstructors:SERVER_BASE_URL + "users/instructor/index",
-    addCourse:SERVER_BASE_URL + "course/create",
-    getCourses:SERVER_BASE_URL + "course/index",
-    addUnit:SERVER_BASE_URL + "unit/create",
-    getUnits:SERVER_BASE_URL + "unit/index",
-    addAssignment:SERVER_BASE_URL + "unit/assignment/create",
-    getAssignments:SERVER_BASE_URL + "unit/assignment/",
-    getAssignment:SERVER_BASE_URL + "unit/assignment/questions/",
-    addVideo:SERVER_BASE_URL + "unit/assignment/questions/update/",
-    getClasses:SERVER_BASE_URL + "class/index",
-    addClasses:SERVER_BASE_URL + "class/create",
-    deleteClasses:SERVER_BASE_URL + "class/delete/"
+    login:"login",
+    addStudent:"learner/create",
+    getStudents:"learner/index",
+    addInstructor:"users/instructor/create",
+    getInstructors:"users/instructor/index",
+    addCourse:"course/create",
+    getCourses:"course/index",
+    addUnit:"unit/create",
+    getUnits:"unit/index",
+    addAssignment:"unit/assignment/create",
+    getAssignments:"unit/assignment/",
+    getAssignment:"unit/assignment/questions/",
+    addVideo:"unit/assignment/questions/update/",
+    getClasses:"class/index",
+    addClasses:"class/create",
+    deleteClasses:"class/delete/"
 }

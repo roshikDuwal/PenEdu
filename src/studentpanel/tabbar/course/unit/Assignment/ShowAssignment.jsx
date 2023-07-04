@@ -29,15 +29,12 @@ const ShowAssignment = () => {
     getData();
   }, []);
 
-  const data = {
-    name: "Roshin Lakhemaru",
-  };
 
   return (
     <>
       <div className="studentpanel">
         <div className="adminpanelpage">
-          <Navbar data={data} />
+          <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
           <div className="navigation">

@@ -140,7 +140,6 @@ const Sidebar = () => {
 
                                         //  courseList.filter((courseElem) => courseElem.class_id === classElem.id).map((filteredCourse,index)=>{
                                           courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse,index)=>{
-                                          console.log(filteredCourse);
                                             return (
                                               <>
                                                 <Dropdown.Item className="submenu-btn" href="#" key={filteredCourse.id} > <FiberManualRecordIcon /> {filteredCourse.course_name} </Dropdown.Item>

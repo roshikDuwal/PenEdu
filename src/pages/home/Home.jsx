@@ -22,12 +22,13 @@ const Home = () => {
             <li><NavLink to="/">Home</NavLink></li>
             <li>Course</li>
             <li>About Us</li>
+            <li><NavLink to="/login">Login</NavLink></li>
           </ul>
         </div>
       </nav>
 
       <Herosection data={data} />
-    
+
     </>
   )
 }

@@ -1,6 +1,6 @@
-import axios from "axios";
+import { Axios } from "../utils/axios";
+const axios = new Axios()
 import {routes} from "../constants/url";
-
 
 export const addAssignments = async (data)=>{
     const addAssignment = await axios.post(routes.addAssignment,data)

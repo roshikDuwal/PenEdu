@@ -74,14 +74,14 @@ const Learner = () => {
         .then(() => {
           success("Class Added Successfully")
           action.resetForm()
-      
+
           setOpen(false)
         }).catch((err) => {
           error(err.message || "Failed to add class");
         })
     }
   })
-  
+
 
 
 
@@ -106,7 +106,7 @@ const Learner = () => {
     <div className="adminpanel">
       <Sidebar />
       <div className="adminpanelpage">
-        <Navbar />
+        <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
         <div className="class-box">
 
           <div className="navigation">

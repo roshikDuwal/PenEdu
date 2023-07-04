@@ -12,7 +12,7 @@ const Adminpanel = () => {
         <div className="adminpanel">
             <Sidebar/>
             <div className="adminpanelpage">
-                <Navbar data={data}/>
+                <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))}/>
 
                 <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <h1>WELCOME TO ADMIN PAGE</h1>

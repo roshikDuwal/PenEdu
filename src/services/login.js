@@ -1,12 +1,14 @@
-import axios from "axios";
-import { redirect } from "react-router-dom";
+import { Axios } from "../utils/axios";
+const axios = new Axios()
+import { routes } from "../constants/url";
 
 export const login = async (data) => {
-    // const logInData = await axios.post("www.wasd/log", {
-    //     email: data.email,
-    //     password: data.password
-    // });
+    const {data: logInData} = await axios.post(routes.login, {
+        email: data.email,
+        password: data.password
+    });
 
-    localStorage.setItem("accessToken", "logInData.accessToken")
-    redirect("/admin")
+    if(logInData) {
+        localStorage.setItem("user", JSON.stringify(logInData.data))
+    }
 }

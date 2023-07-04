@@ -1,4 +1,5 @@
-import axios from "axios";
+import { Axios } from "../utils/axios";
+const axios = new Axios()
 import {routes} from "../constants/url"
 
 
