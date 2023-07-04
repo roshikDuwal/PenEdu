@@ -5,9 +5,6 @@ export class Axios {
     constructor(config) {
         const a = axios.create({
             baseURL: SERVER_BASE_URL,
-            headers: {
-                'Content-Type': 'application/json',
-            }
         })
         a.interceptors.response.use(response => {
             return response;

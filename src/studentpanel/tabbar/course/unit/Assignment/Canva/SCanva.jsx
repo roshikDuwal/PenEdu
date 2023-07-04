@@ -1,12 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./scanva.scss";
-
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import UndoIcon from '@mui/icons-material/Undo';
+import CloseIcon from "@mui/icons-material/Close";
 import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { ASSIGNMENT_IMAGE_PREFIX } from "../../../../../../constants/url";
+import { Box, Button, Modal } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { ASSIGNMENT_IMAGE_PREFIX, ASSIGNMENT_QUESTION_IMAGE_PREFIX } from "../../../../../../constants/url";
+import { getAssignment } from "../../../../../../services/assignments";
+import CustomReactTable from "../../../../../../components/CustomReactTable/CustomReactTable";
+import { ThreeDots } from "react-loader-spinner";
 
 
 
@@ -16,14 +20,31 @@ const App = (props) => {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [backgroundImg, setBackgroundImg] = useState(null);
+  const [showScore, setShowScore] = useState(false);
   const [value, setValue] = useState(5);
   // const [color, setColor] = useState("#000000");
   const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
   const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
+  const [data, setData] = useState([]);
   const [height, setHeight] = useState(1122);
+
+  const { id } = useParams();
+
+  const getData = async () => {
+    setLoading(true);
+    const data = await getAssignment(id);
+    setData(data.unitAssignmentQuestions);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   //change font size
   const handleChange = (e) => {
@@ -405,6 +426,43 @@ const App = (props) => {
   //   }
   // },[pdfImages, canvasStage])
 
+  const columns = React.useMemo(
+    () => [
+      { Header: "Question", Cell: ({ row }) => <h5>{row.original.title}</h5> },
+      {
+        Header: "File",
+        Cell: ({ row }) => (
+          <>
+            <div className="que-ans">
+              <img
+                src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
+                alt={row.original.title}
+              />
+            </div>
+          </>
+        ),
+      },
+      {
+        Header: "Obtained Score",
+        Cell: ({ row }) => {
+
+          return (
+            <>
+              <div className="actionbox">
+                <div className="video">
+                <input
+                      type="text"
+                    />
+                </div>
+              </div>
+            </>
+          );
+        },
+      },
+    ],
+    []
+  );
+
   return (
     <>
       <div className="container grid">
@@ -488,6 +546,42 @@ const App = (props) => {
           />
 
         </div>
+        <span className="float" onClick={() => setShowScore(true)}>
+          <i className="fa fa-plus my-float">
+           <ScoreboardIcon /> Scores
+          </i>
+        </span>
+            <Modal
+              className="coursemodal"
+              open={showScore}
+              onClose={() => setShowScore(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box className="modal-box ">
+                <div className="create-detail">
+                  <p>Scores board</p>
+                  <Button className="closequestionicon" onClick={() => setShowScore(false)}>
+                    <CloseIcon />
+                  </Button>
+                </div>
+                {loading ?
+                    <ThreeDots
+                      height="80"
+                      width="80"
+                      radius="9"
+                      color="#0AB39C"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClassName=""
+                      visible={true}
+                    /> : <CustomReactTable
+                    columns={columns}
+                    data={data}
+                    loading={loading}
+                  />}
+              </Box>
+            </Modal>
       </div>
     </>
   );
