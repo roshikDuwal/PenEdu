@@ -17,11 +17,13 @@ import Course from './superadmin/course/course'
 import AddAssignment from './superadmin/unit/assignment/AddAssignment';
 import ListAssignment from './superadmin/unit/assignment/ListAssignment';
 import UploadVideos from './superadmin/unit/assignment/UploadVideos';
+import AssignmentList from "./superadmin/yearlist/unitlist/assignmentlist/AssignmentList"
 
 import Student from './studentpanel/Student';
 import StudentUnit from "./studentpanel/tabbar/course/unit/StudentUnit"
 import StudentAssignment from './studentpanel/tabbar/course/unit/Assignment/StudentAssignment';
 import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAssignment"
+
 
 import Unitlist from "./superadmin/yearlist/unitlist/Unitlist"
 
@@ -53,7 +55,9 @@ const App = () => {
           <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment/>} />
 
           <Route path='admin/:courseid' element={<Unitlist/>}/>
-          <Route path='/admin/:courseid/:id' element={<ListAssignment/>} />
+          <Route path='/admin/:courseid/:id' element={<AssignmentList/>} />
+          <Route path='/admin/:courseid/:id/:id' element={<UploadVideos/>} />
+          
 
           <Route path='/login' element={<Login/>}/>
 
