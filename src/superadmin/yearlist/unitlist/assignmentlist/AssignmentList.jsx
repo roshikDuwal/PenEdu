@@ -42,6 +42,9 @@ const ListAssignment = () => {
 
     const columns = useMemo(
         () => [
+
+            { Header: 'Assignment Id', accessor: 'id' },
+            { Header: 'Assignment Name', accessor: 'title' },
             {
                 Header: "Unit",
                 Cell: ({ row }) =>
@@ -51,8 +54,6 @@ const ListAssignment = () => {
                       ).unit_name
                     : ""}</>),
             },
-            { Header: 'Assignment Id', accessor: 'id' },
-            { Header: 'Assignment Name', accessor: 'title' },
 
             {
                 Header: 'Action', Cell: ({ row }) => (

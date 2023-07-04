@@ -32,7 +32,6 @@ const List = () => {
         })
       );
       
-     
       const filteredData = data.unit.filter((unitElem)=> unitElem.course_id===courseid)
       setData(filteredData);
     } catch (e) {
@@ -48,6 +47,10 @@ const List = () => {
 
   const columns = useMemo(
     () => [
+
+      { Header: "Unit Id", accessor: "id" },
+      { Header: "Unit Name", accessor: "unit_name" },
+      { Header: "Unit Code", accessor: "unit_code" },
       {
         Header: "Course",
         Cell: ({ row }) =>
@@ -57,9 +60,6 @@ const List = () => {
               ).label
             : ""}</>),
       },
-      { Header: "Unit Id", accessor: "id" },
-      { Header: "Name", accessor: "unit_name" },
-      { Header: "Unit Code", accessor: "unit_code" },
 
       {
         Header: "Action",
@@ -103,6 +103,10 @@ const List = () => {
           </div>
 
           <div className="learner-list-box">
+          <div className="modal-btn">
+              <h5>Unit Details</h5>
+              
+            </div>
 
 
 

@@ -62,6 +62,10 @@ const List = () => {
 
   const columns = useMemo(
     () => [
+
+      { Header: "Unit Id", accessor: "id" },
+      { Header: "Unit Name", accessor: "unit_name" },
+      { Header: "Unit Code", accessor: "unit_code" },
       {
         Header: "Course",
         Cell: ({ row }) =>
@@ -71,9 +75,6 @@ const List = () => {
               ).label
             : ""}</>),
       },
-      { Header: "Unit Id", accessor: "id" },
-      { Header: "Name", accessor: "unit_name" },
-      { Header: "Unit Code", accessor: "unit_code" },
 
       {
         Header: "Action",

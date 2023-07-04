@@ -221,7 +221,7 @@ const Course = () => {
                 </form>
               </Box>
             </Modal>
-            <CustomReactTable columns={columns} data={data} loading={loading} />
+            <CustomReactTable columns={columns} data={data} loading={loading}      rowClickable={true} />
 
 
           </div>

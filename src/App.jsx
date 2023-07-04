@@ -58,6 +58,9 @@ const App = () => {
           <Route path='/admin/:courseid/:id' element={<AssignmentList/>} />
           <Route path='/admin/:courseid/:id/:id' element={<UploadVideos/>} />
           
+          <Route path='admin/course/:courseid' element={<Unitlist/>}/>
+          <Route path='/admin/course/:courseid/:id' element={<ListAssignment/>} />
+          <Route path='/admin/course/:courseid/:id/:id' element={<UploadVideos/>} />
 
           <Route path='/login' element={<Login/>}/>
 
