@@ -10,6 +10,7 @@ import Navbar from "../../../components/panelnavbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 
+
 const AddAssignment = () => {
   const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,8 @@ const AddAssignment = () => {
       .finally(() => setLoading(false));
   };
 
+
+
   return (
     <>
       <div className="adminpanel">
@@ -35,7 +38,7 @@ const AddAssignment = () => {
           <div className="learner-box">
             <div className="navigation">
               <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
-              <NavLink to="/admin/unit">Units</NavLink> <ChevronRightIcon />{" "}
+              <p>Units</p> <ChevronRightIcon />{" "}
               <NavLink to="./..">Assignments</NavLink> <ChevronRightIcon />{" "}
               <p>Add</p>
             </div>
@@ -73,6 +76,10 @@ const AddAssignment = () => {
                 </div>
               )}
             </div>
+
+
+
+
           </div>
         </div>
       </div>
