@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router,Routes,Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import Home from "./pages/home/Home"
 import Adminpanel from './superadmin/Adminpanel'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./app.scss"
 
-import Learner from './superadmin/Learner/Learner'
+
 import Instructor from "./superadmin/Instructor/Instructor"
 import Classyear from "./superadmin/class/Classyear"
 
@@ -26,6 +26,7 @@ import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAss
 
 
 import Unitlist from "./superadmin/yearlist/unitlist/Unitlist"
+import Learner from './superadmin/learner/Learner';
 
 
 const App = () => {
@@ -34,39 +35,49 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<Home/>} />
+          <Route path='/' element={<Home />} />
 
           <Route path='/admin'>
-            <Route index element={<Adminpanel/>} />
-            <Route path='/admin/learner' element={<Learner/>} />
-            <Route path='/admin/instructor' element={<Instructor/>} />
-            <Route path='/admin/classyear' element={<Classyear/>} />
+            <Route index element={<Adminpanel />} />
+            <Route path='/admin/learner' element={<Learner />} />
+            <Route path='/admin/instructor' element={<Instructor />} />
+            <Route path='/admin/classyear' element={<Classyear />} />
 
-            <Route path='/admin/course' element={<Course/>} />
-            <Route path='/admin/unit' element={<List/>} />
-            <Route path='/admin/unit/:id' element={<ListAssignment/>} />
-            <Route path='/admin/unit/:id/add' element={<AddAssignment/>} />
-            <Route path='/admin/unit/:unitId/:id' element={<UploadVideos/>} />
+            <Route path='/admin/:courseid' element={<Unitlist />} />
+            <Route path='/admin/:courseid/:id' element={<ListAssignment />} />
+            <Route path='/admin/:courseid/:id/add' element={<AddAssignment />} />
+            <Route path='/admin/:courseid/:id/:id' element={<UploadVideos />} />
+
+            <Route path='/admin/course/:courseid' element={<Unitlist />} />
+            <Route path='/admin/course/add' element={<AddAssignment />} />
+            <Route path='/admin/course/:courseid/:id' element={<ListAssignment />} />
+            <Route path='/admin/course/:courseid/:id/:id' element={<UploadVideos />} />
+
+            <Route path='/admin/course' element={<Course />} />
+            <Route path='/admin/unit' element={<List />} />
+            <Route path='/admin/unit/:id' element={<ListAssignment />} />
+            <Route path='/admin/unit/:id/add' element={<AddAssignment />} />
+            <Route path='/admin/unit/:unitId/:id' element={<UploadVideos />} />
+
           </Route>
 
-          <Route path='/student' element={<Student/>}/>
-          <Route path='student/unit' element={<StudentUnit/>} />
-          <Route path='/student/unit/:id' element={<StudentAssignment/>} />
-          <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment/>} />
+          <Route path='/student' >
 
-          <Route path='admin/:courseid' element={<Unitlist/>}/>
-          <Route path='/admin/:courseid/:id' element={<AssignmentList/>} />
-          <Route path='/admin/:courseid/:id/:id' element={<UploadVideos/>} />
-          
-          <Route path='admin/course/:courseid' element={<Unitlist/>}/>
-          <Route path='/admin/course/:courseid/:id' element={<ListAssignment/>} />
-          <Route path='/admin/course/:courseid/:id/:id' element={<UploadVideos/>} />
+            <Route index element={<Student />} />
+            <Route path='/student/unit' element={<StudentUnit />} />
+            <Route path='/student/unit/:id' element={<StudentAssignment />} />
+            <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment />} />
 
-          <Route path='/login' element={<Login/>}/>
+          </Route>
 
-          <Route path='*' element={<Error/>}/>
+
+          <Route path='/login' element={<Login />} />
+
+          <Route path='*' element={<Error />} />
+
         </Routes>
       </Router>
+      
       <ToastContainer />
     </>
   )

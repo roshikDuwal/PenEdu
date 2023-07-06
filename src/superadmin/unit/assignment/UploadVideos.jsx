@@ -12,6 +12,7 @@ import CustomReactTable from "../../../components/CustomReactTable/CustomReactTa
 import { addVideo, getAssignment } from "../../../services/assignments";
 import { ASSIGNMENT_QUESTION_IMAGE_PREFIX, VIDEO_PREFIX } from "../../../constants/url";
 import { error, success } from "../../../utils/toast";
+import ReactPlayer from "react-player";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -46,41 +47,47 @@ const UploadVideos = () => {
           </>
         ),
       },
+
       {
-        Header: "Video",
+        Header: "Video Url",
         Cell: ({ row }) => {
           const [uploading, setUploading] = useState(false);
-          const handleVideoUpload = (e) => {
-            setUploading(true);
-            const file = e.target.files[0];
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-              var formData = new FormData();
-              formData.append("video", file);
+          const [videoUrl, setVideoUrl] = useState('')
 
-              addVideo(row.original.id, formData)
-                .then(() => {
-                  success("Video uploaded successfully");
-                  getData();
-                })
-                .catch((err) => {
-                  error(err.message);
-                })
-                .finally(() => {
-                  setUploading(false);
-                });
-            };
+          const handleVideoUrlUpload = (e) => {
+            setVideoUrl(e.target.value)
+          }
+
+          const handleSubmit = (e) => {
+            setUploading(true);
+      
+            var formData = new FormData();
+            formData.append("video", videoUrl)
+        
+            addVideo(row.original.id, formData)
+            .then(() => {
+              success("Video uploaded successfully");
+              getData();
+            })
+            .catch((err) => {
+              error(err.message); 
+            })
+            .finally(() => {
+              setUploading(false);
+            });
+      
           };
 
           return (
             <>
               <div className="actionbox">
                 <div className="video">
-                  {row.original.video ? (
-                    <video src={VIDEO_PREFIX + row.original.video} controls>
-                      Your browser does not support the video tag.
-                    </video>
+            
+                {row.original.video ? (
+                    // <video src={ row.original.video} controls>
+                    //   Your browser does not support the video tag.
+                    // </video>
+                    <ReactPlayer playing={false} controls={true}  url={row.original.video}/>
                   ) : uploading ? (
                     <ThreeDots
                       height="80"
@@ -92,12 +99,15 @@ const UploadVideos = () => {
                       wrapperClassName=""
                       visible={true}
                     />
-                  ) : (
-                    <input
-                      type="file"
-                      onChange={handleVideoUpload}
-                      accept="video/mp4,video/x-m4v,video/*"
-                    />
+                  ) :(
+                    <>
+                      <form action="" onSubmit={handleSubmit}>
+                        <input type="text" onChange={handleVideoUrlUpload} placeholder="Enter video url" style={{ padding: "0.5rem", fontSize: "0.81rem" }} required />
+                        <button type="submit">Upload</button>
+                      </form>
+
+                    </>
+
                   )}
                 </div>
               </div>
@@ -105,6 +115,71 @@ const UploadVideos = () => {
           );
         },
       },
+      
+      // {
+      //   Header: "Video",
+      //   Cell: ({ row }) => {
+      //     const [uploading, setUploading] = useState(false);
+      //     const handleVideoUpload = (e) => {
+      //       setUploading(true);
+      //       const file = e.target.files[0];
+      //       var reader = new FileReader();
+      //       reader.readAsDataURL(file);
+      //       reader.onload = function () {
+      //         var formData = new FormData();
+      //         formData.append("video", file);
+
+      //         addVideo(row.original.id, formData)
+      //           .then(() => {
+      //             success("Video uploaded successfully");
+      //             getData();
+      //           })
+      //           .catch((err) => {
+      //             error(err.message); 
+      //           })
+      //           .finally(() => {
+      //             setUploading(false);
+      //           });
+      //       };
+      //     };
+
+      //     return (
+      //       <>
+      //         <div className="actionbox">
+      //           <div className="video">
+                
+      //             {row.original.video ? (
+      //               <video src={VIDEO_PREFIX + row.original.video} controls>
+      //                 Your browser does not support the video tag.
+      //               </video>
+      //             ) : uploading ? (
+      //               <ThreeDots
+      //                 height="80"
+      //                 width="80"
+      //                 radius="9"
+      //                 color="#0AB39C"
+      //                 ariaLabel="three-dots-loading"
+      //                 wrapperStyle={{}}
+      //                 wrapperClassName=""
+      //                 visible={true}
+      //               />
+      //             ) : (
+      //               <>
+
+      //                 <input
+      //                   type="file"
+      //                   onChange={handleVideoUpload}
+      //                   accept="video/mp4,video/x-m4v,video/*"
+      //                 />
+      //               </>
+
+      //             )}
+      //           </div>
+      //         </div>
+      //       </>
+      //     );
+      //   },
+      // },
     ],
     []
   );
