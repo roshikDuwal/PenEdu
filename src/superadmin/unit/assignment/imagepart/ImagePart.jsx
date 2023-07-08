@@ -504,6 +504,10 @@ const ImagePart = ({ pdf, pdfImages }) => {
               ) : null}
             </div>
             <div className="flex-box">
+              <label htmlFor="">Start Date: </label>
+              <input type="date" className="form-control" />
+            </div>
+            <div className="flex-box">
               <label htmlFor="">Due Date: </label>
               <input type="date" className="form-control" />
             </div>
