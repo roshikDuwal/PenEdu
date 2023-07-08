@@ -1,39 +1,34 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { getCourses } from '../../../services/courses'
+import CustomStudentReactTable from '../../customstudentreacttable/CustomStudenteactTable'
+import Navbar from '../../../components/panelnavbar/Navbar'
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { NavLink } from 'react-router-dom';
+import Overview from '../overview/Overview';
+import StudentCourse from '../course/StudentCourse';
 
-import CustomStudentReactTable from '../../../customstudentreacttable/CustomStudenteactTable'
-import { getUnits } from '../../../../services/units'
-import { NavLink } from 'react-router-dom'
-import { Button } from '@mui/material'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import "../../../student.scss"
-import Overview from '../../overview/Overview'
-import Navbar from '../../../../components/panelnavbar/Navbar'
-import CustomReactTable from '../../../../components/CustomReactTable/CustomReactTable'
-import Result from '../../result/Result'
 
-const StudentUnit = () => {
+const Result = () => {
   const [course, setCourse] = useState([])
   const [loading, setLoading] = useState(false)
 
-
-  const GetUnit = async () => {
+  const GetCourse = async () => {
     setLoading(true)
-    const data = await getUnits()
-    setCourse(data.unit)
+    const data = await getCourses()
+    setCourse(data.course)
     setLoading(false)
   }
 
   useEffect(() => {
-    GetUnit()
+    GetCourse()
   }, [])
 
   const columns = useMemo(
     () => [
-      { Header: "Unit Id", accessor: "id" },
-      { Header: "Unit Name", accessor: "unit_name" },
-      { Header: "Unit Code", accessor: "unit_code" },
+      { Header: "Course Id", accessor: "id" },
+      { Header: "Course Name", accessor: "course_name" },
+      { Header: "Course Code", accessor: "course_code" },
       { Header: "Credit hours", accessor: "credit_hours" },
     ],
   );
@@ -47,7 +42,7 @@ const StudentUnit = () => {
 
           {/* -----startpage title---   */}
           <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div>
+            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div>
           </div>
           {/* ---start-page end---  */}
 
@@ -66,10 +61,11 @@ const StudentUnit = () => {
               </div>
 
               <div className="studentnavbar">
-                <Tabs defaultIndex={1}>
+                <Tabs defaultIndex={2}>
+
                   <TabList>
-                  <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab>Unit</Tab>
+                    <Tab><NavLink to="/student">OverView</NavLink></Tab>
+                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
                     <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
                   </TabList>
 
@@ -77,19 +73,20 @@ const StudentUnit = () => {
                     <div className='tabbar'>
                       <Overview />
                     </div>
+                  </TabPanel>
 
-                  </TabPanel>
                   <TabPanel>
                     <div className='tabbar'>
-                      <NavLink to="./.."><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={course} loading={loading} rowClickable={true} />
+                      <StudentCourse/>
                     </div>
                   </TabPanel>
+
                   <TabPanel>
                     <div className='tabbar'>
-                      <Result/>
+                    <CustomStudentReactTable columns={columns} data={course} loading={loading} rowClickable={true} unitResult={false} />
                     </div>
                   </TabPanel>
+
                 </Tabs>
               </div>
             </div>
@@ -99,9 +96,9 @@ const StudentUnit = () => {
 
         </div>
       </div>
+
     </>
   )
-
 }
 
-export default StudentUnit
+export default Result

@@ -1,47 +1,56 @@
 import React, { useEffect, useState } from "react";
-import Canva from "./Canva/SCanva";
 
-import "../../../../student.scss";
-import Navbar from "../../../../../components/panelnavbar/Navbar";
+
+import "./video.scss";
+
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Overview from "../../../overview/Overview";
+
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { NavLink, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import { getAssignments } from "../../../../../services/assignments";
+
 import { ThreeDots } from "react-loader-spinner";
-import Result from "../../../result/Result";
+
+
+import { getAssignment } from "../../../../../../services/assignments";
+import Overview from "../../../../overview/Overview";
+import StudentCourse from "../../../../course/StudentCourse";
+import Navbar from "../../../../../../components/panelnavbar/Navbar";
+import Video from "./Video";
 
 
 
-const ShowAssignment = () => {
+
+const ShowVideo = () => {
   const [loading, setLoading] = useState(true);
   const [assignment, setAssignment] = useState([]);
   const { unit_id, id } = useParams();
 
+
   const getData = async () => {
     setLoading(true);
-    const data = await getAssignments(unit_id);
-    setAssignment(data.unitAssignment.find((as) => as.id.toString() === id));
-
+    const data = await getAssignment(id);
+    setAssignment(data.unitAssignmentQuestions);
     setLoading(false);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  
+  useEffect(()=>{
+    getData()
+  },[])
+
 
   return (
     <>
-      <div className="studentpanel">
+      <div className="videopanel">
         <div className="adminpanelpage">
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
           <div className="navigation">
             <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit Assignment</div><ChevronRightIcon /> 
-            <div clas>Assignment {id}</div>
+            <div className="titlenavigate">Assignment {id}</div><ChevronRightIcon />  <div className='titlenavigate'>Video</div>
           </div>
           {/* ---start-page end---  */}
 
@@ -57,11 +66,11 @@ const ShowAssignment = () => {
               </div>
 
               <div className="studentnavbar">
-                <Tabs defaultIndex={1}>
+                <Tabs defaultIndex={2}>
                   <TabList>
                   <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab>Assignment</Tab>
-                    <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
+                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
+                    <Tab>Result</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -72,9 +81,19 @@ const ShowAssignment = () => {
 
                   <TabPanel>
                     <div className="tabbar">
-                      <NavLink to="./..">
+                        <StudentCourse/>
+                    </div>
+                  </TabPanel>
+
+                  <TabPanel>
+                    <div className="tabbar">
+                      <div className="box">
+                      <NavLink to={`/student/result/${unit_id}`}>
                         <Button>Back</Button>
                       </NavLink>
+                        <h3>Video of Assignment {id}</h3>
+                      </div>
+                  
                       {loading ? (
                         <>
                           <ThreeDots
@@ -89,14 +108,8 @@ const ShowAssignment = () => {
                           />
                         </>
                       ) : (
-                        <Canva {...assignment} />
+                        <Video data={assignment} />
                       )}
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="tabbar">
-                      <Result/>
                     </div>
                   </TabPanel>
                 </Tabs>
@@ -109,4 +122,4 @@ const ShowAssignment = () => {
   );
 };
 
-export default ShowAssignment;
+export default ShowVideo;

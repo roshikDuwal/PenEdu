@@ -87,7 +87,7 @@ const UploadVideos = () => {
                     // <video src={ row.original.video} controls>
                     //   Your browser does not support the video tag.
                     // </video>
-                    <ReactPlayer playing={false} controls={true}  url={row.original.video}/>
+                    <ReactPlayer controls={true}  url={row.original.video}/>
                   ) : uploading ? (
                     <ThreeDots
                       height="80"

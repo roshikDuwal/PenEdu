@@ -6,6 +6,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Overview from './tabbar/overview/Overview';
 import StudentCourse from './tabbar/course/StudentCourse';
+import Result from "./tabbar/result/Result"
+import { NavLink } from 'react-router-dom';
 
 const Student = () => {
     return (
@@ -17,7 +19,7 @@ const Student = () => {
 
                     {/* -----startpage title---   */}
                     <div className="navigation">
-                        <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div>
+                        <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div> 
                     </div>
                     {/* ---start-page end---  */}
 
@@ -37,28 +39,31 @@ const Student = () => {
 
                             <div className="studentnavbar">
                                 <Tabs>
+
                                     <TabList>
-                                        <Tab>OverView</Tab>
-                                        <Tab>Course</Tab>
-                                        <Tab>Result</Tab>
+                                        <Tab><NavLink to="/student">OverView</NavLink></Tab>
+                                        <Tab><NavLink to="/student/course">Course</NavLink></Tab>
+                                        <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
                                     </TabList>
 
                                     <TabPanel>
                                         <div className='tabbar'>
                                             <Overview/>
                                         </div>
-
                                     </TabPanel>
+
                                     <TabPanel>
                                         <div className='tabbar'>
                                             <StudentCourse/>
                                         </div>
                                     </TabPanel>
+
                                     <TabPanel>
                                         <div className='tabbar'>
-                                           Result
+                                           <Result/>
                                         </div>
                                     </TabPanel>
+
                                 </Tabs>
                             </div>
                         </div>

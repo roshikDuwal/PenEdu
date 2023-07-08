@@ -120,11 +120,10 @@ const Sidebar = () => {
                           <Dropdown >
                             <Dropdown.Toggle id="dropdown-basic">
                               {currEle.img}{currEle.name}
+
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu className="dropdown-menu dropdownmenu" >
-
-
                               {currEle.subname == true ? <>
                                 <Dropdown.Item className="menu" > <NavLink to={currEle.link2}><RemoveIcon /> {currEle.subname2}</NavLink></Dropdown.Item>
                                 <Dropdown.Item className="menu"><NavLink to={currEle.link3}><RemoveIcon /> {currEle.subname3}</NavLink></Dropdown.Item>
@@ -136,11 +135,11 @@ const Sidebar = () => {
                                       <DropdownButton className="dropdownbtn" id="dropdown-basic-button" title={classElem.class} key={index}>
                                         {
                                           courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse, index) => {
-                                          
+
                                             return (
                                               <>
                                                 <Dropdown.Item className="submenu-btn" key={filteredCourse.id} >
-                                                  <NavLink to= {`/admin/${filteredCourse.id}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
+                                                  <NavLink to={`/admin/${filteredCourse.id}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
                                               </>
                                             )
 

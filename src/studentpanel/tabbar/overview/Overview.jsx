@@ -18,7 +18,6 @@ const Overview = () => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Country</th>
-                                <th>Type</th>
                                 <th>Phone Number</th>
                                 <th>Class Year</th>
                             </tr>
@@ -29,7 +28,6 @@ const Overview = () => {
                                 <td>Roshin Lakhemaru</td>
                                 <td>roshin@gmail.com</td>
                                 <td>Nepal</td>
-                                <td>OffShore</td>
                                 <td>9860782747</td>
                                 <td>7</td>
                             </tr>

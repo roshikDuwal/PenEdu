@@ -11,9 +11,9 @@ import "../../../student.scss"
 import Overview from '../../overview/Overview'
 import Navbar from '../../../../components/panelnavbar/Navbar'
 import CustomReactTable from '../../../../components/CustomReactTable/CustomReactTable'
-import Result from '../../result/Result'
+import StudentCourse from '../../course/StudentCourse'
 
-const StudentUnit = () => {
+const ResultUnit = () => {
   const [course, setCourse] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -47,7 +47,7 @@ const StudentUnit = () => {
 
           {/* -----startpage title---   */}
           <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div>
+            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon /> <div className='titlenavigate'>Unit Result</div>
           </div>
           {/* ---start-page end---  */}
 
@@ -66,11 +66,11 @@ const StudentUnit = () => {
               </div>
 
               <div className="studentnavbar">
-                <Tabs defaultIndex={1}>
+                <Tabs defaultIndex={2}>
                   <TabList>
                   <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab>Unit</Tab>
-                    <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
+                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
+                    <Tab>Result</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -81,13 +81,13 @@ const StudentUnit = () => {
                   </TabPanel>
                   <TabPanel>
                     <div className='tabbar'>
-                      <NavLink to="./.."><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={course} loading={loading} rowClickable={true} />
+                    <StudentCourse/>
                     </div>
                   </TabPanel>
                   <TabPanel>
                     <div className='tabbar'>
-                      <Result/>
+                    <NavLink to="./.."><Button>Back</Button></NavLink>
+                      <CustomReactTable columns={columns} data={course} loading={loading} rowClickable={true} />
                     </div>
                   </TabPanel>
                 </Tabs>
@@ -104,4 +104,4 @@ const StudentUnit = () => {
 
 }
 
-export default StudentUnit
+export default ResultUnit

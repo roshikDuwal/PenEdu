@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Canva from "./Canva/SCanva";
+
 
 import "../../../../student.scss";
 import Navbar from "../../../../../components/panelnavbar/Navbar";
@@ -9,9 +9,11 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { NavLink, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import { getAssignments } from "../../../../../services/assignments";
+
 import { ThreeDots } from "react-loader-spinner";
-import Result from "../../../result/Result";
+
+import ResultCanva from "./Canva/ResultCanva";
+import { getAssignments } from "../../../../../services/assignments";
 
 
 
@@ -24,13 +26,15 @@ const ShowAssignment = () => {
     setLoading(true);
     const data = await getAssignments(unit_id);
     setAssignment(data.unitAssignment.find((as) => as.id.toString() === id));
-
     setLoading(false);
   };
 
   useEffect(() => {
     getData();
   }, []);
+
+
+
 
   return (
     <>
@@ -41,7 +45,7 @@ const ShowAssignment = () => {
           {/* -----startpage title---   */}
           <div className="navigation">
             <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit Assignment</div><ChevronRightIcon /> 
-            <div clas>Assignment {id}</div>
+            <div className="titlenavigate">Assignment {id}</div>
           </div>
           {/* ---start-page end---  */}
 
@@ -57,11 +61,11 @@ const ShowAssignment = () => {
               </div>
 
               <div className="studentnavbar">
-                <Tabs defaultIndex={1}>
+                <Tabs defaultIndex={2}>
                   <TabList>
                   <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab>Assignment</Tab>
-                    <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
+                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
+                    <Tab>Result</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -72,7 +76,13 @@ const ShowAssignment = () => {
 
                   <TabPanel>
                     <div className="tabbar">
-                      <NavLink to="./..">
+
+                    </div>
+                  </TabPanel>
+
+                  <TabPanel>
+                    <div className="tabbar">
+                    <NavLink to="./..">
                         <Button>Back</Button>
                       </NavLink>
                       {loading ? (
@@ -89,14 +99,8 @@ const ShowAssignment = () => {
                           />
                         </>
                       ) : (
-                        <Canva {...assignment} />
+                        <ResultCanva {...assignment} />
                       )}
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="tabbar">
-                      <Result/>
                     </div>
                   </TabPanel>
                 </Tabs>

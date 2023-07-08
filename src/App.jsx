@@ -17,7 +17,7 @@ import Course from './superadmin/course/course'
 import AddAssignment from './superadmin/unit/assignment/AddAssignment';
 import ListAssignment from './superadmin/unit/assignment/ListAssignment';
 import UploadVideos from './superadmin/unit/assignment/UploadVideos';
-import AssignmentList from "./superadmin/yearlist/unitlist/assignmentlist/AssignmentList"
+
 
 import Student from './studentpanel/Student';
 import StudentUnit from "./studentpanel/tabbar/course/unit/StudentUnit"
@@ -27,6 +27,12 @@ import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAss
 
 import Unitlist from "./superadmin/yearlist/unitlist/Unitlist"
 import Learner from './superadmin/learner/Learner';
+import ResultUnit from './studentpanel/tabbar/result/unit/ResultUnit';
+import AssignmentResult from './studentpanel/tabbar/result/unit/Assignment/StudentAssignment';
+import ShowResultAssignment from "./studentpanel/tabbar/result/unit/Assignment/ShowResultAssignment"
+import StudentCourse from './studentpanel/tabbar/course/StudentCourse';
+import Result from './studentpanel/tabbar/result/Result';
+import ShowVideo from './studentpanel/tabbar/result/unit/Assignment/Video/ShowVideo';
 
 
 const App = () => {
@@ -62,12 +68,17 @@ const App = () => {
           </Route>
 
           <Route path='/student' >
-
             <Route index element={<Student />} />
+            <Route path='/student/course' element={<StudentCourse/>}/>
             <Route path='/student/unit' element={<StudentUnit />} />
             <Route path='/student/unit/:id' element={<StudentAssignment />} />
             <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment />} />
 
+            <Route path='/student/resultcourse' element={<Result/>}/>
+            <Route path='/student/result' element={<ResultUnit/>} />
+            <Route path='/student/result/:id' element={<AssignmentResult/>} />
+            <Route path='/student/result/:unit_id/:id' element={<ShowResultAssignment/>}/>
+            <Route path='/student/result/:unit_id/:id/video' element={<ShowVideo/>}/>
           </Route>
 
 

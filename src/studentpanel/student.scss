@@ -72,6 +72,12 @@
                         font-size: 0.81rem;
                         font-family: 'Poppins', sans-serif;
 
+
+                        a {
+                            text-decoration: none;
+                            color: white;
+                        }
+
                     }
                 }
 
@@ -81,6 +87,27 @@
                     .tabbar {
                         background-color: white;
                         width: 100%;
+
+                        div {
+                            table {
+                                tbody {
+                                    tr {
+                                        td {
+
+
+                                            a {
+                                                font-size: 0.61rem;
+                                                color: #405189 ;
+                                                text-decoration: none;
+                                                &:hover{
+                                                    text-decoration: underline;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 

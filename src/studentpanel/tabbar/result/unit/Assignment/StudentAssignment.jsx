@@ -13,13 +13,14 @@ import CustomReactTable from '../../../../../components/CustomReactTable/CustomR
 import { getAssignments } from '../../../../../services/assignments';
 import { getUnits } from '../../../../../services/units';
 import Result from '../../../result/Result';
+import StudentCourse from '../../../course/StudentCourse';
 
 const StudentAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [units, setUnits] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
-  const {id} = useParams();
+  const { id } = useParams();
 
 
   const getData = async () => {
@@ -31,29 +32,45 @@ const StudentAssignment = () => {
     setUnits(units.unit);
 
     setLoading(false);
-    };
+  };
 
-    useEffect(() => {
-        getData();
-    }, []);
+  useEffect(() => {
+    getData();
+  }, []);
+
+ 
 
   const columns = useMemo(
     () => [
       {
         Header: "Unit",
         Cell: ({ row }) =>
-          (<>{units.length && row.original.unit_id
-            ? units.find((unit) =>
-                unit.id.toString() === row.original.unit_id
-              ).unit_name
-            : ""}</>),
-    },
-        { Header: 'Assignment Id', accessor: 'id' },
-        { Header: 'Assignment Name', accessor: 'title' },
+        (<>{units.length && row.original.unit_id
+          ? units.find((unit) =>
+            unit.id.toString() === row.original.unit_id
+          ).unit_name
+          : ""}</>),
+      },
+      { Header: 'Assignment Id', accessor: 'id' },
+      { Header: 'Assignment Name', accessor: 'title' },
+      {
+        Header: "View Pdf",
+        Cell: ({ row }) =>
+        (<>{
+         <NavLink to= {`/student/result/${id}/${row.original.id}`}>View</NavLink>
+        }</>),
+      },
+      {
+        Header: "View Video",
+        Cell: ({ row }) =>
+        (<>{
+         <NavLink to= {`/student/result/${id}/${row.original.id}/video`}>View</NavLink>
+        }</>),
+      },
 
     ],
     [openAccordan, units]
-);
+  );
 
 
   return (
@@ -65,7 +82,7 @@ const StudentAssignment = () => {
 
           {/* -----startpage title---   */}
           <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit Assignment</div>
+            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit  Result Assignment</div>
           </div>
           {/* ---start-page end---  */}
 
@@ -84,11 +101,11 @@ const StudentAssignment = () => {
               </div>
 
               <div className="studentnavbar">
-                <Tabs defaultIndex={1}>
+                <Tabs defaultIndex={2}>
                   <TabList>
-                  <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab>Assignment</Tab>
-                    <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
+                    <Tab><NavLink to="/student">OverView</NavLink></Tab>
+                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
+                    <Tab>Result</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -99,14 +116,14 @@ const StudentAssignment = () => {
 
                   <TabPanel>
                     <div className='tabbar'>
-                      <NavLink to="/student/unit"><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={data}  rowClickable={true} />
+                      <StudentCourse />
                     </div>
                   </TabPanel>
 
                   <TabPanel>
                     <div className='tabbar'>
-                      <Result/>
+                      <NavLink to="./.."><Button>Back</Button></NavLink>
+                      <CustomReactTable columns={columns} data={data}  />
                     </div>
                   </TabPanel>
                 </Tabs>
