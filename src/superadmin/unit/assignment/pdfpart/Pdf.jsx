@@ -219,7 +219,7 @@ const Pdf = ({
   //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 800;
+    canvas.width = 300;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(255, 255, 255)";
     canvas.style.borderRadius = "12px";
@@ -372,7 +372,7 @@ const Pdf = ({
       function getPage() {
         // when promise is returned do as usual
         pdf.getPage(currentPage).then(function (page) {
-          var scale = 1.25;
+          var scale = 1;
           var viewport = page.getViewport({ scale: scale });
 
           // Prepare canvas using PDF page dimensions
@@ -466,7 +466,7 @@ const Pdf = ({
     if (pdfImages.length && canvasStage === -1) {
       let startY = 0;
       let totalHeight = 0;
-      let totalWidth = 800;
+      let totalWidth = 300;
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
       for (let i = 0; i < pdfImages.length; i++) {

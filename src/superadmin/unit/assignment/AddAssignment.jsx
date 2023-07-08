@@ -9,12 +9,31 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Navbar from "../../../components/panelnavbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
+import { getUnits } from "../../../services/units";
 
 
 const AddAssignment = () => {
   const [pdf, setPdf] = useState(null);
-  const [loading, setLoading] = useState(false);
+    const [unit, setUnit] = useState();
+    const [loading, setLoading] = useState(false);
 
+  const { id } = useParams();
+
+  const getData = async () => {
+      setLoading(true);
+
+      const units = await getUnits();
+      setUnit(units.unit.length && id
+          ? units.unit.find((unit) =>
+              unit.id.toString() === id
+          ).unit_name : null);
+
+      setLoading(false);
+  };
+
+  useEffect(() => {
+      getData();
+  }, []);
   const uploadPDF = (e) => {
     setLoading(true);
     const file = e.target.files[0];
@@ -28,7 +47,6 @@ const AddAssignment = () => {
   };
 
 
-
   return (
     <>
       <div className="adminpanel">
@@ -37,25 +55,28 @@ const AddAssignment = () => {
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
           <div className="learner-box">
             <div className="navigation">
-              <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
-              <p>Units</p> <ChevronRightIcon />{" "}
-              <NavLink to="./..">Assignments</NavLink> <ChevronRightIcon />{" "}
+
+              <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+              <NavLink to="./../../..">Courses</NavLink> <ChevronRightIcon />
+              <NavLink to="./../..">Units</NavLink> <ChevronRightIcon />
+              <NavLink to="./..">Assignments</NavLink> <ChevronRightIcon />
               <p>Add</p>
             </div>
 
             <div className="learner-list-box">
               <div className="modal-btn">
-                <h5>Add Assignment</h5>
-                {!pdf && <div>
-                  Add Assignment PDF:
+                <h4>{unit}</h4>
+                {!pdf ? <div>
+                  <h5>Add Assignment PDF:
                   <input
                     type="file"
                     onChange={uploadPDF}
                     name=""
                     id=""
+                    className="form-control"
                     height={"10"}
-                  />
-                </div>}
+                  /></h5>
+                </div> : <h5>Add Assignment</h5>}
                 <NavLink to="./.."><Button><CancelOutlined /> Cancel</Button></NavLink>
               </div>
               {loading && (

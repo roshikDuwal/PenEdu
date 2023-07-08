@@ -17,16 +17,11 @@ import Course from './superadmin/course/course'
 import AddAssignment from './superadmin/unit/assignment/AddAssignment';
 import ListAssignment from './superadmin/unit/assignment/ListAssignment';
 import UploadVideos from './superadmin/unit/assignment/UploadVideos';
-import AssignmentList from "./superadmin/yearlist/unitlist/assignmentlist/AssignmentList"
 
 import Student from './studentpanel/Student';
 import StudentUnit from "./studentpanel/tabbar/course/unit/StudentUnit"
 import StudentAssignment from './studentpanel/tabbar/course/unit/Assignment/StudentAssignment';
 import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAssignment"
-
-
-import Unitlist from "./superadmin/yearlist/unitlist/Unitlist"
-
 
 const App = () => {
 
@@ -36,17 +31,17 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home/>} />
 
-          <Route path='/admin'>
+          <Route path='/dashboard'>
             <Route index element={<Adminpanel/>} />
-            <Route path='/admin/learner' element={<Learner/>} />
-            <Route path='/admin/instructor' element={<Instructor/>} />
-            <Route path='/admin/classyear' element={<Classyear/>} />
+            <Route path='/dashboard/learner' element={<Learner/>} />
+            <Route path='/dashboard/instructor' element={<Instructor/>} />
+            <Route path='/dashboard/classyear' element={<Classyear/>} />
 
-            <Route path='/admin/course' element={<Course/>} />
-            <Route path='/admin/unit' element={<List/>} />
-            <Route path='/admin/unit/:id' element={<ListAssignment/>} />
-            <Route path='/admin/unit/:id/add' element={<AddAssignment/>} />
-            <Route path='/admin/unit/:unitId/:id' element={<UploadVideos/>} />
+            <Route path='/dashboard/course' element={<Course/>} />
+            {/* <Route path='/dashboard/unit' element={<List/>} />
+            <Route path='/dashboard/unit/:id' element={<ListAssignment/>} />
+            <Route path='/dashboard/unit/:id/add' element={<AddAssignment/>} />
+            <Route path='/dashboard/unit/:unitId/:id' element={<UploadVideos/>} /> */}
           </Route>
 
           <Route path='/student' element={<Student/>}/>
@@ -54,13 +49,14 @@ const App = () => {
           <Route path='/student/unit/:id' element={<StudentAssignment/>} />
           <Route path='/student/unit/:unit_id/:id' element={<ShowAssignment/>} />
 
-          <Route path='admin/:courseid' element={<Unitlist/>}/>
-          <Route path='/admin/:courseid/:id' element={<AssignmentList/>} />
-          <Route path='/admin/:courseid/:id/:id' element={<UploadVideos/>} />
-          
-          <Route path='admin/course/:courseid' element={<Unitlist/>}/>
-          <Route path='/admin/course/:courseid/:id' element={<ListAssignment/>} />
-          <Route path='/admin/course/:courseid/:id/:id' element={<UploadVideos/>} />
+          {/* <Route path='admin/:courseid' element={<List/>}/>
+          <Route path='/dashboard/:courseid/:id' element={<ListAssignment/>} />
+          <Route path='/dashboard/:courseid/:unit_id/:id' element={<UploadVideos/>} /> */}
+
+          <Route path='/dashboard/course/:courseid' element={<List/>} shouldRevalidate={true}/>
+          <Route path='/dashboard/course/:courseid/:id' element={<ListAssignment/>} />
+          <Route path='/dashboard/course/:courseid/:id/add' element={<AddAssignment/>} />
+          <Route path='/dashboard/course/:courseid/:unit_id/:id' element={<UploadVideos/>} />
 
           <Route path='/login' element={<Login/>}/>
 

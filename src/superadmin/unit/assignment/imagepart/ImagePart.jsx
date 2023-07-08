@@ -11,6 +11,7 @@ import { DeleteForeverRounded } from "@mui/icons-material";
 import { addAssignments } from "../../../../services/assignments";
 import { addAssignment } from "../../../../schema/validate";
 import { useFormik } from "formik";
+import "./image.scss"
 
 const ImagePart = ({ pdf, pdfImages }) => {
   const canvasRef = useRef(null);
@@ -214,7 +215,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
   //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 800;
+    canvas.width = 300;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(255, 255, 255)";
     canvas.style.borderRadius = "12px";
@@ -492,7 +493,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
             <label htmlFor="">Solution video: </label>
             <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
           </div> */}
-            <div className="formbox">
+            <div className="formbox flex-box">
               <label htmlFor="title">Title</label>
               <input
                 type="text"
@@ -506,9 +507,13 @@ const ImagePart = ({ pdf, pdfImages }) => {
                 <p className="errorval">{errors.title}</p>
               ) : null}
             </div>
-            <div className="flex">
+            <div className="flex-box">
+              <label htmlFor="">Due Date: </label>
+              <input type="date" className="form-control" />
+            </div>
+            <div className="flex-box">
               <label htmlFor="">Individual question/answer: </label>
-              <input type="file" onChange={handleIndividualUpload} multiple />
+              <input type="file" onChange={handleIndividualUpload} multiple className="form-control"/>
             </div>
             <div className="flex">
               <Button

@@ -32,7 +32,7 @@ const Login = () => {
       login(values).then(()=> {
         setSubmitting(false);
         success("Logged in successfully")
-        navigate("/admin")
+        navigate("/dashboard")
       })
       .catch(e => {
         console.log(e)
@@ -95,7 +95,7 @@ const Login = () => {
             </div>
 
             <div>
-              <input disabled={isSubmitting} className='submit' type="submit" value="Submit" />
+              <input disabled={isSubmitting} className='btn btn-primary' type="submit" value="Submit" />
             </div>
 
           </form>
