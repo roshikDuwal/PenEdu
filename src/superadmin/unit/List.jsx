@@ -24,7 +24,7 @@ import { useFormik } from "formik";
 
 import { addUnitSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
-import { addUnits, getUnits } from "../../services/units";
+import { addUnits, getUnits, getUnitsByCourse } from "../../services/units";
 import { getCurrentRole, roles } from "../../utils/common";
 
 const List = () => {
@@ -38,25 +38,32 @@ const List = () => {
     resetForm();
     setOpen(false);
   };
-  const {courseid} = useParams();
+  const { courseid } = useParams();
 
   const [openAccordan, setOpenAccordan] = useState(null);
 
   const getData = async () => {
     setLoading(true);
     try {
-      const data = await getUnits();
-      setCourses(
-        data.course.map((data) => {
-          return { label: data.course_name, value: data.id };
-        })
-      );
-      setCourse(data.course.length && courseid
-        ? data.course.find(
-            (course) => course.id.toString() === courseid
-          ).course_name
-        : "")
-      setData(data.unit);
+      let data;
+      if (getCurrentRole() === roles.student) {
+        data = await getUnitsByCourse(courseid);
+        data.units.length && setCourse(data.units[0].course.course_name);
+      } else {
+        data = await getUnits();
+        setCourses(
+          data?.course?.map((data) => {
+            return { label: data.course_name, value: data.id };
+          }) || []
+        );
+        setCourse(
+          data.course?.length && courseid
+            ? data.course.find((course) => course.id.toString() === courseid)
+                .course_name
+            : ""
+        );
+      }
+      setData(data.unit || data.units);
     } catch (e) {
       error(e.message);
     }

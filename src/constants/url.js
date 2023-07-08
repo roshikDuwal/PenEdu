@@ -1,3 +1,5 @@
+import { getCurrentRole, roles } from "../utils/common";
+
 const SERVER_URL="https://v2pen.gesic.edu.np"
 export const SERVER_BASE_URL=SERVER_URL +"/api/";
 
@@ -19,10 +21,12 @@ export const routes={
     addUnit:"unit/create",
     getUnits:"unit/index",
     addAssignment:"unit/assignment/create",
-    getAssignments:"unit/assignment/",
+    getAssignments: getCurrentRole() === roles.student ? "class/courses/units/assignments/" : "unit/assignment/",
     getAssignment:"unit/assignment/questions/",
     addVideo:"unit/assignment/question/update/",
-    getClasses:"class/index",
+    getClasses: getCurrentRole() === roles.student ? "class/list" : "class/index",
+    getCoursesByClass: "class/courses/",
+    getUnitsByCourse: "class/courses/units/",
     addClasses:"class/create",
     deleteClasses:"class/delete/"
 }

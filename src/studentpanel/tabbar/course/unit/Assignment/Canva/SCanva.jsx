@@ -16,6 +16,7 @@ import {
 import { getAssignment } from "../../../../../../services/assignments";
 import CustomReactTable from "../../../../../../components/CustomReactTable/CustomReactTable";
 import { ThreeDots } from "react-loader-spinner";
+import { getCurrentRole, roles } from "../../../../../../utils/common";
 
 const App = (props) => {
   const canvasRef = useRef(null);
@@ -39,8 +40,10 @@ const App = (props) => {
 
   const getData = async () => {
     setLoading(true);
-    const data = await getAssignment(id);
-    setData(data.unitAssignmentQuestions);
+    if (getCurrentRole() !== roles.student) {
+      const data = await getAssignment(id);
+      setData(data.unitAssignmentQuestions);
+    }
 
     setLoading(false);
   };
@@ -125,11 +128,13 @@ const App = (props) => {
         ctx.drawImage(img, 0, startY);
         startY = startY + img.height;
       }
-      if(!backgroundImg){var bImg = new Image();
-      bImg.src = canvas.toDataURL();
-      bImg.onload = function () {
-        setBackgroundImg(bImg);
-      };}
+      if (!backgroundImg) {
+        var bImg = new Image();
+        bImg.src = canvas.toDataURL();
+        bImg.onload = function () {
+          setBackgroundImg(bImg);
+        };
+      }
       setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
       setCanvasStage(canvasStage + 1);
       if (inv) {
@@ -687,35 +692,39 @@ const App = (props) => {
         </div>
 
         <div className="canvasbox">
-          {loading ? (<>
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color="#5b58ff"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              wrapperClassName=""
-              visible={true}
-            /></>
+          {loading ? (
+            <>
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#5b58ff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            </>
           ) : null}
-            <canvas
-              id="0"
-              onMouseDown={startDrawing}
-              onMouseUp={finishDrawing}
-              onTouchStart={handleWritingStart}
-              onTouchMove={handleWritingInProgress}
-              onTouchEnd={finishDrawing}
-              onMouseMove={draw}
-              ref={canvasRef}
-              style={{ backgroundColor: "white", border: "2px solid black" }}
-            />
+          <canvas
+            id="0"
+            onMouseDown={startDrawing}
+            onMouseUp={finishDrawing}
+            onTouchStart={handleWritingStart}
+            onTouchMove={handleWritingInProgress}
+            onTouchEnd={finishDrawing}
+            onMouseMove={draw}
+            ref={canvasRef}
+            style={{ backgroundColor: "white", border: "2px solid black" }}
+          />
         </div>
-        <span className="float" onClick={() => setShowScore(true)}>
-          <i className="fa fa-plus my-float">
-            <ScoreboardIcon /> Scores
-          </i>
-        </span>
+        {getCurrentRole() === roles.instructor ? (
+          <span className="float" onClick={() => setShowScore(true)}>
+            <i className="fa fa-plus my-float">
+              <ScoreboardIcon /> Scores
+            </i>
+          </span>
+        ) : null}
         <Modal
           className="coursemodal"
           open={showScore}
