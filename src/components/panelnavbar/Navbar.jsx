@@ -15,7 +15,7 @@ const Navbar = ({data}) => {
         </div>
 
         <div className="profile">
-          <button onClick={() => setBool(!bool)}>  <AccountCircleIcon /></button>
+          <button onClick={() => setBool(!bool)}>  <AccountCircleIcon />{data?.name}</button>
           {bool && <Accordan data={data} />}
         </div>
       </nav>

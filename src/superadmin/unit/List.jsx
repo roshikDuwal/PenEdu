@@ -9,7 +9,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import CustomReactTable from "../../components/CustomReactTable/CustomReactTable";
 import React, { useEffect, useMemo, useState } from "react";
 import { Accordan } from "../../components/tableaccordan/Accordan";
@@ -25,18 +25,20 @@ import { useFormik } from "formik";
 import { addUnitSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
 import { addUnits, getUnits } from "../../services/units";
-
+import { getCurrentRole, roles } from "../../utils/common";
 
 const List = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const [data, setData] = useState([]);
+  const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
   const handleClose = () => {
     resetForm();
     setOpen(false);
   };
+  const {courseid} = useParams();
 
   const [openAccordan, setOpenAccordan] = useState(null);
 
@@ -49,6 +51,11 @@ const List = () => {
           return { label: data.course_name, value: data.id };
         })
       );
+      setCourse(data.course.length && courseid
+        ? data.course.find(
+            (course) => course.id.toString() === courseid
+          ).course_name
+        : "")
       setData(data.unit);
     } catch (e) {
       error(e.message);
@@ -58,22 +65,16 @@ const List = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [courseid]);
 
   const columns = useMemo(
     () => [
-
       { Header: "Unit Id", accessor: "id" },
       { Header: "Unit Name", accessor: "unit_name" },
       { Header: "Unit Code", accessor: "unit_code" },
       {
-        Header: "Course",
-        Cell: ({ row }) =>
-          (<>{courses.length && row.original.course_id
-            ? courses.find((course) =>
-                course.value.toString() === row.original.course_id
-              ).label
-            : ""}</>),
+        Header: "Credit hours",
+        Cell: ({ row }) => <>{row.original.credit_hours}</>,
       },
 
       {
@@ -145,17 +146,22 @@ const List = () => {
         <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
         <div className="learner-box">
           <div className="navigation">
-            <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
             <p>Units</p>
           </div>
 
           <div className="learner-list-box">
             <div className="modal-btn">
-              <h5>Unit Details</h5>
-              <Button onClick={handleOpen}>
-                <AddIcon />
-                Add Unit
-              </Button>
+              <h4>{course}</h4>
+              <h6>Units</h6>
+
+              {getCurrentRole() === roles.admin ? (
+                <Button onClick={handleOpen}>
+                  <AddIcon />
+                  Add Unit
+                </Button>
+              ) : null}
             </div>
 
             <Modal

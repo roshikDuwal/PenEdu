@@ -110,7 +110,7 @@ const Learner = () => {
         <div className="class-box">
 
           <div className="navigation">
-            <NavLink to="/admin">Admin</NavLink>  <ChevronRightIcon />  <p>Class Year</p>
+            <NavLink to="/dashboard">Dashboard</NavLink>  <ChevronRightIcon />  <p>Class Year</p>
           </div>
 
           <div className="learner-list-box">

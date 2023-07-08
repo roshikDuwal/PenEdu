@@ -189,7 +189,7 @@ const Learner = () => {
         <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
         <div className="learner-box">
           <div className="navigation">
-            <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />{" "}
             <p>Instructor</p>
           </div>
 

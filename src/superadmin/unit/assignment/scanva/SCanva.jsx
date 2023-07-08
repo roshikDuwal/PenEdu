@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import ImagePart from "../imagepart/ImagePart";
 import Pdf from "../pdfpart/Pdf";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./scanva.scss";
 // import { error, success } from "../../../../utils/toast";
 // import UndoIcon from "@mui/icons-material/Undo";
@@ -496,7 +498,7 @@ const AddAssignmentCanvas = ({ pdf }) => {
   // }, [pdfImages, canvasStage]);
 
   const [page, setPage] = useState(0);
-  const FormTitles = ["Add Pdf", "Add Images"];
+  const FormTitles = ["Add Pdf", "Add Details"];
 
   const PageDisplay = () => {
     if (page === 0) {
@@ -522,15 +524,17 @@ const AddAssignmentCanvas = ({ pdf }) => {
           <div className="progressbar"></div>
           <div className="form-container">
             <div className="header">
-              <h1>{FormTitles[page]}</h1>
+              <h5>{FormTitles[page]}</h5>
             </div>
-            <div className="footer">
+            <div className="flex-container">
               <button
                 disabled={page == 0}
                 onClick={() => {
                   setPage((currPage) => currPage - 1);
                 }}
+                className="form-control"
               >
+                <ArrowBackIcon />
                 Prev
               </button>
               <button
@@ -538,8 +542,10 @@ const AddAssignmentCanvas = ({ pdf }) => {
                 onClick={() => {
                   setPage((currPage) => currPage + 1);
                 }}
+                className="form-control"
               >
                 Next
+                <ArrowForwardIcon />
               </button>
             </div>
             <div className="body">{PageDisplay()}</div>

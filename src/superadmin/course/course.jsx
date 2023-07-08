@@ -22,6 +22,7 @@ import { Accordan } from "../../components/tableaccordan/Accordan";
 import { addCourses, getCourses } from "../../services/courses";
 import { addCourseSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
+import { getCurrentRole, roles } from "../../utils/common";
 
 
 const Course = () => {
@@ -125,16 +126,16 @@ const Course = () => {
         <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
         <div className="learner-box">
           <div className="navigation">
-            <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />{" "}
             <p>Course</p>
           </div>
 
           <div className="learner-list-box">
             <div className="modal-btn">
               <h5>Course Details</h5>
-              <Button onClick={handleOpen}>
+              {getCurrentRole() === roles.admin ? <Button onClick={handleOpen}>
                 <AddIcon /> Add Course
-              </Button>
+              </Button> : null}
             </div>
 
             <Modal

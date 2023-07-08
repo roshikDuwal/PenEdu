@@ -9,20 +9,34 @@ import Navbar from "../../../components/panelnavbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
-import { addVideo, getAssignment } from "../../../services/assignments";
-import { ASSIGNMENT_QUESTION_IMAGE_PREFIX, VIDEO_PREFIX } from "../../../constants/url";
+import {
+  addVideo,
+  getAssignment,
+  getAssignments,
+} from "../../../services/assignments";
+import {
+  ASSIGNMENT_QUESTION_IMAGE_PREFIX,
+  VIDEO_PREFIX,
+} from "../../../constants/url";
 import { error, success } from "../../../utils/toast";
 import ReactPlayer from "react-player";
+import { getCurrentRole, roles } from "../../../utils/common";
+import App from "../../../studentpanel/tabbar/course/unit/Assignment/Canva/SCanva";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
+  const [assignment, setAssignment] = useState([]);
   const [data, setData] = useState([]);
-  const { id } = useParams();
+  const { id, unit_id } = useParams();
 
   const getData = async () => {
     setLoading(true);
     const data = await getAssignment(id);
     setData(data.unitAssignmentQuestions);
+    const assignmentData = await getAssignments(unit_id);
+    setAssignment(
+      assignmentData.unitAssignment.find((as) => as.id.toString() === id)
+    );
 
     setLoading(false);
   };
@@ -60,29 +74,29 @@ const UploadVideos = () => {
 
           const handleSubmit = (e) => {
             setUploading(true);
-      
+
             var formData = new FormData();
             formData.append("video", videoUrl)
-        
+
             addVideo(row.original.id, formData)
             .then(() => {
               success("Video uploaded successfully");
               getData();
             })
             .catch((err) => {
-              error(err.message); 
+              error(err.message);
             })
             .finally(() => {
               setUploading(false);
             });
-      
+
           };
 
           return (
             <>
               <div className="actionbox">
                 <div className="video">
-            
+
                 {row.original.video ? (
                     // <video src={ row.original.video} controls>
                     //   Your browser does not support the video tag.
@@ -115,7 +129,7 @@ const UploadVideos = () => {
           );
         },
       },
-      
+
       // {
       //   Header: "Video",
       //   Cell: ({ row }) => {
@@ -135,7 +149,7 @@ const UploadVideos = () => {
       //             getData();
       //           })
       //           .catch((err) => {
-      //             error(err.message); 
+      //             error(err.message);
       //           })
       //           .finally(() => {
       //             setUploading(false);
@@ -147,7 +161,7 @@ const UploadVideos = () => {
       //       <>
       //         <div className="actionbox">
       //           <div className="video">
-                
+
       //             {row.original.video ? (
       //               <video src={VIDEO_PREFIX + row.original.video} controls>
       //                 Your browser does not support the video tag.
@@ -183,6 +197,8 @@ const UploadVideos = () => {
     ],
     []
   );
+  const title =
+    getCurrentRole() === roles.student ? "Do Assignment" : "Assignment Details";
 
   return (
     <>
@@ -192,26 +208,37 @@ const UploadVideos = () => {
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
           <div className="learner-box">
             <div className="navigation">
-              <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon />{" "}
-              <p>Units</p><ChevronRightIcon />{" "}
-              <p>Assignments</p><ChevronRightIcon />{" "}
-              <p>Upload Videos</p>
+
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+              <NavLink to="./../../..">Courses</NavLink> <ChevronRightIcon />
+              <NavLink to="./../..">Units</NavLink> <ChevronRightIcon />
+              <NavLink to="./..">Assignments</NavLink>
+              <ChevronRightIcon /> <p>{title}</p>
             </div>
 
             <div className="learner-list-box">
               <div className="modal-btn">
-                <h5>Upload Videos</h5>
+                <h4>{assignment.title}</h4>
+                <h6>{title}</h6>
                 <NavLink to="./..">
                   <Button>
                     <CancelOutlined /> Cancel
                   </Button>
                 </NavLink>
               </div>
-              <CustomReactTable
-                columns={columns}
-                data={data}
-                loading={loading}
-              />
+              {getCurrentRole() === roles.student ? (
+                <>
+                  <App {...assignment} />
+                </>
+              ) : (
+                <>
+                  <CustomReactTable
+                    columns={columns}
+                    data={data}
+                    loading={loading}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>

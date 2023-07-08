@@ -17,12 +17,13 @@ import { FormControlLabel, Switch } from '@mui/material';
 import { Accordan } from '../../../components/tableaccordan/Accordan';
 import { getAssignments } from '../../../services/assignments';
 import { getUnits } from '../../../services/units';
+import { getCurrentRole, roles } from '../../../utils/common';
 
 
 const ListAssignment = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const [units, setUnits] = useState([]);
+    const [units, setUnit] = useState([]);
     const [openAccordan, setOpenAccordan] = useState(null);
     const { id } = useParams();
 
@@ -32,7 +33,10 @@ const ListAssignment = () => {
         setData(data.unitAssignment);
 
         const units = await getUnits();
-        setUnits(units.unit);
+        setUnit(units.unit.length && id
+            ? units.unit.find((unit) =>
+                unit.id.toString() === id
+            ).unit_name : null);
 
         setLoading(false);
     };
@@ -47,13 +51,9 @@ const ListAssignment = () => {
             { Header: 'Assignment Id', accessor: 'id' },
             { Header: 'Assignment Name', accessor: 'title' },
             {
-                Header: "Unit",
+                Header: "Created At",
                 Cell: ({ row }) =>
-                (<>{units.length && row.original.unit_id
-                    ? units.find((unit) =>
-                        unit.id.toString() === row.original.unit_id
-                    ).unit_name
-                    : ""}</>),
+                (<>{new Date(row.original.created_at).toLocaleString()}</>),
             },
             {
                 Header: 'Action', Cell: ({ row }) => (
@@ -88,13 +88,18 @@ const ListAssignment = () => {
                 <div className="learner-box">
 
                     <div className="navigation">
-                        <NavLink to="/admin">Admin</NavLink> <ChevronRightIcon /> <p>Units</p><ChevronRightIcon />  <p>Assignment</p>
+                        <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+                        <NavLink to="./../..">Courses</NavLink> <ChevronRightIcon />
+                        <NavLink to="./..">Units</NavLink> <ChevronRightIcon />
+                        <p>Assignments</p>
                     </div>
 
                     <div className="learner-list-box">
                         <div className="modal-btn">
-                            <h5>Assignment Details</h5>
-                            <Link to="add"><Button><AddIcon />Add Assignment</Button></Link>
+                            <h4>{units}</h4>
+                            <h6>Assignments</h6>
+
+                            {getCurrentRole() === roles.admin ? <Link to="add"><Button><AddIcon />Add Assignment</Button></Link> : null}
                         </div>
 
                         <CustomReactTable columns={columns} data={data} rowClickable={true} loading={loading} />
