@@ -33,11 +33,14 @@ const UploadVideos = () => {
 
   const getData = async () => {
     setLoading(true);
-    const data = await getAssignment(id);
-    setData(data.unitAssignmentQuestions);
+    if(getCurrentRole() !== roles.student){
+      const data = await getAssignment(id);
+      setData(data.unitAssignmentQuestions);
+    }
     const assignmentData = await getAssignments(unit_id);
+    const assignments = assignmentData.unitAssignment || assignmentData.unitAssignments
     setAssignment(
-      assignmentData.unitAssignment.find((as) => as.id.toString() === id)
+      assignments.find((as) => as.id.toString() === id)
     );
 
     setLoading(false);

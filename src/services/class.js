@@ -6,7 +6,7 @@ import {routes} from "../constants/url"
 export const classData = async()=>{
     const getclass = await axios.get(routes.getClasses)
 
-    return getclass.data.class
+    return getclass.data.class || getclass.data.classes
 }
 
 export const postClassData= async(classdata)=>{

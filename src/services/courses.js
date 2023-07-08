@@ -19,3 +19,9 @@ export const getCourses = async ()=>{
 
     return courses.data;
 }
+
+export const getCoursesByClass = async (id)=>{
+    const courses = await axios.get(routes.getCoursesByClass + id)
+
+    return courses.data;
+}

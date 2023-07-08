@@ -19,10 +19,11 @@ import { useFormik } from "formik";
 import { NavLink } from "react-router-dom";
 
 import { Accordan } from "../../components/tableaccordan/Accordan";
-import { addCourses, getCourses } from "../../services/courses";
+import { addCourses, getCourses, getCoursesByClass } from "../../services/courses";
 import { addCourseSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
 import { getCurrentRole, roles } from "../../utils/common";
+import { classData } from "../../services/class";
 
 
 const Course = () => {
@@ -31,6 +32,7 @@ const Course = () => {
   const handleOpen = () => setOpen(true);
   const [data, setData] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [myClass, setMyClass] = useState(null);
   const handleClose = () => {
     resetForm();
     setOpen(false);
@@ -41,10 +43,18 @@ const Course = () => {
   const getCourseData = async () => {
     setLoading(true)
     try {
-      const data = await getCourses();
+      const classes = await classData();
+      let data
+      if(getCurrentRole() === roles.student) {
+        const cls = classes[0];
+        setMyClass(cls);
+        data = await getCoursesByClass(cls.id)
+      } else {
+        data = await getCourses();
+      }
       setData(data.course);
       setClasses(
-        data.class.map((data) => {
+        classes.map((data) => {
           return { label: data.class, value: data.id };
         })
       );
@@ -127,12 +137,13 @@ const Course = () => {
         <div className="learner-box">
           <div className="navigation">
             <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />{" "}
-            <p>Course</p>
+            <p>Courses</p>
           </div>
 
           <div className="learner-list-box">
             <div className="modal-btn">
-              <h5>Course Details</h5>
+              <h4>{myClass?.class}</h4>
+              <h6>Courses</h6>
               {getCurrentRole() === roles.admin ? <Button onClick={handleOpen}>
                 <AddIcon /> Add Course
               </Button> : null}

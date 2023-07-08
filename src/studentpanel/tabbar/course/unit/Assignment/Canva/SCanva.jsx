@@ -16,6 +16,7 @@ import {
 import { getAssignment } from "../../../../../../services/assignments";
 import CustomReactTable from "../../../../../../components/CustomReactTable/CustomReactTable";
 import { ThreeDots } from "react-loader-spinner";
+import { getCurrentRole, roles } from "../../../../../../utils/common";
 
 const App = (props) => {
   const canvasRef = useRef(null);
@@ -39,8 +40,10 @@ const App = (props) => {
 
   const getData = async () => {
     setLoading(true);
-    const data = await getAssignment(id);
-    setData(data.unitAssignmentQuestions);
+    if(getCurrentRole() !== roles.student) {
+      const data = await getAssignment(id);
+      setData(data.unitAssignmentQuestions);
+    }
 
     setLoading(false);
   };

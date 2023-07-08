@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { FormControlLabel, Switch } from '@mui/material';
 import { Accordan } from '../../../components/tableaccordan/Accordan';
 import { getAssignments } from '../../../services/assignments';
-import { getUnits } from '../../../services/units';
+import { getUnits, getUnitsByCourse } from '../../../services/units';
 import { getCurrentRole, roles } from '../../../utils/common';
 
 
@@ -25,16 +25,23 @@ const ListAssignment = () => {
     const [data, setData] = useState([]);
     const [units, setUnit] = useState([]);
     const [openAccordan, setOpenAccordan] = useState(null);
-    const { id } = useParams();
+    const { id, courseid } = useParams();
 
     const getData = async () => {
         setLoading(true);
         const data = await getAssignments(id);
-        setData(data.unitAssignment);
+        setData(data.unitAssignment || data.unitAssignments);
 
-        const units = await getUnits();
-        setUnit(units.unit.length && id
-            ? units.unit.find((unit) =>
+        let units;
+        if(getCurrentRole() === roles.student) {
+          units = await getUnitsByCourse(courseid);
+          units = units.units
+        } else {
+          units  = await getUnits();
+          units = units.unit
+        }
+        setUnit(units.length && id
+            ? units.find((unit) =>
                 unit.id.toString() === id
             ).unit_name : null);
 

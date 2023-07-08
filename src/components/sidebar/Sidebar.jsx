@@ -38,12 +38,10 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-
-  }, []);
-
-  useEffect(() => {
-    getClass();
-    getCourseData();
+    if(getCurrentRole() !== roles.student) {
+      getClass();
+      getCourseData();
+    }
   }, [])
 
 
