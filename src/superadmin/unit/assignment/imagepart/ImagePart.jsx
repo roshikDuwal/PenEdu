@@ -11,7 +11,7 @@ import { DeleteForeverRounded } from "@mui/icons-material";
 import { addAssignments } from "../../../../services/assignments";
 import { addAssignment } from "../../../../schema/validate";
 import { useFormik } from "formik";
-import "./image.scss"
+import "./image.scss";
 
 const ImagePart = ({ pdf, pdfImages }) => {
   const canvasRef = useRef(null);
@@ -54,33 +54,32 @@ const ImagePart = ({ pdf, pdfImages }) => {
       var img = new Image();
       img.src = url;
       img.onload = () => {
-        var myCanvas = document.createElement('canvas');
-        var ctx = myCanvas.getContext('2d');
+        var myCanvas = document.createElement("canvas");
+        var ctx = myCanvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        resolve(myCanvas.toDataURL())
-      }
+        resolve(myCanvas.toDataURL());
+      };
     });
-  }
+  };
 
   const handleIndividualUpload = async (e) => {
     const files = e.target.files;
     const imagesTmp = [...images];
     for (var i = 0; i < files.length; i++) {
-      const base64 = await blobToBase64(URL.createObjectURL(files[i]))
+      const base64 = await blobToBase64(URL.createObjectURL(files[i]));
 
       imagesTmp.push({
         file: base64,
-        title: files[i].name.substring(0, files[i].name.lastIndexOf(".")),
+        title:
+          "Question " +
+          files[i].name.substring(0, files[i].name.lastIndexOf(".")),
       });
     }
     imagesTmp.sort((a, b) => {
-      if (a.title < b.title) {
-        return -1;
-      }
-      if (a.title > b.title) {
-        return 1;
-      }
-      return 0;
+      return a.title.localeCompare(b.title, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
     });
     setImages(imagesTmp);
     e.target.value = null;
@@ -89,13 +88,10 @@ const ImagePart = ({ pdf, pdfImages }) => {
   const sortImages = () => {
     const imagesTmp = [...images];
     imagesTmp.sort((a, b) => {
-      if (a.title < b.title) {
-        return -1;
-      }
-      if (a.title > b.title) {
-        return 1;
-      }
-      return 0;
+      return a.title.localeCompare(b.title, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
     });
     setImages(imagesTmp);
   };
@@ -513,7 +509,12 @@ const ImagePart = ({ pdf, pdfImages }) => {
             </div>
             <div className="flex-box">
               <label htmlFor="">Individual question/answer: </label>
-              <input type="file" onChange={handleIndividualUpload} multiple className="form-control"/>
+              <input
+                type="file"
+                onChange={handleIndividualUpload}
+                multiple
+                className="form-control"
+              />
             </div>
             <div className="flex">
               <Button
@@ -563,7 +564,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
         </div>
 
         {/* <div className="tool"> */}
-          {/*
+        {/*
           <div>
             <label htmlFor="">{sizeName}</label>
             <select value={value} onChange={handleChange}>
@@ -595,21 +596,21 @@ const ImagePart = ({ pdf, pdfImages }) => {
             </select>
           </div> */}
 
-          {/* <div>
+        {/* <div>
             <label>Image</label>
             <input type="file" onChange={uploadImage} name="" id="" />
 
           </div> */}
 
-          {/* <div>
+        {/* <div>
             <Button variant="contained" onClick={setToErase}>
               Erase
             </Button>
           </div> */}
 
-          {/* ----------ADD Page---------------   */}
+        {/* ----------ADD Page---------------   */}
 
-          {/* <div>
+        {/* <div>
             <Button variant="contained" onClick={handleButtonClick}>
               Add Page
             </Button>
@@ -627,7 +628,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
             </Button>
           </div> */}
 
-          {/* <button onClick={saveImage}>
+        {/* <button onClick={saveImage}>
             Save Image
           </button> */}
         {/* </div> */}
