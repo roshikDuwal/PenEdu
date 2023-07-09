@@ -19,12 +19,15 @@ import { useFormik } from "formik";
 import { NavLink } from "react-router-dom";
 
 import { Accordan } from "../../components/tableaccordan/Accordan";
-import { addCourses, getCourses, getCoursesByClass } from "../../services/courses";
+import {
+  addCourses,
+  getCourses,
+  getCoursesByClass,
+} from "../../services/courses";
 import { addCourseSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
 import { getCurrentRole, roles } from "../../utils/common";
 import { classData } from "../../services/class";
-
 
 const Course = () => {
   const [open, setOpen] = React.useState(false);
@@ -41,14 +44,14 @@ const Course = () => {
   const [openAccordan, setOpenAccordan] = useState(null);
 
   const getCourseData = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const classes = await classData();
-      let data
-      if(getCurrentRole() === roles.student) {
+      let data;
+      if (getCurrentRole() === roles.student) {
         const cls = classes[0];
         setMyClass(cls);
-        data = await getCoursesByClass(cls.id)
+        data = await getCoursesByClass(cls.id);
       } else {
         data = await getCourses();
       }
@@ -61,7 +64,7 @@ const Course = () => {
     } catch (e) {
       error(e.message);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -74,6 +77,14 @@ const Course = () => {
       { Header: "Course Name", accessor: "course_name" },
       { Header: "Course Code", accessor: "course_code" },
       { Header: "Credit hours", accessor: "credit_hours" },
+      {
+        Header: "Academic Year",
+        Cell: ({ row }) =>
+          classes.length && row.original.class_id
+            ? classes.find((cls) => cls.value.toString() === row.original.class_id).label
+            : "",
+        show: !!myClass?.class,
+      },
       {
         Header: "Action",
         Cell: ({ row }) => (
@@ -118,13 +129,16 @@ const Course = () => {
     initialValues: Values,
     onSubmit: async (values, action) => {
       try {
-        await addCourses({...values, credit_hours: values.credit_hours.toString()});
-        success("Course added successfully!")
+        await addCourses({
+          ...values,
+          credit_hours: values.credit_hours.toString(),
+        });
+        success("Course added successfully!");
         action.resetForm();
         getCourseData();
         handleClose();
       } catch (e) {
-        error(e.message || "Failed to add course!")
+        error(e.message || "Failed to add course!");
       }
     },
   });
@@ -144,9 +158,11 @@ const Course = () => {
             <div className="modal-btn">
               <h4>{myClass?.class}</h4>
               <h6>Courses</h6>
-              {getCurrentRole() === roles.admin ? <Button onClick={handleOpen}>
-                <AddIcon /> Add Course
-              </Button> : null}
+              {getCurrentRole() === roles.admin ? (
+                <Button onClick={handleOpen}>
+                  <AddIcon /> Add Course
+                </Button>
+              ) : null}
             </div>
 
             <Modal
@@ -233,9 +249,12 @@ const Course = () => {
                 </form>
               </Box>
             </Modal>
-            <CustomReactTable columns={columns} data={data} loading={loading}      rowClickable={true} />
-
-
+            <CustomReactTable
+              columns={columns}
+              data={data}
+              loading={loading}
+              rowClickable={true}
+            />
           </div>
         </div>
       </div>
