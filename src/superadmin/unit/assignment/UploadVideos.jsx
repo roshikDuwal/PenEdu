@@ -23,7 +23,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { error, success } from "../../../utils/toast";
 import ReactPlayer from "react-player";
 import { getCurrentRole, roles } from "../../../utils/common";
-import SCanva from "./scanva/SCanva"
+import SCanva from "./scanva/DoCanva"
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
