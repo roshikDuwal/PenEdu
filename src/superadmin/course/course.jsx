@@ -85,7 +85,6 @@ const Course = () => {
           classes.length && row.original.class_id
             ? classes.find((cls) => cls.value.toString() === row.original.class_id).label
             : "",
-        show: !!myClass?.class,
       },
       {
         Header: "Action",
@@ -106,7 +105,7 @@ const Course = () => {
         ),
       },
     ],
-    [openAccordan]
+    [openAccordan, classes]
   );
 
   const Values = {

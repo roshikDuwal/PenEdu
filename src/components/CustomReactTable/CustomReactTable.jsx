@@ -3,12 +3,13 @@ import { useTable } from "react-table";
 import "./customtable.scss";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { getCurrentRole, roles } from "../../utils/common";
 
 const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
   let navigate = useNavigate();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data, initialState: { hiddenColumns: getCurrentRole() === roles.student ? ["Action", "Academic Year"] : [] } });
 
   return (
     <div
