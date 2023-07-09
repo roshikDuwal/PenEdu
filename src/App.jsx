@@ -27,6 +27,7 @@ import ShowResultAssignment from "./studentpanel/tabbar/result/unit/Assignment/S
 
 import Result from './studentpanel/tabbar/result/Result';
 import ShowVideo from './studentpanel/tabbar/result/unit/Assignment/Video/ShowVideo';
+import StudentAssignment from './studentpanel/tabbar/result/unit/Assignment/StudentAssignment';
 
 
 const App = () => {
@@ -51,7 +52,9 @@ const App = () => {
 
             <Route path='/dashboard/result' element={<Result/>} />
             <Route path='/dashboard/result/:courseid' element={<ResultUnit/>} shouldRevalidate={true}/>
-            <Route path='/dashboard/result/:courseid/:id' element={<AssignmentResult/>} />
+            <Route path='/dashboard/result/:courseid/:id' element={<StudentAssignment/>} />
+            {/* <Route path='/dashboard/result/:unit_id/:id' element={<ShowResultAssignment/>}/>
+            <Route path='/dashboard/result/:unit_id/:id/video' element={<ShowVideo/>}/> */}
 
           </Route>
 

@@ -13,6 +13,8 @@ import CustomReactTable from '../../../../../components/CustomReactTable/CustomR
 import { getAssignments } from '../../../../../services/assignments';
 import { getUnits } from '../../../../../services/units';
 import Result from '../../../result/Result';
+import Sidebar from '../../../../../components/sidebar/Sidebar';
+import { getCurrentRole, roles } from '../../../../../utils/common';
 
 
 const StudentAssignment = () => {
@@ -23,22 +25,25 @@ const StudentAssignment = () => {
   const { id } = useParams();
 
 
-  const getData = async () => {
-    setLoading(true);
-    const data = await getAssignments(id);
-    setData(data.unitAssignment);
+  // const getData = async () => {
+  //   setLoading(true);
 
-    const units = await getUnits();
-    setUnits(units.unit);
+  //   const data = await getAssignments(id);
+  //   setData(data.unitAssignment);
 
-    setLoading(false);
-  };
+  //   const units = await getUnits();
+  //   setUnits(units.unit);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  //   setLoading(false);
+  // };
 
- 
+  // useEffect(() => {
+  //   if (getCurrentRole() === roles.student) {
+  //     getData();
+  //   }
+  // }, []);
+
+
 
   const columns = useMemo(
     () => [
@@ -51,20 +56,20 @@ const StudentAssignment = () => {
           ).unit_name
           : ""}</>),
       },
-      { Header: 'Assignment Id', accessor: 'id' },
+      // { Header: 'Assignment Id', accessor: 'id' },
       { Header: 'Assignment Name', accessor: 'title' },
       {
         Header: "View Pdf",
         Cell: ({ row }) =>
         (<>{
-         <NavLink to= {`/student/result/${id}/${row.original.id}`}>View</NavLink>
+          <NavLink to={`/dashboard/result/${id}/${row.original.id}`}>View</NavLink>
         }</>),
       },
       {
         Header: "View Video",
         Cell: ({ row }) =>
         (<>{
-         <NavLink to= {`/student/result/${id}/${row.original.id}/video`}>View</NavLink>
+          <NavLink to={`/dashboard/result/${id}/${row.original.id}/video`}>View</NavLink>
         }</>),
       },
 
@@ -76,19 +81,34 @@ const StudentAssignment = () => {
   return (
     <>
       <div className="studentpanel">
+        <Sidebar />
 
         <div className="adminpanelpage">
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
-          <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit  Result Assignment</div>
+          <div className="snavigation">
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Units</NavLink>
           </div>
           {/* ---start-page end---  */}
 
-          <CustomReactTable columns={columns} data={data}  />
+          <div className="learner-box">
+            <div className="learner-list">
+              <div className="modal-btn">
+                <h4>Units</h4>
+                {/* <h6>({course})</h6> */}
+              </div>
+              <CustomReactTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                rowClickable={true}
+              />
 
-
+            </div>
+          </div>
         </div>
       </div>
     </>

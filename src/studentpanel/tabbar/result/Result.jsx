@@ -45,7 +45,7 @@ const Result = () => {
 
   const columns = useMemo(
     () => [
-      { Header: "Course Id", accessor: "id" },
+      // { Header: "Course Id", accessor: "id" },
       { Header: "Course Name", accessor: "course_name" },
       { Header: "Course Code", accessor: "course_code" },
       { Header: "Credit hours", accessor: "credit_hours" },

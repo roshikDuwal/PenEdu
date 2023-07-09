@@ -41,7 +41,7 @@ const Learner = () => {
       { Header: 'Student Id', accessor: 'student_number' },
       { Header: 'Student Name', accessor: 'name' },
       // { Header: 'Class', accessor: 'class' },
-      { Header: 'Type', accessor: 'type' },
+      // { Header: 'Type', accessor: 'type' },
       { Header: 'Contact', accessor: 'mobile' },
       { Header: 'Email', accessor: 'email' },
       {
@@ -73,9 +73,9 @@ const Learner = () => {
   const Values = {
     name: "",
     email: "",
-    type: "",
     class_id: null,
-    country: "",
+    // country: "",
+    // type: "",
     mobile: "",
     student_number: ""
   }
@@ -178,7 +178,7 @@ const Learner = () => {
                     {errors.email && touched.email ? (<p className='errorval'>{errors.email}</p>) : null}
                   </div>
 
-                  <div className="formbox">
+                  {/* <div className="formbox">
                     <label htmlFor="type">Type</label>
                     <select name="type"
                       value={values.type}
@@ -190,7 +190,7 @@ const Learner = () => {
                     </select>
 
                     {errors.type && touched.type ? (<p className='errorval'>{errors.type}</p>) : null}
-                  </div>
+                  </div> */}
 
 
 
@@ -207,7 +207,7 @@ const Learner = () => {
                     {errors.class_id && touched.class_id ? (<p className='errorval'>{errors.class_id}</p>) : null}
                   </div>
 
-                  <div className="formbox">
+                  {/* <div className="formbox">
                     <label htmlFor="name">Country</label>
 
                     <select name="country" value={values.country}
@@ -220,7 +220,7 @@ const Learner = () => {
                     </select>
 
                     {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
-                  </div>
+                  </div> */}
 
                   <div className="formbox">
                     <label htmlFor="mobile">Mobile</label>

@@ -36,6 +36,7 @@ const Course = () => {
   const [data, setData] = useState([]);
   const [classes, setClasses] = useState([]);
   const [myClass, setMyClass] = useState(null);
+  
   const handleClose = () => {
     resetForm();
     setOpen(false);
@@ -75,7 +76,7 @@ const Course = () => {
 
   const columns = React.useMemo(
     () => [
-      { Header: "Course Id", accessor: "id" },
+      // { Header: "Course Id", accessor: "id" },
       { Header: "Course Name", accessor: "course_name" },
       { Header: "Course Code", accessor: "course_code" },
       { Header: "Credit hours", accessor: "credit_hours" },

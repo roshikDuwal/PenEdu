@@ -56,13 +56,13 @@ const ListAssignment = () => {
     const columns = useMemo(
         () => [
 
-            { Header: 'Assignment Id', accessor: 'id' },
+            // { Header: 'Assignment Id', accessor: 'id' },
             { Header: 'Assignment Name', accessor: 'title' },
-            {
-                Header: "Created At",
-                Cell: ({ row }) =>
-                (<>{new Date(row.original.created_at).toLocaleString()}</>),
-            },
+            // {
+            //     Header: "Created At",
+            //     Cell: ({ row }) =>
+            //     (<>{new Date(row.original.created_at).toLocaleString()}</>),
+            // },
             {
                 Header: 'Action', Cell: ({ row }) => (
                     <>
