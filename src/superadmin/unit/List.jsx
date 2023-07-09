@@ -62,6 +62,9 @@ const List = () => {
                 .course_name
             : ""
         );
+        data.unit = data.unit.filter(
+          (un) => un.course_id.toString() === courseid
+        );
       }
       setData(data.unit || data.units);
     } catch (e) {
