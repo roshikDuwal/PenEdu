@@ -11,7 +11,7 @@ import Navbar from '../../../../../components/panelnavbar/Navbar';
 // import CustomReactTable from "../../../../../components/customreacttable/CustomReactTable"
 import CustomReactTable from '../../../../../components/CustomReactTable/CustomReactTable';
 import { getAssignments } from '../../../../../services/assignments';
-import { getUnits } from '../../../../../services/units';
+import { getUnits, getUnitsByCourse } from '../../../../../services/units';
 import Result from '../../../result/Result';
 import Sidebar from '../../../../../components/sidebar/Sidebar';
 import { getCurrentRole, roles } from '../../../../../utils/common';
@@ -22,40 +22,31 @@ const StudentAssignment = () => {
   const [data, setData] = useState([]);
   const [units, setUnits] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
-  const { id } = useParams();
+  const { id, courseid } = useParams();
 
 
-  // const getData = async () => {
-  //   setLoading(true);
+  const getData = async () => {
+    setLoading(true);
 
-  //   const data = await getAssignments(id);
-  //   setData(data.unitAssignment);
+    const data = await getAssignments(id);
+    setData(data.unitAssignments);
 
-  //   const units = await getUnits();
-  //   setUnits(units.unit);
+    const units = await getUnitsByCourse(courseid);
+    setUnits(units.units);
 
-  //   setLoading(false);
-  // };
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   if (getCurrentRole() === roles.student) {
-  //     getData();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (getCurrentRole() === roles.student) {
+      getData();
+    }
+  }, []);
 
 
 
   const columns = useMemo(
     () => [
-      {
-        Header: "Unit",
-        Cell: ({ row }) =>
-        (<>{units.length && row.original.unit_id
-          ? units.find((unit) =>
-            unit.id.toString() === row.original.unit_id
-          ).unit_name
-          : ""}</>),
-      },
       // { Header: 'Assignment Id', accessor: 'id' },
       { Header: 'Assignment Name', accessor: 'title' },
       {
