@@ -15,7 +15,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { getAssignment } from "../../../../../../services/assignments";
 import Overview from "../../../../overview/Overview";
-import StudentCourse from "../../../../course/StudentCourse";
+
 import Navbar from "../../../../../../components/panelnavbar/Navbar";
 import Video from "./Video";
 
@@ -81,7 +81,7 @@ const ShowVideo = () => {
 
                   <TabPanel>
                     <div className="tabbar">
-                        <StudentCourse/>
+                   
                     </div>
                   </TabPanel>
 

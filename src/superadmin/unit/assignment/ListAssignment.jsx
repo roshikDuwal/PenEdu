@@ -52,6 +52,7 @@ const ListAssignment = () => {
         getData();
     }, []);
 
+      
     const columns = useMemo(
         () => [
 
@@ -98,7 +99,7 @@ const ListAssignment = () => {
                         <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
                         <NavLink to="./../..">Courses</NavLink> <ChevronRightIcon />
                         <NavLink to="./..">Units</NavLink> <ChevronRightIcon />
-                        <p>Assignments</p>
+                        <p>Assignments({units})</p>
                     </div>
 
                     <div className="learner-list-box">

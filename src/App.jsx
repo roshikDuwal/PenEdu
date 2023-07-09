@@ -18,17 +18,13 @@ import AddAssignment from './superadmin/unit/assignment/AddAssignment';
 import ListAssignment from './superadmin/unit/assignment/ListAssignment';
 import UploadVideos from './superadmin/unit/assignment/UploadVideos';
 
-import Student from './studentpanel/Student';
-import StudentUnit from "./studentpanel/tabbar/course/unit/StudentUnit"
-import StudentAssignment from './studentpanel/tabbar/course/unit/Assignment/StudentAssignment';
-import ShowAssignment from "./studentpanel/tabbar/course/unit/Assignment/ShowAssignment"
 
 
 import Learner from './superadmin/Learner/Learner';
 import ResultUnit from './studentpanel/tabbar/result/unit/ResultUnit';
 import AssignmentResult from './studentpanel/tabbar/result/unit/Assignment/StudentAssignment';
 import ShowResultAssignment from "./studentpanel/tabbar/result/unit/Assignment/ShowResultAssignment"
-import StudentCourse from './studentpanel/tabbar/course/StudentCourse';
+
 import Result from './studentpanel/tabbar/result/Result';
 import ShowVideo from './studentpanel/tabbar/result/unit/Assignment/Video/ShowVideo';
 
@@ -53,9 +49,13 @@ const App = () => {
             <Route path='/dashboard/course/:courseid/:id/add' element={<AddAssignment/>} />
             <Route path='/dashboard/course/:courseid/:unit_id/:id' element={<UploadVideos/>} />
 
+            <Route path='/dashboard/result' element={<Result/>} />
+            <Route path='/dashboard/result/:courseid' element={<ResultUnit/>} shouldRevalidate={true}/>
+            <Route path='/dashboard/result/:courseid/:id' element={<AssignmentResult/>} />
+
           </Route>
 
-          <Route path='/student' >
+          {/* <Route path='/student' >
             <Route index element={<Student />} />
             <Route path='/student/course' element={<StudentCourse/>}/>
             <Route path='/student/unit' element={<StudentUnit />} />
@@ -67,7 +67,7 @@ const App = () => {
             <Route path='/student/result/:id' element={<AssignmentResult/>} />
             <Route path='/student/result/:unit_id/:id' element={<ShowResultAssignment/>}/>
             <Route path='/student/result/:unit_id/:id/video' element={<ShowVideo/>}/>
-          </Route>
+          </Route> */}
 
 
           <Route path='/login' element={<Login />} />

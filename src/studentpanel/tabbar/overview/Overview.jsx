@@ -2,7 +2,7 @@ import React from 'react'
 import "./overview.scss"
 
 
-const Overview = () => {
+const Overview = ({data}) => {
 
 
     return (
@@ -40,8 +40,9 @@ const Overview = () => {
                     </div>
                     <div className="coursedetail">
                         <ul className='courselist' >
-                            <li>Math(2231)</li>
-                            <li>English(2242)</li>
+                           {data.map((curElem)=>{
+                            return <li style={{padding:"1rem"}}>{curElem.course_name}</li>
+                           })}
                         </ul>
                     </div>
                 </div>

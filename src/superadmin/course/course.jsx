@@ -71,6 +71,8 @@ const Course = () => {
     getCourseData();
   }, []);
 
+
+
   const columns = React.useMemo(
     () => [
       { Header: "Course Id", accessor: "id" },

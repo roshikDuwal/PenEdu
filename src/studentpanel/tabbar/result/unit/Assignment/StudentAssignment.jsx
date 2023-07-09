@@ -13,7 +13,7 @@ import CustomReactTable from '../../../../../components/CustomReactTable/CustomR
 import { getAssignments } from '../../../../../services/assignments';
 import { getUnits } from '../../../../../services/units';
 import Result from '../../../result/Result';
-import StudentCourse from '../../../course/StudentCourse';
+
 
 const StudentAssignment = () => {
   const [loading, setLoading] = useState(false);
@@ -86,51 +86,7 @@ const StudentAssignment = () => {
           </div>
           {/* ---start-page end---  */}
 
-
-          {/* student page starts  */}
-          <section className="studentpage">
-            <div className="studentdescription">
-
-              <div className="info">
-
-                <h2>Logo</h2>
-                <div className="name">
-                  <h5>Roshin Lakhemaru</h5>
-                  <p>1234789</p>
-                </div>
-              </div>
-
-              <div className="studentnavbar">
-                <Tabs defaultIndex={2}>
-                  <TabList>
-                    <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
-                    <Tab>Result</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <Overview />
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <StudentCourse />
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <NavLink to="./.."><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={data}  />
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
-            </div>
-
-          </section>
+          <CustomReactTable columns={columns} data={data}  />
 
 
         </div>

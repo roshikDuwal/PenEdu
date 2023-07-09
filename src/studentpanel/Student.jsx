@@ -5,7 +5,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Overview from './tabbar/overview/Overview';
-import StudentCourse from './tabbar/course/StudentCourse';
+
 import Result from "./tabbar/result/Result"
 import { NavLink } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ const Student = () => {
 
                                     <TabPanel>
                                         <div className='tabbar'>
-                                            <StudentCourse/>
+                                         
                                         </div>
                                     </TabPanel>
 
