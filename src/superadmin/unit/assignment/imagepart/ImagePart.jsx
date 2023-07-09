@@ -154,6 +154,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
 
   const Values = {
     title: "",
+    score: null,
   };
 
   const {
@@ -168,6 +169,10 @@ const ImagePart = ({ pdf, pdfImages }) => {
     validationSchema: addAssignment,
     initialValues: Values,
     onSubmit: async (values, action) => {
+      if(!images.length) {
+        error("Add individual questions")
+        return
+      }
       setLoading(true);
       // const newCanvas = trimCanvas(canvasRef.current);
       const newCanvas = canvasRef.current;
@@ -177,6 +182,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
         questions: images,
         title: values.title,
         file: image,
+        score: values.score
       };
 
       // var formData = new FormData();
@@ -489,7 +495,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
             <label htmlFor="">Solution video: </label>
             <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
           </div> */}
-            <div className="formbox flex-box">
+            <div className="formbox col-md-6 form-group">
               <label htmlFor="title">Title</label>
               <input
                 type="text"
@@ -503,15 +509,29 @@ const ImagePart = ({ pdf, pdfImages }) => {
                 <p className="errorval">{errors.title}</p>
               ) : null}
             </div>
-            <div className="flex-box">
+            <div className="formbox col-md-6 form-group">
+              <label htmlFor="score">Score</label>
+              <input
+                type="number"
+                name="score"
+                className="form-control"
+                value={values.score}
+                onChange={handleFormChange}
+                onBlur={handleBlur}
+              />
+              {errors.score && touched.score ? (
+                <p className="errorval">{errors.score}</p>
+              ) : null}
+            </div>
+            <div className="col-md-6 form-group">
               <label htmlFor="">Start Date: </label>
               <input type="date" className="form-control" />
             </div>
-            <div className="flex-box">
+            <div className="col-md-6 form-group">
               <label htmlFor="">Due Date: </label>
               <input type="date" className="form-control" />
             </div>
-            <div className="flex-box">
+            <div className="col-md-6 form-group">
               <label htmlFor="">Individual question/answer: </label>
               <input
                 type="file"
@@ -519,6 +539,9 @@ const ImagePart = ({ pdf, pdfImages }) => {
                 multiple
                 className="form-control"
               />
+              {touched.title && touched.score && !images.length ? (
+                <p className="errorval">Add individual questions</p>
+              ) : null}
             </div>
             <div className="flex">
               <Button

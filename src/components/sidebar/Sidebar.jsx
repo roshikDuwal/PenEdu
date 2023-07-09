@@ -87,7 +87,7 @@ const Sidebar = () => {
     },
     {
       id: "4",
-      name: "Class Year",
+      name: "Academic Year",
       link: "/dashboard/classyear",
       subname2: "Course",
       subname3: "Unit",

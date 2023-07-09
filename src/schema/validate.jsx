@@ -66,6 +66,7 @@ export const addUnitSchema = Yup.object({
 
 export const addAssignment = Yup.object({
     title: Yup.string().required("Please enter assignment title"),
+    score: Yup.number().required("Please enter total score").min(1),
 });
 
 

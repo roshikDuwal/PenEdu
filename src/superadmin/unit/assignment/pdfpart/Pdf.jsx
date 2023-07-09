@@ -4,16 +4,17 @@ import { error, success } from "../../../../utils/toast";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import jsPDF from "jspdf";
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { DeleteForeverRounded } from "@mui/icons-material";
 import { addAssignments } from "../../../../services/assignments";
 import { addAssignment } from "../../../../schema/validate";
 import { useFormik } from "formik";
 
 const Pdf = ({
-  pdf,
+  pdf: propsPdf,
   canvasDrawn,
   setCanvasDrawn,
   canvasStage,
@@ -22,6 +23,7 @@ const Pdf = ({
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [pdf, setPdf] = useState(propsPdf);
   const [loading, setLoading] = useState(false);
   const [backgroundImg, setBackgroundImg] = useState(null);
   const [value, setValue] = useState(5);
@@ -407,18 +409,17 @@ const Pdf = ({
         });
       }
     }
-    if (canvasStage < 0){
+    if (pdf) {
       setLoading(true);
-        iterate(pdf);
-    }
-    else {
+      iterate(pdf);
+    } else {
       const canvas = canvasRef.current;
       var canvasPic = new Image();
       canvasPic.src = canvasDrawn[canvasStage];
       canvasPic.onload = function () {
-        canvas.height = canvasPic.height
+        canvas.height = canvasPic.height;
         const ctx = canvas.getContext("2d");
-        canvas.width = canvasPic.width
+        canvas.width = canvasPic.width;
         ctx.drawImage(canvasPic, 0, 0);
       };
     }
@@ -463,7 +464,7 @@ const Pdf = ({
   };
 
   useEffect(() => {
-    if (pdfImages.length && canvasStage === -1) {
+    if (pdfImages.length) {
       let startY = 0;
       let totalHeight = 0;
       let totalWidth = 300;
@@ -492,8 +493,9 @@ const Pdf = ({
       bImg.onload = function () {
         setBackgroundImg(bImg);
       };
-      setCanvasDrawn([canvasRef.current.toDataURL()]);
-      setCanvasStage(0);
+      setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
+      setCanvasStage(canvasStage + 1);
+      setPdfImages([]);
       if (inv) {
         contextRef.current.globalCompositeOperation = "destination-out";
       }
@@ -501,9 +503,34 @@ const Pdf = ({
     }
   }, [pdfImages, canvasStage]);
 
+  const uploadPDF = (e) => {
+    setLoading(true);
+    const file = e.target.files[0];
+    pdfjsLib
+      .getDocument(URL.createObjectURL(file))
+      .promise.then((pdf) => {
+        setPdf(pdf);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => setLoading(false));
+  };
+
   return (
     <>
       <div className="container grid">
+        <div className="">
+          <label className="" htmlFor="customFile">
+            <FileUploadIcon /> Change PDF:{" "}
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="customFile"
+            name="filename"
+            onChange={uploadPDF}
+          />
+        </div>
+        <br />
         {/* <div> */}
         {/* <div className="flex-wrap"> */}
         {/* <div className="flex">
