@@ -23,7 +23,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { error, success } from "../../../utils/toast";
 import ReactPlayer from "react-player";
 import { getCurrentRole, roles } from "../../../utils/common";
-import App from "../../../studentpanel/tabbar/course/unit/Assignment/Canva/SCanva";
+import SCanva from "./scanva/SCanva"
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -248,7 +248,7 @@ const UploadVideos = () => {
               </div>
               {getCurrentRole() === roles.student ? (
                 <>
-                  <App {...assignment} />
+                  <SCanva {...assignment} />
                 </>
               ) : (
                 <>

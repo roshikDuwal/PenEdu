@@ -1,19 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./admin.scss";
 import "./student.scss"
 import Sidebar from "../components/sidebar/Sidebar";
 import Navbar from "../components/panelnavbar/Navbar";
 import Overview from "../studentpanel/tabbar/overview/Overview";
 import { getCurrentRole, roles } from "../utils/common";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { NavLink } from "react-router-dom";
-import StudentCourse from "../studentpanel/tabbar/course/StudentCourse";
-import Result from "../studentpanel/tabbar/result/Result";
+
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { classData } from "../services/class";
+import { error } from "../utils/toast";
+import {  getCoursesByClass } from "../services/courses";
 
 const Adminpanel = () => {
-  const data = {
-    name: "Admin",
+
+  const [data, setData] = useState([]);
+  const [myClass, setMyClass] = useState(null);
+
+  const getCourseData = async () => {
+
+    try {
+      const classes = await classData();
+      let data;
+      if (getCurrentRole() === roles.student) {
+        const cls = classes[0];
+        setMyClass(cls);
+        data = await getCoursesByClass(cls.id);
+      } 
+      setData(data.course);
+
+    } catch (e) {
+      error(e.message);
+    }
+ 
   };
+
+  useEffect(() => {
+    if (getCurrentRole() === roles.student) {
+      getCourseData();
+    }
+  }, []);
+
+
+ 
   return (
     <>
       <div className="adminpanel">
@@ -27,47 +56,58 @@ const Adminpanel = () => {
               alignItems: "center",
               justifyContent: "center",
             }}
+         
           >
             {getCurrentRole() === roles.student ? (
-              <div className="studentnavbar">
-                <Tabs>
-                  <TabList>
-                    <Tab>
-                      <NavLink to="/student">OverView</NavLink>
-                    </Tab>
-                    <Tab>
-                      <NavLink to="/student/course">Course</NavLink>
-                    </Tab>
-                    <Tab>
-                      <NavLink to="/student/resultcourse">Result</NavLink>
-                    </Tab>
-                  </TabList>
 
-                  <TabPanel>
-                    <div className="tabbar">
-                      <Overview />
-                    </div>
-                  </TabPanel>
+              <div className="astudentpanel">
 
-                  <TabPanel>
-                    <div className="tabbar">
-                      <StudentCourse />
-                    </div>
-                  </TabPanel>
+                <div className="adminpanelpage">
+                 
+                  {/* -----startpage title---   */}
+                  <div className="navigation">
+                    <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div>
+                  </div>
+                  {/* ---start-page end---  */}
 
-                  <TabPanel>
-                    <div className="tabbar">
-                      <Result />
+
+                  {/* student page starts  */}
+                  <section className="studentpage">
+                    <div className="studentdescription">
+
+                      <div className="info">
+                        <AccountCircleIcon/>
+                       
+                        <div className="name">
+                          <h5>Roshin Lakhemaru</h5>
+                          <p>1234789</p>
+                        </div>
+                      </div>
+
+                      <div className="studentnavbar">
+                        <div className="react-tabs ">
+                          <div className="tabpanel">
+                            <div className='tabbar'>
+                              <Overview data={data} />
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
-                  </TabPanel>
-                </Tabs>
+
+                  </section>
+                </div>
               </div>
+
+
+
             ) : (
               <h1>WELCOME TO ADMIN PAGE</h1>
             )}
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

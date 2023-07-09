@@ -1,0 +1,37 @@
+.studentpanel {
+    .adminpanelpage {
+
+        .snavigation {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+
+            a {
+                text-decoration: none;
+                color: black;
+                font-size: 0.8rem;
+                font-weight: 500;
+            }
+        }
+
+        .learner-box {
+            background-color: #f3f3f9;
+            padding: 2rem;
+
+            .learner-list {
+                background-color: white;
+                box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+                .modal-btn {
+                    border-bottom: 1px solid rgb(195, 195, 195);
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 1rem;
+
+                }
+            }
+        }
+    }
+}

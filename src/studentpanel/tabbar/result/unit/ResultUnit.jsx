@@ -1,33 +1,58 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import CustomStudentReactTable from '../../../customstudentreacttable/CustomStudenteactTable'
-import { getUnits } from '../../../../services/units'
-import { NavLink } from 'react-router-dom'
+
+import { getUnits, getUnitsByCourse } from '../../../../services/units'
+import { NavLink, useParams } from 'react-router-dom'
 import { Button } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import "../../../student.scss"
-import Overview from '../../overview/Overview'
+import "../result.scss"
 import Navbar from '../../../../components/panelnavbar/Navbar'
 import CustomReactTable from '../../../../components/CustomReactTable/CustomReactTable'
-import StudentCourse from '../../course/StudentCourse'
+import Sidebar from '../../../../components/sidebar/Sidebar'
+import { getCurrentRole, roles } from '../../../../utils/common'
+
 
 const ResultUnit = () => {
-  const [course, setCourse] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = React.useState(false);
 
+  const [data, setData] = useState([]);
+  const [course, setCourse] = useState(null);
+  const [courses, setCourses] = useState([]);
 
-  const GetUnit = async () => {
-    setLoading(true)
-    const data = await getUnits()
-    setCourse(data.unit)
-    setLoading(false)
-  }
+  const { courseid } = useParams();
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      let data;
+      if (getCurrentRole() === roles.student) {
+        data = await getUnitsByCourse(courseid);
+        data.units.length && setCourse(data.units[0].course.course_name);
+      } else {
+        data = await getUnits();
+        setCourses(
+          data?.course?.map((data) => {
+            return { label: data.course_name, value: data.id };
+          }) || []
+        );
+        setCourse(
+          data.course?.length && courseid
+            ? data.course.find((course) => course.id.toString() === courseid)
+              .course_name
+            : ""
+        );
+      }
+      setData(data.unit || data.units);
+    } catch (e) {
+      error(e.message);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    GetUnit()
-  }, [])
+    getData();
+  }, [courseid]);
 
   const columns = useMemo(
     () => [
@@ -41,62 +66,34 @@ const ResultUnit = () => {
   return (
     <>
       <div className="studentpanel">
+        <Sidebar />
 
         <div className="adminpanelpage">
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
-          <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon /> <div className='titlenavigate'>Unit Result</div>
+          <div className="snavigation">
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Units({course})</NavLink>
           </div>
           {/* ---start-page end---  */}
 
-
-          {/* student page starts  */}
-          <section className="studentpage">
-            <div className="studentdescription">
-
-              <div className="info">
-
-                <h2>Logo</h2>
-                <div className="name">
-                  <h5>Roshin Lakhemaru</h5>
-                  <p>1234789</p>
-                </div>
+          <div className="learner-box">
+            <div className="learner-list">
+              <div className="modal-btn">
+                <h4>Units</h4>
+                <h6>({course})</h6>
               </div>
+              <CustomReactTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                rowClickable={true}
+              />
 
-              <div className="studentnavbar">
-                <Tabs defaultIndex={2}>
-                  <TabList>
-                  <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
-                    <Tab>Result</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <Overview />
-                    </div>
-
-                  </TabPanel>
-                  <TabPanel>
-                    <div className='tabbar'>
-                    <StudentCourse/>
-                    </div>
-                  </TabPanel>
-                  <TabPanel>
-                    <div className='tabbar'>
-                    <NavLink to="./.."><Button>Back</Button></NavLink>
-                      <CustomReactTable columns={columns} data={course} loading={loading} rowClickable={true} />
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
             </div>
-
-          </section>
-
-
+          </div>
         </div>
       </div>
     </>

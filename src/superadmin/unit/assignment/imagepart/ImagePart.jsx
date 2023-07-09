@@ -582,6 +582,18 @@ const ImagePart = ({ pdf, pdfImages }) => {
                       {!imgData.title.length ? (
                         <p className="errorval">Please enter question</p>
                       ) : null}
+
+                        <br />
+                    
+                        <input 
+                        className="form-control" 
+                        type="text" 
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.score}
+                        placeholder="Add Question Mark"
+                        name="" />
+                     
                     </div>
                   </div>
                 ))}

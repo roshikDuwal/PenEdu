@@ -34,6 +34,8 @@ const List = () => {
   const [data, setData] = useState([]);
   const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
+
+  
   const handleClose = () => {
     resetForm();
     setOpen(false);
@@ -158,7 +160,7 @@ const List = () => {
           <div className="navigation">
             <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
             <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
-            <p>Units</p>
+            <p>Units({course})</p>
           </div>
 
           <div className="learner-list-box">
@@ -257,6 +259,7 @@ const List = () => {
                 </form>
               </Box>
             </Modal>
+            
             <CustomReactTable
               columns={columns}
               data={data}

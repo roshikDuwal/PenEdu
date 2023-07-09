@@ -34,13 +34,13 @@ const AddAssignmentCanvas = ({ pdf }) => {
   // const [height, setHeight] = useState(1122);
   // const { id } = useParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     var canvasPic = new Image();
     canvasPic.src = canvasDrawn[canvasStage];
     canvasPic.onload = function () {
       setPdfImages([canvasPic]);
     };
-  },[canvasStage, canvasDrawn])
+  }, [canvasStage, canvasDrawn])
 
   // //change font size
   // const handleChange = (e) => {

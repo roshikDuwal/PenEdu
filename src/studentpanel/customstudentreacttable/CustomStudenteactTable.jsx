@@ -47,7 +47,7 @@ const CustomStudentReactTable = ({ columns, data, loading, rowClickable, unitRes
             {rows.map(row => {
               prepareRow(row);
               return (
-                <tr  {...row.getRowProps()} className={rowClickable ? 'link' : ''}  onClick={()=>rowClickable && unitResult ? navigate("/student/unit"): navigate("/student/result")}>
+                <tr  {...row.getRowProps()} className={rowClickable ? 'link' : ''}  onClick={()=>rowClickable && navigate(row.original.id.toString())}>
                   {row.cells.map(cell => (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}

@@ -27,36 +27,36 @@ const Learner = () => {
     resetForm()
     setOpen(false)
   };
-  // const [classdata, setClassData] = useState([]);
-  // const [openAccordan, setOpenAccordan] = useState(null);
-  // const [loading, setLoading] = useState(false)
+  const [classdata, setClassData] = useState([]);
+  const [openAccordan, setOpenAccordan] = useState(null);
+  const [loading, setLoading] = useState(false)
 
 
 
-  // const columns = useMemo(
-  //   () => [
-  //     // { Header: 'Class id', accessor: 'id' },
-  //     { Header: 'Class Year', accessor: 'class' },
-  //     // { Header: 'Student Count', accessor: 'studentcount' },
-  //     { Header: 'Updated At', accessor: 'updated_at' },
-  //     {
-  //       Header: 'Action', Cell: ({ row }) => (
-  //         <>
-  //           <div className="actionbox">
-  //             <div className="update">
+  const columns = useMemo(
+    () => [
+      // { Header: 'Class id', accessor: 'id' },
+      { Header: 'Class Year', accessor: 'class' },
+      // { Header: 'Student Count', accessor: 'studentcount' },
+      { Header: 'Updated At', accessor: 'updated_at' },
+      {
+        Header: 'Action', Cell: ({ row }) => (
+          <>
+            <div className="actionbox">
+              <div className="update">
 
-  //               <button onClick={() => setOpenAccordan(row.original.id)}>
-  //                 <MoreHorizIcon />
-  //               </button>
-  //               {openAccordan === row.original.id && <ClassAccordan setOpenAccordan={setOpenAccordan} id={row.original.id}  />}
-  //             </div>
-  //           </div>
-  //         </>
-  //       )
-  //     }
-  //   ],
-  //   [openAccordan]
-  // );
+                <button onClick={() => setOpenAccordan(row.original.id)}>
+                  <MoreHorizIcon />
+                </button>
+                {openAccordan === row.original.id && <ClassAccordan setOpenAccordan={setOpenAccordan} id={row.original.id} />}
+              </div>
+            </div>
+          </>
+        )
+      }
+    ],
+    [openAccordan]
+  );
 
 
 
@@ -85,21 +85,21 @@ const Learner = () => {
 
 
 
-  // //getClass
-  // const getClass = async () => {
-  //   setLoading(true)
-  //   classData()
-  //     .then(classdata => {
-  //       setClassData(classdata)
-  //     })
-  //     .finally(() => {
-  //       setLoading(false)
-  //     })
-  // }
+  //getClass
+  const getClass = async () => {
+    setLoading(true)
+    classData()
+      .then(classdata => {
+        setClassData(classdata)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
 
-  // useEffect(() => {
-  //   getClass()
-  // }, [])
+  useEffect(() => {
+    getClass()
+  }, [])
 
 
   return (
@@ -114,18 +114,27 @@ const Learner = () => {
           </div>
 
           <div className="learner-list-box">
-            {/* <div className="modal-btn">
+            <div className="modal-btn">
               <h5>Class year</h5>
               <Button onClick={handleOpen}><AddIcon /> Create</Button>
-            </div> */}
+            </div>
 
-            <Box className="modal-box">
+
+
+            <Modal className='classyearmodal '
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+
+              <Box className="modal-box">
                 <div className='create-detail'>
                   <p>Create Year Class</p>
-                  {/* <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button> */}
+                  <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="instructor-form">
 
                   <div className="formbox">
                     <label htmlFor="class">Class</label>
@@ -147,16 +156,9 @@ const Learner = () => {
                 </form>
               </Box>
 
-            {/* <Modal className='classyearmodal '
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
+            </Modal>
 
-            </Modal> */}
-
-            {/* <CustomReactTable columns={columns} data={classdata} loading={loading} /> */}
+            <CustomReactTable columns={columns} data={classdata} loading={loading} />
 
           </div>
         </div>

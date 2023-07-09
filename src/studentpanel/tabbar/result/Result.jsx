@@ -1,28 +1,47 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { getCourses } from '../../../services/courses'
+import { getCourses, getCoursesByClass } from '../../../services/courses'
 import CustomStudentReactTable from '../../customstudentreacttable/CustomStudenteactTable'
 import Navbar from '../../../components/panelnavbar/Navbar'
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
+import Sidebar from '../../../components/sidebar/Sidebar';
+import { error } from '../../../utils/toast';
+import { classData } from '../../../services/class';
+import { getCurrentRole ,roles} from '../../../utils/common';
 import { NavLink } from 'react-router-dom';
-import Overview from '../overview/Overview';
-import StudentCourse from '../course/StudentCourse';
+
 
 
 const Result = () => {
-  const [course, setCourse] = useState([])
   const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([]);
+  const [myClass, setMyClass] = useState(null);
 
-  const GetCourse = async () => {
-    setLoading(true)
-    const data = await getCourses()
-    setCourse(data.course)
-    setLoading(false)
-  }
+
+  const getCourseData = async () => {
+    setLoading(true);
+    try {
+      const classes = await classData();
+      let data;
+      if (getCurrentRole() === roles.student) {
+        const cls = classes[0];
+        setMyClass(cls);
+        data = await getCoursesByClass(cls.id);
+      } else {
+        data = await getCourses();
+      }
+      setData(data.course);
+
+    } catch (e) {
+      error(e.message);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    GetCourse()
-  }, [])
+    getCourseData();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -36,64 +55,28 @@ const Result = () => {
   return (
     <>
       <div className="studentpanel">
+        <Sidebar />
 
         <div className="adminpanelpage">
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
-          <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div>
+          <div className="snavigation">
+          <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />{" "}
+           <NavLink to="#">Courses</NavLink>
           </div>
           {/* ---start-page end---  */}
 
-
-          {/* student page starts  */}
-          <section className="studentpage">
-            <div className="studentdescription">
-
-              <div className="info">
-
-                <h2>Logo</h2>
-                <div className="name">
-                  <h5>Roshin Lakhemaru</h5>
-                  <p>1234789</p>
-                </div>
+          <div className="learner-box">
+            <div className="learner-list">
+              <div className="modal-btn">
+                <h4>Course Result</h4>
+                {/* <h6>({course})</h6> */}
               </div>
+              <CustomStudentReactTable columns={columns} data={data} loading={loading} rowClickable={true}  />
 
-              <div className="studentnavbar">
-                <Tabs defaultIndex={2}>
-
-                  <TabList>
-                    <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
-                    <Tab><NavLink to="/student/resultcourse">Result</NavLink></Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <Overview />
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                      <StudentCourse/>
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className='tabbar'>
-                    <CustomStudentReactTable columns={columns} data={course} loading={loading} rowClickable={true} unitResult={false} />
-                    </div>
-                  </TabPanel>
-
-                </Tabs>
-              </div>
             </div>
-
-          </section>
-
-
+          </div>
         </div>
       </div>
 

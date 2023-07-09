@@ -11,12 +11,14 @@ import MovieIcon from '@mui/icons-material/Movie';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SchoolIcon from '@mui/icons-material/School';
 import ClassIcon from '@mui/icons-material/Class';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { classData } from "../../services/class";
 import { getCourses } from "../../services/courses";
 import { getCurrentRole, roles } from "../../utils/common";
+
 
 const Sidebar = () => {
 
@@ -38,7 +40,7 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    if(getCurrentRole() !== roles.student) {
+    if (getCurrentRole() !== roles.student) {
       getClass();
       getCourseData();
     }
@@ -63,6 +65,15 @@ const Sidebar = () => {
     },
     {
       id: "2",
+      name: "Dashboard",
+      link: "/dashboard",
+      display: getCurrentRole() === roles.student ? true : false,
+      dropdown: false,
+      icon: <DashboardIcon />,
+      subname: true
+    },
+    {
+      id: "3",
       name: "Year List",
       img: <ViewListIcon />,
       subname2: "list",
@@ -74,7 +85,7 @@ const Sidebar = () => {
       subname: false
     },
     {
-      id: "3",
+      id: "4",
       name: "Course",
       img: <SubjectIcon />,
       // subname2: "Course",
@@ -85,8 +96,9 @@ const Sidebar = () => {
       dropdown: false,
       subname: true
     },
+
     {
-      id: "4",
+      id: "5",
       name: "Academic Year",
       link: "/dashboard/classyear",
       subname2: "Course",
@@ -96,24 +108,16 @@ const Sidebar = () => {
       dropdown: false,
       subname: true
     },
-    // {
-    //   id: "5",
-    //   name: "My Videos",
-    //   link: "/learner/videos",
-    //   display: getCurrentRole() === roles.student ? true : false,
-    //   dropdown: false,
-    //   icon: <MovieIcon />,
-    //   subname: true
-    // },
-    // {
-    //   id: "5",
-    //   name: "Assignment Reports",
-    //   link: "/learner/results",
-    //   display: getCurrentRole() === roles.student ? true : false,
-    //   dropdown: false,
-    //   icon: <AssignmentIcon />,
-    //   subname: true
-    // }
+
+    {
+      id: "6",
+      name: "Assignment Result",
+      link: "/dashboard/result",
+      display: getCurrentRole() === roles.student ? true : false,
+      dropdown: false,
+      icon: <AssignmentIcon />,
+      subname: true
+    }
 
   ];
 
@@ -160,7 +164,7 @@ const Sidebar = () => {
                                             return (
                                               <>
                                                 <Dropdown.Item className="submenu-btn" key={filteredCourse.id} >
-                                                  <NavLink to= {`/dashboard/course/${filteredCourse.id.toString()}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
+                                                  <NavLink to={`/dashboard/course/${filteredCourse.id.toString()}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
                                               </>
                                             )
 

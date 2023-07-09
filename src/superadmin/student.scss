@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-.studentpanel {
+.astudentpanel {
     display: flex;
     width: 100%;
 
@@ -45,43 +45,35 @@
         .info {
             display: flex;
             gap: 2rem;
-            padding: 1rem;
+            padding: 0 !important;
+            align-items: center;
+            margin-left: 2rem;
 
-            h5 {
+
+            svg {
+
+
                 color: white;
+                font-size: 5rem;
             }
 
-            p {
-                color: rgb(202, 202, 202);
+            .name {
+
+                h5 {
+                    color: white;
+                }
+
+                p {
+                    color: rgb(202, 202, 202);
+                }
             }
+
+
         }
 
         .studentnavbar {
             .react-tabs {
-                ul {
-                    display: flex;
-                    gap: 3rem;
-                    align-items: center;
-                    justify-content: center;
-                    padding-top: 1rem;
-
-                    li {
-                        list-style: none;
-                        text-decoration: none;
-                        color: white;
-                        font-size: 0.81rem;
-                        font-family: 'Poppins', sans-serif;
-
-
-                        a {
-                            text-decoration: none;
-                            color: white;
-                        }
-
-                    }
-                }
-
-                .react-tabs__tab-panel {
+                .tabpanel {
                     margin: 2rem;
 
                     .tabbar {
@@ -97,9 +89,10 @@
 
                                             a {
                                                 font-size: 0.61rem;
-                                                color: #405189 ;
+                                                color: #405189;
                                                 text-decoration: none;
-                                                &:hover{
+
+                                                &:hover {
                                                     text-decoration: underline;
                                                 }
                                             }
@@ -110,11 +103,7 @@
                         }
                     }
                 }
-
-
             }
-
-
         }
 
         .details {
