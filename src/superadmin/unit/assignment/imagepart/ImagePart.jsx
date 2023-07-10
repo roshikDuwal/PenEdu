@@ -70,6 +70,7 @@ const ImagePart = ({ pdf, pdfImages }) => {
 
       imagesTmp.push({
         file: base64,
+        score: null,
         title:
           "Question " +
           files[i].name.substring(0, files[i].name.lastIndexOf(".")),
@@ -577,23 +578,28 @@ const ImagePart = ({ pdf, pdfImages }) => {
                           setImages(imagesTmp);
                         }}
                         value={imgData.title}
+                        placeholder="Question"
                         onBlur={sortImages}
                       />
                       {!imgData.title.length ? (
                         <p className="errorval">Please enter question</p>
                       ) : null}
-
-                        <br />
-                    
-                        <input 
-                        className="form-control" 
-                        type="text" 
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.score}
-                        placeholder="Add Question Mark"
-                        name="" />
-                     
+                      <br />
+                      <input
+                        className="form-control"
+                        type="number"
+                        onChange={(e) => {
+                          const imagesTmp = [...images];
+                          imagesTmp[i] = { ...imgData, score: e.target.value };
+                          setImages(imagesTmp);
+                        }}
+                        value={imgData.score}
+                        placeholder="Score"
+                        onBlur={sortImages}
+                      />
+                      {!imgData.score ? (
+                        <p className="errorval">Please enter score</p>
+                      ) : null}
                     </div>
                   </div>
                 ))}

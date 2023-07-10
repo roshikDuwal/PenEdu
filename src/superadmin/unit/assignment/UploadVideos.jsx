@@ -23,7 +23,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { error, success } from "../../../utils/toast";
 import ReactPlayer from "react-player";
 import { getCurrentRole, roles } from "../../../utils/common";
-import SCanva from "./scanva/DoCanva"
+import SCanva from "./scanva/DoCanva";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -33,15 +33,14 @@ const UploadVideos = () => {
 
   const getData = async () => {
     setLoading(true);
-    if(getCurrentRole() !== roles.student){
+    if (getCurrentRole() !== roles.student) {
       const data = await getAssignment(id);
       setData(data.unitAssignmentQuestions);
     }
     const assignmentData = await getAssignments(unit_id);
-    const assignments = assignmentData.unitAssignment || assignmentData.unitAssignments
-    setAssignment(
-      assignments.find((as) => as.id.toString() === id)
-    );
+    const assignments =
+      assignmentData.unitAssignment || assignmentData.unitAssignments;
+    setAssignment(assignments.find((as) => as.id.toString() === id));
 
     setLoading(false);
   };
@@ -65,6 +64,10 @@ const UploadVideos = () => {
             </div>
           </>
         ),
+      },
+      {
+        Header: "Score",
+        Cell: ({ row }) => <h5>{row.original.score}</h5>,
       },
 
       {

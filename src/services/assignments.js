@@ -1,27 +1,32 @@
 import { Axios } from "../utils/axios";
-const axios = new Axios()
-import {routes} from "../constants/url";
+const axios = new Axios();
+import { routes } from "../constants/url";
+import { getCurrentRole, roles } from "../utils/common";
 
-export const addAssignments = async (data)=>{
-    const addAssignment = await axios.post(routes.addAssignment,data)
+export const addAssignments = async (data) => {
+  const addAssignment = await axios.post(routes.addAssignment, data);
 
-    return addAssignment.data;
-}
+  return addAssignment.data;
+};
 
-export const addVideo = async (id, data)=>{
-    const addAssignment = await axios.post(routes.addVideo + id,data)
+export const addVideo = async (id, data) => {
+  const addAssignment = await axios.post(routes.addVideo + id, data);
 
-    return addAssignment.data;
-}
+  return addAssignment.data;
+};
 
-export const getAssignments = async (id)=>{
-    const assignment = await axios.get(routes.getAssignments + id)
+export const getAssignments = async (id) => {
+  const assignment = await axios.get(
+    (getCurrentRole() === roles.student
+      ? routes.getAssignmentsByStudent
+      : routes.getAssignments) + id
+  );
 
-    return assignment.data;
-}
+  return assignment.data;
+};
 
 export const getAssignment = async (id) => {
-    const assessment = await axios.get(routes.getAssignment + id)
+  const assessment = await axios.get(routes.getAssignment + id);
 
-    return assessment.data
-}
+  return assessment.data;
+};
