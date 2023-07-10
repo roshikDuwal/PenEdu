@@ -57,8 +57,10 @@
         .courselist{
             display: flex;
             flex-direction: column;
-            gap: 0.2rem !important;
+            gap: 0.5rem !important;
             align-items: flex-start !important;
+            padding-top: 0.3rem;
+         
             li{
                 list-style: disc !important;
                 padding: 0;

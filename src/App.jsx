@@ -53,8 +53,8 @@ const App = () => {
             <Route path='/dashboard/result' element={<Result/>} />
             <Route path='/dashboard/result/:courseid' element={<ResultUnit/>} shouldRevalidate={true}/>
             <Route path='/dashboard/result/:courseid/:id' element={<StudentAssignment/>} />
-            {/* <Route path='/dashboard/result/:unit_id/:id' element={<ShowResultAssignment/>}/>
-            <Route path='/dashboard/result/:unit_id/:id/video' element={<ShowVideo/>}/> */}
+            <Route path='/dashboard/result/:courseid/:unitid/:assignmentid' element={<ShowResultAssignment/>}/>
+            <Route path='/dashboard/result/:courseid/:unitid/:assignmentid/video' element={<ShowVideo/>}/>
 
           </Route>
 

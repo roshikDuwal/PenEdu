@@ -36,12 +36,12 @@ const Overview = ({data}) => {
                 </div>
                 <div className="detail">
                     <div className='heading'>
-                        Course
+                      Subject
                     </div>
                     <div className="coursedetail">
                         <ul className='courselist' >
                            {data.map((curElem)=>{
-                            return <li style={{padding:"1rem"}}>{curElem.course_name}</li>
+                            return <li >{curElem.course_name}</li>
                            })}
                         </ul>
                     </div>

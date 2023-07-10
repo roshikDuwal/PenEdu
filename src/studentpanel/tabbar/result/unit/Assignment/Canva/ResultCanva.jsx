@@ -34,23 +34,13 @@ const App = (props) => {
 
   const { id } = useParams();
 
-  const getData = async () => {
-    setLoading(true);
-    const data = await getAssignment(id);
-    setData(data.unitAssignmentQuestions);
 
-    setLoading(false);
-  };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  //change font size
-  const handleChange = (e) => {
-    e.preventDefault();
-    setValue(e.target.value);
-  };
+  // //change font size
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setValue(e.target.value);
+  // };
 
   // //change color
   // const colorChange = (e) => {
@@ -466,6 +456,8 @@ const App = (props) => {
     <>
       <div className="container grid">
         <div className="tool">
+          <div><h5>Total Marks:</h5><h4>{props.score}</h4></div>
+          <div><h5>Obtained Marks:</h5><h4></h4></div>
         <div>
           <Button variant="contained" onClick={saveImage}  >
             Save Pdf

@@ -62,7 +62,7 @@ const Learner = () => {
 
 
   const Values = {
-    class: "",
+    class: "Year ",
   }
 
 
@@ -74,6 +74,8 @@ const Learner = () => {
         .then(() => {
           success("Class Added Successfully")
           action.resetForm()
+
+          getClass()
 
           setOpen(false)
         }).catch((err) => {

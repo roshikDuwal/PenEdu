@@ -53,14 +53,14 @@ const StudentAssignment = () => {
         Header: "View Pdf",
         Cell: ({ row }) =>
         (<>{
-          <NavLink to={`/dashboard/result/${id}/${row.original.id}`}>View</NavLink>
+          <NavLink to={`/dashboard/result/${courseid}/${id}/${row.original.id}`}>View</NavLink>
         }</>),
       },
       {
         Header: "View Video",
         Cell: ({ row }) =>
         (<>{
-          <NavLink to={`/dashboard/result/${id}/${row.original.id}/video`}>View</NavLink>
+          <NavLink to={`/dashboard/result/${courseid}/${id}/${row.original.id}/video`}>View</NavLink>
         }</>),
       },
 
@@ -81,7 +81,8 @@ const StudentAssignment = () => {
           <div className="snavigation">
             <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
             <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
-            <NavLink to="./..">Units</NavLink>
+            <NavLink to="./..">Units</NavLink><ChevronRightIcon />
+            <NavLink to="#">Assignments</NavLink>
           </div>
           {/* ---start-page end---  */}
 
@@ -91,11 +92,11 @@ const StudentAssignment = () => {
                 <h4>Units</h4>
                 {/* <h6>({course})</h6> */}
               </div>
+              
               <CustomReactTable
                 columns={columns}
                 data={data}
                 loading={loading}
-                rowClickable={true}
               />
 
             </div>

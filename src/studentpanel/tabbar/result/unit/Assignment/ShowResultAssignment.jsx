@@ -14,23 +14,32 @@ import { ThreeDots } from "react-loader-spinner";
 
 import ResultCanva from "./Canva/ResultCanva";
 import { getAssignments } from "../../../../../services/assignments";
+import Sidebar from "../../../../../components/sidebar/Sidebar";
+import { getCurrentRole, roles } from "../../../../../utils/common";
 
 
 
 const ShowAssignment = () => {
   const [loading, setLoading] = useState(true);
   const [assignment, setAssignment] = useState([]);
-  const { unit_id, id } = useParams();
+  const { unitid, assignmentid } = useParams();
 
   const getData = async () => {
     setLoading(true);
-    const data = await getAssignments(unit_id);
-    setAssignment(data.unitAssignment.find((as) => as.id.toString() === id));
+
+    const data = await getAssignments(unitid);
+  
+    data.unitAssignments.filter((filteredCourse) => filteredCourse.id == assignmentid).map((filterCourse, index) => {
+      setAssignment(filterCourse);
+    })
+
     setLoading(false);
   };
 
   useEffect(() => {
-    getData();
+    if (getCurrentRole() === roles.student) {
+      getData();
+    }
   }, []);
 
 
@@ -39,74 +48,49 @@ const ShowAssignment = () => {
   return (
     <>
       <div className="studentpanel">
+        <Sidebar />
+
         <div className="adminpanelpage">
           <Navbar data={JSON.parse(localStorage.getItem("user", "{}"))} />
 
           {/* -----startpage title---   */}
-          <div className="navigation">
-            <div className='titlenavigate'>Home</div><ChevronRightIcon />  <div className='titlenavigate'>Roshin Lakhemaru</div><ChevronRightIcon />  <div className='titlenavigate'>Course Unit</div><ChevronRightIcon />  <div className='titlenavigate'>Unit Assignment</div><ChevronRightIcon /> 
-            <div className="titlenavigate">Assignment {id}</div>
+          <div className="snavigation">
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Units</NavLink><ChevronRightIcon />
+            <NavLink to="#">{assignment.title}</NavLink>
           </div>
           {/* ---start-page end---  */}
 
-          {/* student page starts  */}
-          <section className="studentpage">
-            <div className="studentdescription">
-              <div className="info">
-                <h2>Logo</h2>
-                <div className="name">
-                  <h5>Roshin Lakhemaru</h5>
-                  <p>1234789</p>
-                </div>
+
+          <div className="learner-box">
+            <div className="learner-list">
+              <div className="modal-btn">
+                <h4>{assignment.title} (Result)</h4>
+                {/* <h6>({course})</h6> */}
               </div>
+              <NavLink to="./..">
+                <Button>Back</Button>
+              </NavLink>
+              {loading ? (
+                <>
+                  <ThreeDots
+                    height="80"
+                    width="80"
+                    radius="9"
+                    color="#5b58ff"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true}
+                  />
+                </>
+              ) : (
+                <ResultCanva {...assignment} />
+              )}
 
-              <div className="studentnavbar">
-                <Tabs defaultIndex={2}>
-                  <TabList>
-                  <Tab><NavLink to="/student">OverView</NavLink></Tab>
-                    <Tab><NavLink to="/student/course">Course</NavLink></Tab>
-                    <Tab>Result</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className="tabbar">
-                      <Overview />
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="tabbar">
-
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="tabbar">
-                    <NavLink to="./..">
-                        <Button>Back</Button>
-                      </NavLink>
-                      {loading ? (
-                        <>
-                          <ThreeDots
-                            height="80"
-                            width="80"
-                            radius="9"
-                            color="#5b58ff"
-                            ariaLabel="three-dots-loading"
-                            wrapperStyle={{}}
-                            wrapperClassName=""
-                            visible={true}
-                          />
-                        </>
-                      ) : (
-                        <ResultCanva {...assignment} />
-                      )}
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </>
