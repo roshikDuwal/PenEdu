@@ -30,5 +30,7 @@ export const routes={
     getCoursesByClass: "class/courses/",
     getUnitsByCourse: "class/courses/units/",
     addClasses:"class/create",
-    deleteClasses:"class/delete/"
+    deleteClasses:"class/delete/",
+    answerStore: "class/courses/units/assignments/store",
+    getSubmits: "class/courses/units/assignments/getSubmit/"
 }

@@ -13,10 +13,11 @@ import {
   ASSIGNMENT_IMAGE_PREFIX,
   ASSIGNMENT_QUESTION_IMAGE_PREFIX,
 } from "../../../../constants/url";
-import { getAssignment } from "../../../../services/assignments";
+import { getAssignment, saveAnswer } from "../../../../services/assignments";
 import CustomReactTable from "../../../../components/CustomReactTable/CustomReactTable";
 import { ThreeDots } from "react-loader-spinner";
 import { getCurrentRole, roles } from "../../../../utils/common";
+import { error, success } from "../../../../utils/toast";
 
 const App = (props) => {
   const canvasRef = useRef(null);
@@ -35,8 +36,9 @@ const App = (props) => {
   const [canvasStage, setCanvasStage] = useState(-1);
   const [data, setData] = useState([]);
   const [height, setHeight] = useState(1122);
+  const navigate = useNavigate();
 
-  const { id } = useParams();
+  const { unit_id, id } = useParams();
 
   const getData = async () => {
     setLoading(true);
@@ -238,29 +240,28 @@ const App = (props) => {
 
   //submit answer
 
-  // const submitAnswer = (event) => {
-  //   event.preventDefault();
-  //   const image = canvasRef.current.toDataURL("image/png");
-  //   const ansData = {
-  //     unit_id: props.unit_id,
-  //     theory_assessment_id: props.id,
-  //     answer: "",
-  //     ansfile: image,
-  //   }
+  const submitAnswer = (event) => {
+    event.preventDefault();
+    const image = canvasRef.current.toDataURL("image/png");
+    const ansData = {
+      unit_id: unit_id,
+      unit_assignment_id: id,
+      answer: "",
+      ansfile: image,
+    }
 
-  //   saveAnswer(ansData)
-  //     .then(() => {
-  //       // success("Answer submitted successfully");
+    saveAnswer(ansData)
+      .then(() => {
+        success("Answer submitted successfully");
 
-  //       setTimeout(()=>{
-  //         navigate("/studentpanel/scourse1")
-  //       },1500)
-  //     })
-  //     .catch((err) => {
-  //       // error(err.message);
-  //       setDisablebtn(false)
-  //     })
-  // };
+        setTimeout(()=>{
+          navigate("./..")
+        },1500)
+      })
+      .catch((err) => {
+        error(err.message);
+      })
+  };
 
   // ///increase decrease size and color
 
@@ -686,7 +687,7 @@ const App = (props) => {
           <div>
             <Button variant="contained">Save as draft</Button>
           </div>
-          <Button variant="contained" onClick={saveImage}>
+          <Button variant="contained" onClick={submitAnswer}>
             Submit Answer
           </Button>
         </div>

@@ -15,7 +15,7 @@ import CustomReactTable from '../../../components/CustomReactTable/CustomReactTa
 import { useEffect, useMemo, useState } from 'react';
 import { FormControlLabel, Switch } from '@mui/material';
 import { Accordan } from '../../../components/tableaccordan/Accordan';
-import { getAssignments } from '../../../services/assignments';
+import { getAssignments, getSubmits } from '../../../services/assignments';
 import { getUnits, getUnitsByCourse } from '../../../services/units';
 import { getCurrentRole, roles } from '../../../utils/common';
 
@@ -40,10 +40,13 @@ const ListAssignment = () => {
           units  = await getUnits();
           units = units.unit
         }
-        setUnit(units.length && id
-            ? units.find((unit) =>
-                unit.id.toString() === id
-            ).unit_name : null);
+        const unit = units.length && id
+        ? units.find((unit) =>
+            unit.id.toString() === id
+        ) : null
+        setUnit(unit.unit_name);
+
+        const submits = await getSubmits(unit.id)
 
         setLoading(false);
     };
@@ -52,17 +55,17 @@ const ListAssignment = () => {
         getData();
     }, []);
 
-      
+
     const columns = useMemo(
         () => [
 
             // { Header: 'Assignment Id', accessor: 'id' },
             { Header: 'Assignment Name', accessor: 'title' },
-            // {
-            //     Header: "Created At",
-            //     Cell: ({ row }) =>
-            //     (<>{new Date(row.original.created_at).toLocaleString()}</>),
-            // },
+            {
+                Header: "Created At",
+                Cell: ({ row }) =>
+                (<>{new Date(row.original.created_at).toLocaleString()}</>),
+            },
             {
                 Header: 'Action', Cell: ({ row }) => (
                     <>

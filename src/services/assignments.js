@@ -30,3 +30,15 @@ export const getAssignment = async (id) => {
 
   return assessment.data;
 };
+
+export const saveAnswer = async (answerData) => {
+  const saveResult = await axios.post(routes.answerStore, answerData);
+
+  return saveResult;
+};
+
+export const getSubmits = async (unit_id) => {
+  const submits = await axios.get(routes.getSubmits+unit_id);
+
+  return submits.data;
+};

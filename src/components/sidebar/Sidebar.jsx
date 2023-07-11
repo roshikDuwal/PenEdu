@@ -49,6 +49,15 @@ const Sidebar = () => {
 
   const sidebararr = [
     {
+      id: "2",
+      name: "Dashboard",
+      link: "/dashboard",
+      display: true,
+      dropdown: false,
+      icon: <DashboardIcon />,
+      subname: true
+    },
+    {
       id: "1",
       name: "Users",
       img: <AccountCircleIcon />,
@@ -58,19 +67,10 @@ const Sidebar = () => {
       subname3: "Instructor",
       link2: "/dashboard/learner",
       link3: "/dashboard/instructor",
-      display: getCurrentRole() === roles.student ? false : true,
+      display: getCurrentRole() === roles.admin ? true : false,
       dropdown: true,
       subname: true
 
-    },
-    {
-      id: "2",
-      name: "Dashboard",
-      link: "/dashboard",
-      display: getCurrentRole() === roles.student ? true : false,
-      dropdown: false,
-      icon: <DashboardIcon />,
-      subname: true
     },
     {
       id: "3",
@@ -104,7 +104,7 @@ const Sidebar = () => {
       subname2: "Course",
       subname3: "Unit",
       icon: <SchoolIcon />,
-      display: getCurrentRole() === roles.student ? false : true,
+      display: getCurrentRole() === roles.admin ? true : false,
       dropdown: false,
       subname: true
     },
@@ -114,6 +114,15 @@ const Sidebar = () => {
       name: "Assignment Result",
       link: "/dashboard/result",
       display: getCurrentRole() === roles.student ? true : false,
+      dropdown: false,
+      icon: <AssignmentIcon />,
+      subname: true
+    },
+    {
+      id: "6",
+      name: "Check Assignment",
+      link: "/dashboard/check",
+      display: getCurrentRole() === roles.instructor ? true : false,
       dropdown: false,
       icon: <AssignmentIcon />,
       subname: true

@@ -26,6 +26,7 @@ import AssignmentResult from './studentpanel/tabbar/result/unit/Assignment/Stude
 import ShowResultAssignment from "./studentpanel/tabbar/result/unit/Assignment/ShowResultAssignment"
 
 import Result from './studentpanel/tabbar/result/Result';
+import Check from './teacher/Check';
 import ShowVideo from './studentpanel/tabbar/result/unit/Assignment/Video/ShowVideo';
 import StudentAssignment from './studentpanel/tabbar/result/unit/Assignment/StudentAssignment';
 
@@ -49,6 +50,8 @@ const App = () => {
             <Route path='/dashboard/course/:courseid/:id' element={<ListAssignment/>} />
             <Route path='/dashboard/course/:courseid/:id/add' element={<AddAssignment/>} />
             <Route path='/dashboard/course/:courseid/:unit_id/:id' element={<UploadVideos/>} />
+
+            <Route path='/dashboard/check' element={<Check/>} />
 
             <Route path='/dashboard/result' element={<Result/>} />
             <Route path='/dashboard/result/:courseid' element={<ResultUnit/>} shouldRevalidate={true}/>

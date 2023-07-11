@@ -33,6 +33,8 @@ const Learner = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     resetForm();
+    setClasses([])
+    setCourses([])
     setOpen(false)
 };
   const [loading, setLoading] = useState(true);
@@ -45,11 +47,11 @@ const Learner = () => {
   const [classes, setClasses] = useState([]);
 
   const onClassChange = (e) => {
-    setClasses(e);
+    setClasses([e]);
   };
 
   const onCourseChange = (e) => {
-    setCourses(e);
+    setCourses([e]);
   };
 
   const columns = React.useMemo(
@@ -296,7 +298,7 @@ const Learner = () => {
                   <div className="formbox">
                     <label htmlFor="class">Class</label>
                     <Select
-                      isMulti
+                      // isMulti
                       name="class"
                       options={classData}
                       className="basic-multi-select"
@@ -305,13 +307,13 @@ const Learner = () => {
                       onChange={onClassChange}
                       onBlur={handleBlur}
                     />
-                     {errors. class_id && touched. class_id ? (<p className='errorval'>{errors. class_id}</p>) : null}
+                     {errors.class_id && touched.class_id && !classes.length ? (<p className='errorval'>Please select class</p>) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="course">Course</label>
                     <Select
-                      isMulti
+                      // isMulti
                       name="course"
                       options={coursedata}
                       className="basic-multi-select"
@@ -320,7 +322,7 @@ const Learner = () => {
                       onChange={onCourseChange}
                       onBlur={handleBlur}
                     />
-                     {errors.course_id && touched.course_id ? (<p className='errorval'>{errors.course_id}</p>) : null}
+                     {errors.course_id && touched.course_id && !courses.length ? (<p className='errorval'>Please select course</p>) : null}
                   </div>
 
                   <div className="formbox">
