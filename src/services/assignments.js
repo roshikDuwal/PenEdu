@@ -37,6 +37,12 @@ export const saveAnswer = async (answerData) => {
   return saveResult;
 };
 
+export const saveQuestion = async (questionData) => {
+  const saveResult = await axios.post(routes.questionStore, questionData);
+
+  return saveResult;
+};
+
 export const getSubmits = async (unit_id) => {
   const submits = await axios.get(routes.getSubmits+unit_id);
 

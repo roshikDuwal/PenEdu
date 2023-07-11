@@ -69,6 +69,11 @@ export const addAssignment = Yup.object({
     score: Yup.number().required("Please enter total score").min(1),
 });
 
+export const addQuestionSchema = Yup.object({
+    title: Yup.string().required("Please enter question"),
+    video: Yup.string().required("Please enter video"),
+    score: Yup.number().required("Please enter total score").min(1),
+});
 
 // export const billlingDetailSchema = Yup.object({
 //     name: Yup.string().min(3).required("Please enter your Product Name"),
