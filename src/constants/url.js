@@ -17,6 +17,7 @@ export const routes={
     addInstructor:"users/instructor/create",
     getInstructors:"users/instructor/index",
     addCourse:"course/create",
+    questionStore: "unit/assignment/question/add",
     getCourses:"course/index",
     addUnit:"unit/create",
     getUnits:"unit/index",

@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { ThreeDots } from "react-loader-spinner";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Navbar from "../../../components/panelnavbar/Navbar";
+import AddIcon from "@mui/icons-material/Add";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
@@ -14,6 +15,7 @@ import {
   addVideo,
   getAssignment,
   getAssignments,
+  saveQuestion,
 } from "../../../services/assignments";
 import {
   ASSIGNMENT_IMAGE_PREFIX,
@@ -24,12 +26,84 @@ import { error, success } from "../../../utils/toast";
 import ReactPlayer from "react-player";
 import { getCurrentRole, roles } from "../../../utils/common";
 import SCanva from "./scanva/DoCanva";
+import { useFormik } from "formik";
+import { addQuestionSchema } from "../../../schema/validate";
+
+import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
   const [assignment, setAssignment] = useState([]);
   const [data, setData] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [file, setFile] = useState(null);
   const { id, unit_id } = useParams();
+
+  const handleClose = () => {
+    resetForm();
+    setOpen(false);
+    setFile(null);
+  };
+  const handleOpen = () => setOpen(true);
+
+  const Values = {
+    unit_assignment_id: id,
+    title: "",
+    score: null,
+    file: "",
+    video: "",
+  };
+
+  const uploadFile = async (e) => {
+    const file = e.target.files[0];
+    const f = await blobToBase64(URL.createObjectURL(file));
+    setFile(f);
+  };
+
+  const blobToBase64 = async (url) => {
+    return new Promise((resolve, _) => {
+      var img = new Image();
+      img.src = url;
+      img.onload = () => {
+        var myCanvas = document.createElement("canvas");
+        var ctx = myCanvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(myCanvas.toDataURL());
+      };
+    });
+  };
+
+  const {
+    values,
+    errors,
+    setFieldValue,
+    handleBlur,
+    resetForm,
+    handleChange,
+    touched,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    validationSchema: addQuestionSchema,
+    initialValues: Values,
+    onSubmit: async (values, action) => {
+      try {
+        await saveQuestion({
+          ...values,
+          file,
+          score: values.score.toString(),
+        });
+        success("Question added successfully!");
+        action.resetForm();
+        getData();
+        handleClose();
+      } catch (e) {
+        error(e.message || "Failed to add question!");
+      }
+    },
+  });
 
   const getData = async () => {
     setLoading(true);
@@ -218,6 +292,95 @@ const UploadVideos = () => {
     if (page === 1) {
       return (
         <div>
+          <Button onClick={handleOpen}>
+            <AddIcon />
+            Add Individual Question
+          </Button>
+
+          <Modal
+            className="unitmodal"
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box className="modal-box ">
+              <div className="create-detail">
+                <p>Add Question</p>
+                <Button className="closequestionicon" onClick={handleClose}>
+                  <CloseIcon />
+                </Button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="instructor-form">
+                <div className="formbox">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.title && touched.title ? (
+                    <p className="errorval">{errors.title}</p>
+                  ) : null}
+                </div>
+
+                <div className="formbox">
+                  <label htmlFor="score">Score</label>
+                  <input
+                    type="number"
+                    name="score"
+                    value={values.score}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.score && touched.score ? (
+                    <p className="errorval">{errors.score}</p>
+                  ) : null}
+                </div>
+
+                <div className="formbox">
+                  <label htmlFor="credit_hours">File</label>
+                  <input
+                    type="file"
+                    name="file"
+                    value={values.file}
+                    onChange={(e) => {
+                      uploadFile(e);
+                      handleChange(e);
+                    }}
+                    onBlur={handleBlur}
+                  />
+                  {!file && touched.file ? (
+                    <p className="errorval">Please add file</p>
+                  ) : null}
+                </div>
+
+                <div className="formbox">
+                  <label htmlFor="video">Video URL</label>
+                  <input
+                    type="text"
+                    name="video"
+                    value={values.video}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.video && touched.video ? (
+                    <p className="errorval">{errors.video}</p>
+                  ) : null}
+                </div>
+
+                <div className="submitbtn">
+                  <button disabled={isSubmitting} type="submit">
+                    <AddIcon /> Add
+                  </button>
+                </div>
+              </form>
+            </Box>
+          </Modal>
+
           <CustomReactTable columns={columns} data={data} loading={loading} />
         </div>
       );
@@ -261,6 +424,7 @@ const UploadVideos = () => {
                         disabled={page == 0}
                         onClick={() => {
                           setPage((currPage) => currPage - 1);
+                          handleClose();
                         }}
                         className="form-control"
                       >
