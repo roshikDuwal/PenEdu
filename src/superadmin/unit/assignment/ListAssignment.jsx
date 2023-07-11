@@ -46,7 +46,7 @@ const ListAssignment = () => {
         ) : null
         setUnit(unit.unit_name);
 
-        const submits = await getSubmits(unit.id)
+        // const submits = await getSubmits(unit.id)
 
         setLoading(false);
     };
