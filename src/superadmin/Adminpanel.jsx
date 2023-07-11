@@ -92,7 +92,14 @@ const Adminpanel = () => {
               <h1>WELCOME TO ADMIN PAGE</h1>
             ) : null}
             {getCurrentRole() === roles.instructor ? (
-              <h1>WELCOME TO INSTRUCTOR PAGE</h1>
+              <div className="instructorpanel">
+                <img src="/teacherpanel.png" alt="" />
+
+                <div className="title">
+                  <h2>Welcome to Teacher Panel</h2>
+                </div>
+
+              </div>
             ) : null}
           </div>
         </div>
