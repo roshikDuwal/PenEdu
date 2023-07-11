@@ -143,7 +143,8 @@ const Learner = () => {
                     <input type="text" name="class"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.class} />
+                      value={values.class}
+                      autoComplete='off' />
                     {errors.class && touched.class ? (
                       <p className="errorval">{errors.class}</p>
                     ) : null}

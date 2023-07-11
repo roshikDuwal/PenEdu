@@ -30,6 +30,19 @@
             }
 
 
+            a{
+                text-decoration: none;
+                background-color: #34457a;
+                color: white;
+                padding: 0.3rem;
+                border-radius: 6px;
+                transition: all 0.3s linear;
+
+                &:hover{
+                    background-color:#3577f1;
+                }
+            }
+
 
 
             td {

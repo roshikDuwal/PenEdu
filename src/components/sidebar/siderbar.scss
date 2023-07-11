@@ -1,5 +1,5 @@
 ::-webkit-scrollbar {
-  width: 0.8rem;
+  width: 0.55rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -16,7 +16,7 @@ div {
   .sidebar {
     width: 240px;
     z-index: 1038;
-    min-height: 100vh;
+    height: 100vh;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     display: flex;
     flex-direction: column;
@@ -28,6 +28,7 @@ div {
       .logo-title {
         padding: 1rem;
         display: flex;
+
         justify-content: center;
         align-items: center;
         border-bottom: 2px solid rgb(185, 185, 185);
@@ -46,9 +47,9 @@ div {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        justify-content: center;
+        height: 90vh;
+        overflow: scroll;
        
-  
         >.box {
           display: flex;
           align-items: center;
@@ -90,7 +91,7 @@ div {
               }
   
               svg {
-                color: rgb(7, 96, 191);
+                color: #069884;
               }
   
             }
