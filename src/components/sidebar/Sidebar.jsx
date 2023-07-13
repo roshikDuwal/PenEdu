@@ -1,37 +1,39 @@
 import "./siderbar.scss";
 
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SubjectIcon from '@mui/icons-material/Subject';
-import RemoveIcon from '@mui/icons-material/Remove';
-import MovieIcon from '@mui/icons-material/Movie';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import SchoolIcon from '@mui/icons-material/School';
-import ClassIcon from '@mui/icons-material/Class';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SubjectIcon from "@mui/icons-material/Subject";
+import RemoveIcon from "@mui/icons-material/Remove";
+import MovieIcon from "@mui/icons-material/Movie";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import SchoolIcon from "@mui/icons-material/School";
+import ClassIcon from "@mui/icons-material/Class";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { classData } from "../../services/class";
-import { getCourses } from "../../services/courses";
+import { getCourses, getCoursesByClass } from "../../services/courses";
 import { getCurrentRole, roles } from "../../utils/common";
 
-
 const Sidebar = () => {
-
-  const [classList, setClassList] = useState([])
-  const [courseList, setCourseList] = useState([])
+  const [classList, setClassList] = useState([]);
+  const [courseList, setCourseList] = useState([]);
 
   //getClass
   const getClass = async () => {
-    classData()
-      .then(classdata => {
-        setClassList(classdata)
-      })
-  }
+    classData().then(async (classdata) => {
+      setClassList(classdata);
+      if (getCurrentRole() !== roles.admin) {
+        const cls = classdata[0];
+        const data = await getCoursesByClass(cls.id);
+        setCourseList(data.course || data.courses);
+      }
+    });
+  };
 
   //getCourse
   const getCourseData = async () => {
@@ -40,12 +42,11 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    if (getCurrentRole() !== roles.student) {
-      getClass();
+    getClass();
+    if (getCurrentRole() === roles.admin) {
       getCourseData();
     }
-  }, [])
-
+  }, []);
 
   const sidebararr = [
     {
@@ -55,7 +56,7 @@ const Sidebar = () => {
       display: true,
       dropdown: false,
       icon: <DashboardIcon />,
-      subname: true
+      subname: true,
     },
     {
       id: "1",
@@ -69,8 +70,7 @@ const Sidebar = () => {
       link3: "/dashboard/instructor",
       display: getCurrentRole() === roles.admin ? true : false,
       dropdown: true,
-      subname: true
-
+      subname: true,
     },
     {
       id: "3",
@@ -82,7 +82,7 @@ const Sidebar = () => {
       link3: "/dashboard/unit",
       display: getCurrentRole() === roles.student ? false : true,
       dropdown: true,
-      subname: false
+      subname: false,
     },
     {
       id: "4",
@@ -94,7 +94,7 @@ const Sidebar = () => {
       // link3: "/dashboard/unit",
       display: true,
       dropdown: false,
-      subname: true
+      subname: true,
     },
 
     {
@@ -106,7 +106,7 @@ const Sidebar = () => {
       icon: <SchoolIcon />,
       display: getCurrentRole() === roles.admin ? true : false,
       dropdown: false,
-      subname: true
+      subname: true,
     },
 
     {
@@ -116,7 +116,7 @@ const Sidebar = () => {
       display: getCurrentRole() === roles.student ? true : false,
       dropdown: false,
       icon: <AssignmentIcon />,
-      subname: true
+      subname: true,
     },
     {
       id: "6",
@@ -125,11 +125,9 @@ const Sidebar = () => {
       display: getCurrentRole() === roles.instructor ? true : false,
       dropdown: false,
       icon: <AssignmentIcon />,
-      subname: true
-    }
-
+      subname: true,
+    },
   ];
-
 
   return (
     <>
@@ -137,76 +135,104 @@ const Sidebar = () => {
         <nav className="sidebar">
           <div className="position">
             <div className="logo-title">
-
-              <NavLink to="/dashboard">  <h2><img src="/logo.png" alt="Logo" /></h2></NavLink>
+              <NavLink to="/dashboard">
+                {" "}
+                <h2>
+                  <img src="/logo.png" alt="Logo" />
+                </h2>
+              </NavLink>
             </div>
 
-
             <div className="sidebarbox">
-              {sidebararr.filter(bar => bar.display).map((currEle, index) => {
-
-                return (
-                  <div className="box" key={currEle.id}>
-
-                    {
-                      currEle.dropdown == true ?
+              {sidebararr
+                .filter((bar) => bar.display)
+                .map((currEle, index) => {
+                  return (
+                    <div className="box" key={currEle.id}>
+                      {currEle.dropdown == true ? (
                         <>
-                          <Dropdown >
+                          <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic">
-                              {currEle.img}{currEle.name}
-
+                              {currEle.img}
+                              {currEle.name}
                             </Dropdown.Toggle>
 
-                            <Dropdown.Menu className="dropdown-menu dropdownmenu" >
-                              {currEle.subname == true ? <>
-                                <Dropdown.Item className="menu" > <NavLink to={currEle.link2}><RemoveIcon /> {currEle.subname2}</NavLink></Dropdown.Item>
-                                <Dropdown.Item className="menu"><NavLink to={currEle.link3}><RemoveIcon /> {currEle.subname3}</NavLink></Dropdown.Item>
-                              </>
-                                :
+                            <Dropdown.Menu className="dropdown-menu dropdownmenu">
+                              {currEle.subname == true ? (
+                                <>
+                                  <Dropdown.Item className="menu">
+                                    {" "}
+                                    <NavLink to={currEle.link2}>
+                                      <RemoveIcon /> {currEle.subname2}
+                                    </NavLink>
+                                  </Dropdown.Item>
+                                  <Dropdown.Item className="menu">
+                                    <NavLink to={currEle.link3}>
+                                      <RemoveIcon /> {currEle.subname3}
+                                    </NavLink>
+                                  </Dropdown.Item>
+                                </>
+                              ) : (
                                 <>
                                   {classList.map((classElem, index) => {
                                     return (
-                                      <DropdownButton className="dropdownbtn" id="dropdown-basic-button" title={classElem.class} key={index}>
-                                        {
-                                          courseList.filter((filteredCourse) => filteredCourse.class_id === classElem.id.toString()).map((filteredCourse, index) => {
-
+                                      <DropdownButton
+                                        className="dropdownbtn"
+                                        id="dropdown-basic-button"
+                                        title={classElem.class}
+                                        key={index}
+                                      >
+                                        {courseList
+                                          .filter(
+                                            (filteredCourse) =>
+                                              filteredCourse.class_id ===
+                                              classElem.id.toString()
+                                          )
+                                          .map((filteredCourse, index) => {
                                             return (
                                               <>
-                                                <Dropdown.Item className="submenu-btn" key={filteredCourse.id} >
-                                                  <NavLink to={`/dashboard/course/${filteredCourse.id.toString()}`}><RemoveIcon />  {filteredCourse.course_name} </NavLink></Dropdown.Item>
+                                                <Dropdown.Item
+                                                  className="submenu-btn"
+                                                  key={filteredCourse.id}
+                                                >
+                                                  <NavLink
+                                                    to={`/dashboard/course/${filteredCourse.id.toString()}`}
+                                                  >
+                                                    <RemoveIcon />{" "}
+                                                    {filteredCourse.course_name}{" "}
+                                                  </NavLink>
+                                                </Dropdown.Item>
                                               </>
-                                            )
-
-                                          })
-                                        }
+                                            );
+                                          })}
                                       </DropdownButton>
-                                    )
+                                    );
                                   })}
-                                </>}
+                                </>
+                              )}
                             </Dropdown.Menu>
-
                           </Dropdown>
                         </>
-                        :
+                      ) : (
                         <>
                           <div className="dropdown">
-                            <button>{currEle.icon ? currEle.icon : <ClassIcon />} <NavLink to={currEle.link}>{currEle.name}</NavLink></button>
+                            <button>
+                              {currEle.icon ? currEle.icon : <ClassIcon />}{" "}
+                              <NavLink to={currEle.link}>
+                                {currEle.name}
+                              </NavLink>
+                            </button>
                           </div>
                         </>
-                    }
-
-
-                  </div>
-                );
-              })}
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
-
-
         </nav>
       </div>
     </>
-
   );
 };
 

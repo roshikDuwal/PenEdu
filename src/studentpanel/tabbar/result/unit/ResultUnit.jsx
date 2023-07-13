@@ -26,7 +26,7 @@ const ResultUnit = () => {
     setLoading(true);
     try {
       let data;
-      if (getCurrentRole() === roles.student) {
+      if (getCurrentRole() !== roles.admin) {
         data = await getUnitsByCourse(courseid);
         data.units.length && setCourse(data.units[0].course.course_name);
       } else {

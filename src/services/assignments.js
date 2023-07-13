@@ -22,7 +22,7 @@ export const addSchedule = async (data) => {
 };
 
 export const deleteQuestion = async (id) => {
-  const que = await axios.delete(routes.deleteQuestion+id);
+  const que = await axios.delete(routes.deleteQuestion + id);
 
   return que;
 };
@@ -31,6 +31,8 @@ export const getAssignments = async (id) => {
   const assignment = await axios.get(
     (getCurrentRole() === roles.student
       ? routes.getAssignmentsByStudent
+      : getCurrentRole() === roles.instructor
+      ? routes.getAssignmentsByTeacher
       : routes.getAssignments) + id
   );
 
@@ -68,7 +70,7 @@ export const saveQuestion = async (questionData) => {
 };
 
 export const getSubmits = async (unit_id) => {
-  const submits = await axios.get(routes.getSubmits+unit_id);
+  const submits = await axios.get(routes.getSubmits + unit_id);
 
   return submits.data;
 };

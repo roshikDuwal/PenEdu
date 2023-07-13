@@ -137,8 +137,8 @@ const Adminpanel = () => {
       } else {
         data = await getCourses();
       }
-      setData(data.course);
-      setClasses(data.class);
+      setData(data.course || data.courses);
+      setClasses(data.class || data.classes || classes);
     } catch (e) {
       error(e.message);
     }

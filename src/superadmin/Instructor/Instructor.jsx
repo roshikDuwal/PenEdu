@@ -315,7 +315,7 @@ const Learner = () => {
                     <Select
                       // isMulti
                       name="course"
-                      options={coursedata}
+                      options={!classes.length ? [] :coursedata.filter((course) => course.value.toString() === classes[0].value.toString())}
                       className="basic-multi-select"
                       classNamePrefix="select"
                       value={courses}

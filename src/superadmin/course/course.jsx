@@ -56,7 +56,7 @@ const Course = () => {
       } else {
         data = await getCourses();
       }
-      setData(data.course);
+      setData(data.course || data.courses);
       setClasses(
         classes.map((data) => {
           return { label: data.class, value: data.id };

@@ -31,7 +31,7 @@ const Result = () => {
       } else {
         data = await getCourses();
       }
-      setData(data.course);
+      setData(data.course || data.courses);
 
     } catch (e) {
       error(e.message);

@@ -35,12 +35,11 @@ const ListAssignment = () => {
   const getData = async () => {
     setLoading(true);
     const data = await getAssignments(id);
-    setData(data.unitAssignment || data.unitAssignments);
 
     let units;
-    if (getCurrentRole() === roles.student) {
+    if (getCurrentRole() !== roles.admin) {
       units = await getUnitsByCourse(courseid);
-      units = units.units;
+      units = units.units || units.unit;
     } else {
       units = await getUnits();
       units = units.unit;
@@ -51,7 +50,19 @@ const ListAssignment = () => {
         : null;
     setUnit(unit.unit_name);
 
-    // const submits = await getSubmits(unit.id)
+    let assignments = data.unitAssignment || data.unitAssignments
+    if(getCurrentRole() === roles.student) {
+      const submits = await getSubmits(unit.id);
+      submits.getAssessment.map((submit) => {
+        assignments = assignments.map(asgn => {
+          if(asgn.id.toString() === submit.unit_assignment_id) {
+            return {...asgn, submit: submit}
+          }
+          return asgn;
+        })
+      })
+    }
+    setData(assignments);
 
     setLoading(false);
   };
