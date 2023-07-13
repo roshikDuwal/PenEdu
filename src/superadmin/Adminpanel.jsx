@@ -31,7 +31,7 @@ const Adminpanel = () => {
                 </div>
                 <div className="col-xs-9 text-right">
                   <div className="huge">0</div>
-                  <div className="under-number">*******</div>
+                  <div className="under-number">______</div>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Adminpanel = () => {
                 </div>
                 <div className="col-xs-9 text-right">
                   <div className="huge">0</div>
-                  <div className="under-number">*******</div>
+                  <div className="under-number">______</div>
                 </div>
               </div>
             </div>
