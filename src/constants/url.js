@@ -30,6 +30,7 @@ export const routes={
     getClassesByStudent: "class/list",
     getClassesByTeacher: "teacher/class/list",
     getCoursesByClass: "class/courses/",
+    getCoursesByClassByTeacher: "teacher/course/list/",
     getUnitsByCourse: "class/courses/units/",
     addClasses:"class/create",
     deleteClasses:"class/delete/",

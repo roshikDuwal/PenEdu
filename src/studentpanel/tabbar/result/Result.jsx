@@ -24,7 +24,7 @@ const Result = () => {
     try {
       const classes = await classData();
       let data;
-      if (getCurrentRole() === roles.student) {
+      if (getCurrentRole() !== roles.admin) {
         const cls = classes[0];
         setMyClass(cls);
         data = await getCoursesByClass(cls.id);
