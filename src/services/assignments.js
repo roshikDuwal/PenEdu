@@ -15,6 +15,18 @@ export const addVideo = async (id, data) => {
   return addAssignment.data;
 };
 
+export const addSchedule = async (data) => {
+  const schedule = await axios.post(routes.addSchedule, data);
+
+  return schedule;
+};
+
+export const deleteQuestion = async (id) => {
+  const que = await axios.delete(routes.deleteQuestion+id);
+
+  return que;
+};
+
 export const getAssignments = async (id) => {
   const assignment = await axios.get(
     (getCurrentRole() === roles.student
@@ -29,6 +41,18 @@ export const getAssignment = async (id) => {
   const assessment = await axios.get(routes.getAssignment + id);
 
   return assessment.data;
+};
+
+export const updateQuestion = async (id, data) => {
+  const question = await axios.patch(routes.editQuestion + id, data);
+
+  return question;
+};
+
+export const updateAssignment = async (id, data) => {
+  const assignment = await axios.patch(routes.editAssignment + id, data);
+
+  return assignment;
 };
 
 export const saveAnswer = async (answerData) => {

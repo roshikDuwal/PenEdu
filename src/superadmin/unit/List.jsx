@@ -117,7 +117,7 @@ const List = () => {
 
   const Values = {
     unit_name: "",
-    course_id: "",
+    course_id: courses.length ? courses.find((cr) => cr.value?.toString() === courseid.toString()) : "",
     unit_code: "",
     credit_hours: 0,
   };
@@ -135,6 +135,7 @@ const List = () => {
   } = useFormik({
     validationSchema: addUnitSchema,
     initialValues: Values,
+    enableReinitialize: true,
     onSubmit: async (values, action) => {
       try {
         await addUnits({
@@ -223,13 +224,10 @@ const List = () => {
                     <label htmlFor="class">Course</label>
                     <Select
                       name="class"
-                      value={
-                        courses.length && values.course_id
-                          ? courses.find((cls) => cls.id === values.course_id)
-                          : ""
+                      value={values.course_id
                       }
                       options={courses}
-                      onChange={(e) => setFieldValue("course_id", e.value)}
+                      onChange={(e) => setFieldValue("course_id", e)}
                       onBlur={handleBlur}
                     />
                     {errors.course_id && touched.course_id ? (

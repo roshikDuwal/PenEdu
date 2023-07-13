@@ -13,9 +13,11 @@ import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
 import {
   addVideo,
+  deleteQuestion,
   getAssignment,
   getAssignments,
   saveQuestion,
+  updateQuestion,
 } from "../../../services/assignments";
 import {
   ASSIGNMENT_IMAGE_PREFIX,
@@ -28,10 +30,16 @@ import { getCurrentRole, roles } from "../../../utils/common";
 import SCanva from "./scanva/DoCanva";
 import { useFormik } from "formik";
 import { addQuestionSchema } from "../../../schema/validate";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
+import { Accordan } from "../../../components/tableaccordan/Accordan";
+import UpdateAssignment from "./UpdateAssignment";
+
+import ReactFancyBox from 'react-fancybox'
+import 'react-fancybox/lib/fancybox.css'
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -40,13 +48,7 @@ const UploadVideos = () => {
   const [open, setOpen] = React.useState(false);
   const [file, setFile] = useState(null);
   const { id, unit_id } = useParams();
-
-  const handleClose = () => {
-    resetForm();
-    setOpen(false);
-    setFile(null);
-  };
-  const handleOpen = () => setOpen(true);
+  const [openAccordan, setOpenAccordan] = useState(null);
 
   const Values = {
     unit_assignment_id: id,
@@ -55,6 +57,21 @@ const UploadVideos = () => {
     file: "",
     video: "",
   };
+  const [editData, setEditData] = useState(Values);
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setOpenAccordan(null);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    setEditData(null);
+    setOpen(false);
+    setFile(null);
+  };
+  const handleOpen = () => setOpen(true);
 
   const uploadFile = async (e) => {
     const file = e.target.files[0];
@@ -87,20 +104,38 @@ const UploadVideos = () => {
     isSubmitting,
   } = useFormik({
     validationSchema: addQuestionSchema,
-    initialValues: Values,
+    initialValues: editData || Values,
+    enableReinitialize: true,
     onSubmit: async (values, action) => {
       try {
-        await saveQuestion({
-          ...values,
-          file,
-          score: values.score.toString(),
-        });
-        success("Question added successfully!");
+        if (editData?.id) {
+          const data = {
+            ...values,
+            file: values.image,
+            score: values.score.toString(),
+          };
+          if (file) {
+            data.file = file;
+          } else {
+            delete data.file;
+          }
+          await updateQuestion(editData?.id, data);
+        } else {
+          if (!file) {
+            return;
+          }
+          await saveQuestion({
+            ...values,
+            file,
+            score: values.score.toString(),
+          });
+        }
+        success("Success!");
         action.resetForm();
         getData();
         handleClose();
       } catch (e) {
-        error(e.message || "Failed to add question!");
+        error(e.message || "Failed!");
       }
     },
   });
@@ -131,9 +166,14 @@ const UploadVideos = () => {
         Cell: ({ row }) => (
           <>
             <div className="que-ans">
-              <img
+              {/* <img
                 src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
                 alt={row.original.title}
+              /> */}
+
+              <ReactFancyBox
+                thumbnail={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
+                image={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
               />
             </div>
           </>
@@ -213,7 +253,37 @@ const UploadVideos = () => {
           );
         },
       },
+      {
+        Header: "Action",
+        Cell: ({ row }) => (
+          <>
+            <div className="actionbox">
+              <div className="update">
+                <button onClick={() => setOpenAccordan(row.original.id)}>
+                  <MoreHorizIcon />
+                </button>
 
+                {openAccordan === row.original.id && (
+                  <Accordan
+                    handleEdit={() => handleEdit(row.original)}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteQuestion(row.original.id)
+                        success("Question deleted successfully!");
+                        getData()
+                      } catch (e) {
+                        error(e.message || "Failed to delete question!");
+                      }
+                    }}
+                    setOpenAccordan={setOpenAccordan}
+                  />
+                )}
+              </div>
+            </div>
+          </>
+        ),
+      },
       // {
       //   Header: "Video",
       //   Cell: ({ row }) => {
@@ -279,7 +349,7 @@ const UploadVideos = () => {
       //   },
       // },
     ],
-    []
+    [openAccordan]
   );
   const title =
     getCurrentRole() === roles.student ? "Do Assignment" : "Assignment Details";
@@ -287,14 +357,18 @@ const UploadVideos = () => {
 
   const PageDisplay = () => {
     if (page === 0) {
-      return <img src={ASSIGNMENT_IMAGE_PREFIX + assignment.file} />;
+      return (
+        <div>
+          <UpdateAssignment assignment={assignment} getData={getData} />
+        </div>
+      );
     }
     if (page === 1) {
       return (
         <div>
-          <Button onClick={handleOpen}>
+          <Button className="addindividualques" onClick={handleOpen}>
             <AddIcon />
-            Add Individual Question
+            Add Question
           </Button>
 
           <Modal
@@ -306,7 +380,7 @@ const UploadVideos = () => {
           >
             <Box className="modal-box ">
               <div className="create-detail">
-                <p>Add Question</p>
+                <p>{editData?.id ? "Edit" : "Add"} Question</p>
                 <Button className="closequestionicon" onClick={handleClose}>
                   <CloseIcon />
                 </Button>
@@ -373,9 +447,15 @@ const UploadVideos = () => {
                 </div>
 
                 <div className="submitbtn">
-                  <button disabled={isSubmitting} type="submit">
-                    <AddIcon /> Add
-                  </button>
+                  {editData?.id ? (
+                    <button disabled={isSubmitting} type="submit">
+                      <AddIcon /> Update
+                    </button>
+                  ) : (
+                    <button disabled={isSubmitting} type="submit">
+                      <AddIcon /> Add
+                    </button>
+                  )}
                 </div>
               </form>
             </Box>
@@ -443,7 +523,7 @@ const UploadVideos = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="">
+                  <div className="page">
                     <div>{PageDisplay()}</div>
                   </div>
                 </>

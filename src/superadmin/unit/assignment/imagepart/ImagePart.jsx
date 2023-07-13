@@ -170,10 +170,6 @@ const ImagePart = ({ pdf, pdfImages }) => {
     validationSchema: addAssignment,
     initialValues: Values,
     onSubmit: async (values, action) => {
-      if(!images.length) {
-        error("Add individual questions")
-        return
-      }
       setLoading(true);
       // const newCanvas = trimCanvas(canvasRef.current);
       const newCanvas = canvasRef.current;
@@ -185,6 +181,9 @@ const ImagePart = ({ pdf, pdfImages }) => {
         file: image,
         score: values.score
       };
+      if(!jsonData.questions.length) {
+        delete jsonData.questions
+      }
 
       // var formData = new FormData();
       // for (var key in jsonData) {
@@ -524,14 +523,14 @@ const ImagePart = ({ pdf, pdfImages }) => {
                 <p className="errorval">{errors.score}</p>
               ) : null}
             </div>
-            <div className="col-md-6 form-group">
+            {/* <div className="col-md-6 form-group">
               <label htmlFor="">Start Date: </label>
               <input type="date" className="form-control" />
             </div>
             <div className="col-md-6 form-group">
               <label htmlFor="">Due Date: </label>
               <input type="date" className="form-control" />
-            </div>
+            </div> */}
             <div className="col-md-6 form-group">
               <label htmlFor="">Individual question/answer: </label>
               <input
@@ -540,9 +539,9 @@ const ImagePart = ({ pdf, pdfImages }) => {
                 multiple
                 className="form-control"
               />
-              {touched.title && touched.score && !images.length ? (
+              {/* {touched.title && touched.score && !images.length ? (
                 <p className="errorval">Add individual questions</p>
-              ) : null}
+              ) : null} */}
             </div>
             <div className="flex">
               <Button
