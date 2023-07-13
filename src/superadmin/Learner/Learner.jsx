@@ -169,7 +169,7 @@ const Learner = () => {
                 <label htmlFor="name">Filter by class: </label>
                 <select
                   name="filter"
-                  className="form-control input-sm"
+                  className="form-control form-control-sm"
                   value={filterClass}
                   onChange={(e) => setFilterClass(e.target.value)}
                 >
