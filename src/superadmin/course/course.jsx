@@ -36,7 +36,7 @@ const Course = () => {
   const [data, setData] = useState([]);
   const [classes, setClasses] = useState([]);
   const [myClass, setMyClass] = useState(null);
-  
+
   const handleClose = () => {
     resetForm();
     setOpen(false);
@@ -72,8 +72,6 @@ const Course = () => {
     getCourseData();
   }, []);
 
-
-
   const columns = React.useMemo(
     () => [
       // { Header: "Course Id", accessor: "id" },
@@ -84,7 +82,9 @@ const Course = () => {
         Header: "Academic Year",
         Cell: ({ row }) =>
           classes.length && row.original.class_id
-            ? classes.find((cls) => cls.value.toString() === row.original.class_id).label
+            ? classes.find(
+                (cls) => cls.value.toString() === row.original.class_id
+              ).label
             : "",
       },
       {
@@ -93,7 +93,12 @@ const Course = () => {
           <>
             <div className="actionbox">
               <div className="update">
-                <button onClick={() => setOpenAccordan(row.original.id)}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenAccordan(row.original.id);
+                  }}
+                >
                   <MoreHorizIcon />
                 </button>
 

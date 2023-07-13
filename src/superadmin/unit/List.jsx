@@ -35,7 +35,6 @@ const List = () => {
   const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
 
-  
   const handleClose = () => {
     resetForm();
     setOpen(false);
@@ -117,7 +116,9 @@ const List = () => {
 
   const Values = {
     unit_name: "",
-    course_id: courses.length ? courses.find((cr) => cr.value?.toString() === courseid.toString()) : "",
+    course_id: courses.length
+      ? courses.find((cr) => cr.value?.toString() === courseid.toString())
+      : "",
     unit_code: "",
     credit_hours: 0,
   };
@@ -224,8 +225,7 @@ const List = () => {
                     <label htmlFor="class">Course</label>
                     <Select
                       name="class"
-                      value={values.course_id
-                      }
+                      value={values.course_id}
                       options={courses}
                       onChange={(e) => setFieldValue("course_id", e)}
                       onBlur={handleBlur}
@@ -257,7 +257,7 @@ const List = () => {
                 </form>
               </Box>
             </Modal>
-            
+
             <CustomReactTable
               columns={columns}
               data={data}

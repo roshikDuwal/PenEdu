@@ -43,7 +43,8 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
       console.log(values);
     },
   });
-  const deleteConfirm = () => {
+  const deleteConfirm = (e) => {
+    e.stopPropagation();
     setOpenAccordan(null);
     confirmAlert({
       title: "Are you sure to delete?",
@@ -79,10 +80,11 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
 
         <li className="profile">
           <Button
-            onClick={() => {
+            onClick={(e) => {
               if (handleEdit) {
                 handleEdit();
               }
+              e.stopPropagation();
             }}
             className="button"
           >

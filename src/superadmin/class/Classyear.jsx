@@ -20,8 +20,8 @@ import {
 } from "../../services/class";
 import { success, error } from "../../utils/toast";
 import { AddClassSchema } from "../../schema/validate";
-import { ClassAccordan } from "../../components/tableaccordan/ClassAccordan";
 import Select from "react-select";
+import { Accordan } from "../../components/tableaccordan/Accordan";
 
 const Learner = () => {
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ const Learner = () => {
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && (
-                  <ClassAccordan
+                  <Accordan
                     setOpenAccordan={setOpenAccordan}
                     id={row.original.id}
                   />

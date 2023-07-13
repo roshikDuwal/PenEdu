@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./admin.scss";
 import "./student.scss";
 import Sidebar from "../components/sidebar/Sidebar";
@@ -10,13 +10,123 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { classData } from "../services/class";
 import { error } from "../utils/toast";
-import { getCoursesByClass } from "../services/courses";
+import { getCourses, getCoursesByClass } from "../services/courses";
+import { ThreeDots } from "react-loader-spinner";
 
 const Adminpanel = () => {
   const [data, setData] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [myClass, setMyClass] = useState(null);
 
+  const dashboardCounters = useCallback(() => {
+    return (
+      <div className="row">
+        <div className="col-lg-3 col-md-6">
+          <div className="panel panel-primary">
+            <div className="panel-heading">
+              <div className="row">
+                <div className="col-xs-3">
+                  <i className="fa fa-comments fa-4x"></i>
+                </div>
+                <div className="col-xs-9 text-right">
+                  <div className="huge">0</div>
+                  <div className="under-number">*******</div>
+                </div>
+              </div>
+            </div>
+            <a href="#">
+              <div className="panel-footer">
+                <span className="pull-left green">View Details</span>
+                <span className="pull-right green">
+                  <i className="fa fa-arrow-circle-right"></i>
+                </span>
+                <div className="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6">
+          <div className="panel panel-green">
+            <div className="panel-heading">
+              <div className="row">
+                <div className="col-xs-3">
+                  <i className="fa fa-comments fa-4x"></i>
+                </div>
+                <div className="col-xs-9 text-right">
+                  <div className="huge">0</div>
+                  <div className="under-number">*******</div>
+                </div>
+              </div>
+            </div>
+            <a href="#">
+              <div className="panel-footer">
+                <span className="pull-left green">View Details</span>
+                <span className="pull-right green">
+                  <i className="fa fa-arrow-circle-right"></i>
+                </span>
+                <div className="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6">
+          <div className="panel panel-yellow">
+            <div className="panel-heading">
+              <div className="row">
+                <div className="col-xs-3">
+                  <i className="fa fa-user fa-4x"></i>
+                </div>
+                <div className="col-xs-9 text-right">
+                  <div className="huge">{classes.length}</div>
+                  <div className="under-number"> Classes</div>
+                </div>
+              </div>
+            </div>
+            <a href="#">
+              <div className="panel-footer">
+                <span className="pull-left yellow">View Details</span>
+                <span className="pull-right yellow">
+                  <i className="fa fa-arrow-circle-right"></i>
+                </span>
+                <div className="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6">
+          <div className="panel panel-red">
+            <div className="panel-heading">
+              <div className="row">
+                <div className="col-xs-3">
+                  <i className="fa fa-list fa-4x"></i>
+                </div>
+                <div className="col-xs-9 text-right">
+                  <div className="huge">{data.length}</div>
+                  <div className="under-number">Courses</div>
+                </div>
+              </div>
+            </div>
+            <a href="#">
+              <div className="panel-footer">
+                <span className="pull-left red">View Details</span>
+                <span className="pull-right red">
+                  <i className="fa fa-arrow-circle-right"></i>
+                </span>
+                <div className="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }, [data]);
+
   const getCourseData = async () => {
+    setLoading(true);
     try {
       const classes = await classData();
       let data;
@@ -24,17 +134,19 @@ const Adminpanel = () => {
         const cls = classes[0];
         setMyClass(cls);
         data = await getCoursesByClass(cls.id);
+      } else {
+        data = await getCourses();
       }
       setData(data.course);
+      setClasses(data.class);
     } catch (e) {
       error(e.message);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (getCurrentRole() === roles.student) {
-      getCourseData();
-    }
+    getCourseData();
   }, []);
 
   return (
@@ -58,7 +170,7 @@ const Adminpanel = () => {
                   <div className="navigation">
                     <div className="titlenavigate">Home</div>
                     <ChevronRightIcon />{" "}
-                    <div className="titlenavigate">Roshin Lakhemaru</div>
+                    <div className="titlenavigate">{JSON.parse(localStorage.getItem("user", "{}")).name}</div>
                   </div>
                   {/* ---start-page end---  */}
 
@@ -69,8 +181,8 @@ const Adminpanel = () => {
                         <AccountCircleIcon />
 
                         <div className="name">
-                          <h5>Roshin Lakhemaru</h5>
-                          <p>1234789</p>
+                          <h5>{JSON.parse(localStorage.getItem("user", "{}")).name}</h5>
+                          <p>{JSON.parse(localStorage.getItem("user", "{}")).student_number}</p>
                         </div>
                       </div>
 
@@ -78,7 +190,7 @@ const Adminpanel = () => {
                         <div className="react-tabs ">
                           <div className="tabpanel">
                             <div className="tabbar">
-                              <Overview data={data} />
+                              <Overview data={data} cls={myClass?.class} />
                             </div>
                           </div>
                         </div>
@@ -89,16 +201,40 @@ const Adminpanel = () => {
               </div>
             ) : null}
             {getCurrentRole() === roles.admin ? (
-              <h1>WELCOME TO ADMIN PAGE</h1>
+              <div className="instructorpanel">
+                <img src="/teacherpanel.png" alt="" />
+                <div>
+                  <h2>Welcome to Admin Panel</h2>
+                  <hr />
+                  <div className="block">{dashboardCounters()}</div>
+                </div>
+              </div>
             ) : null}
             {getCurrentRole() === roles.instructor ? (
               <div className="instructorpanel">
                 <img src="/teacherpanel.png" alt="" />
 
-                <div className="title">
+                <div className="">
                   <h2>Welcome to Teacher Panel</h2>
+                  <hr />
+                  <div className="block">{dashboardCounters()}</div>
                 </div>
+              </div>
+            ) : null}
 
+            {loading ? (
+              <div>
+                <hr />
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#5b58ff"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
               </div>
             ) : null}
           </div>
