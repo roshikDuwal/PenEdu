@@ -155,10 +155,14 @@ const ListAssignment = () => {
                   ) : (
                     <>
                       <div className="date">
-                        <label htmlFor="startDate">Start Date: {startDate || "-"}</label>
+                        <label htmlFor="startDate">
+                          Start Date: {startDate || "-"}
+                        </label>
                       </div>
                       <div className="date">
-                        <label htmlFor="endDate">End Date: {endDate || "-"}</label>
+                        <label htmlFor="endDate">
+                          End Date: {endDate || "-"}
+                        </label>
                       </div>
                     </>
                   )}
@@ -170,7 +174,14 @@ const ListAssignment = () => {
       },
       {
         Header: "Sent",
-        Cell: ({ row }) => <FormControlLabel control={<Switch />} />,
+        Cell: ({ row }) => (
+          <FormControlLabel
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            control={<Switch />}
+          />
+        ),
       },
       {
         Header: "Updated At",
