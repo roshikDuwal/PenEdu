@@ -13,6 +13,7 @@ import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
 import {
   addVideo,
+  deleteQuestion,
   getAssignment,
   getAssignments,
   saveQuestion,
@@ -257,6 +258,16 @@ const UploadVideos = () => {
                 {openAccordan === row.original.id && (
                   <Accordan
                     handleEdit={() => handleEdit(row.original)}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteQuestion(row.original.id)
+                        success("Question deleted successfully!");
+                        getData()
+                      } catch (e) {
+                        error(e.message || "Failed to delete question!");
+                      }
+                    }}
                     setOpenAccordan={setOpenAccordan}
                   />
                 )}

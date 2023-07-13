@@ -36,5 +36,6 @@ export const routes={
     addSchedule: "unit/assignment/schedule/create",
     editQuestion: "unit/assignment/single-question/edit/",
     editAssignment: "unit/assignment/edit/",
+    deleteQuestion: "unit/assignment/singlequestion/delete/",
     getSubmits: "class/courses/units/assignments/getSubmit/"
 }

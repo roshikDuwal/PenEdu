@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
   const [open, setOpen] = useState(false);
@@ -41,6 +43,23 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
       console.log(values);
     },
   });
+  const deleteConfirm = () => {
+    setOpenAccordan(null);
+    confirmAlert({
+      title: "Are you sure to delete?",
+      message: "The data will be lost forever.",
+      buttons: [
+        {
+          label: "Delete",
+          onClick: async () => handleDelete && (await handleDelete()),
+        },
+        {
+          label: "Cancel",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
 
   return (
     <>
@@ -59,12 +78,6 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
         </div>
 
         <li className="profile">
-          <Button className="button">
-            <DeleteIcon /> Delete
-          </Button>
-        </li>
-
-        <li className="profile">
           <Button
             onClick={() => {
               if (handleEdit) {
@@ -75,6 +88,11 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
           >
             {" "}
             <CreateIcon /> Edit
+          </Button>
+        </li>
+        <li className="profile">
+          <Button className="button" onClick={deleteConfirm}>
+            <DeleteIcon /> Delete
           </Button>
         </li>
       </div>

@@ -21,6 +21,12 @@ export const addSchedule = async (data) => {
   return schedule;
 };
 
+export const deleteQuestion = async (id) => {
+  const que = await axios.delete(routes.deleteQuestion+id);
+
+  return que;
+};
+
 export const getAssignments = async (id) => {
   const assignment = await axios.get(
     (getCurrentRole() === roles.student
