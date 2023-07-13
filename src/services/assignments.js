@@ -31,6 +31,18 @@ export const getAssignment = async (id) => {
   return assessment.data;
 };
 
+export const updateQuestion = async (id, data) => {
+  const question = await axios.patch(routes.editQuestion + id, data);
+
+  return question;
+};
+
+export const updateAssignment = async (id, data) => {
+  const assignment = await axios.patch(routes.editAssignment + id, data);
+
+  return assignment;
+};
+
 export const saveAnswer = async (answerData) => {
   const saveResult = await axios.post(routes.answerStore, answerData);
 

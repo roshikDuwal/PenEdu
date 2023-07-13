@@ -288,3 +288,16 @@ h5 {
   height: 3rem;
   max-width: 20rem;
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-body{
+  height: 50vh;
+  overflow-y: auto;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}

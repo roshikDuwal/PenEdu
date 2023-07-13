@@ -9,7 +9,14 @@ const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
   let navigate = useNavigate();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data, initialState: { hiddenColumns: getCurrentRole() === roles.student ? ["Action", "Academic Year"] : [] } });
+    useTable({
+      columns,
+      data,
+      initialState: {
+        hiddenColumns:
+          getCurrentRole() === roles.student ? ["Action", "Academic Year"] : [],
+      },
+    });
 
   return (
     <div
@@ -54,9 +61,10 @@ const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
                     <tr
                       {...row.getRowProps()}
                       className={rowClickable ? "link" : ""}
-                      onClick={() =>
-                        rowClickable && navigate(row.original.id.toString())
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        rowClickable && navigate(row.original.id.toString());
+                      }}
                     >
                       {row.cells.map((cell) => (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
