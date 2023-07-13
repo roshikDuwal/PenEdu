@@ -80,25 +80,24 @@ const ListAssignment = () => {
             ) {
               setLoading(true);
               try {
-
                 await addSchedule({
                   assignment_id: row.original.id.toString(),
                   start_date: startDate,
                   end_date: endDate,
                   unit_id: id,
                 });
-                success("Schedule added to the assignment!")
-                setLoading(false)
+                success("Schedule added to the assignment!");
+                setLoading(false);
               } catch (e) {
-                error(e.message || "Failed to add schedule!")
-                setLoading(false)
+                error(e.message || "Failed to add schedule!");
+                setLoading(false);
               }
             }
           };
 
           useEffect(() => {
-            handleChange()
-          }, [startDate, endDate])
+            handleChange();
+          }, [startDate, endDate]);
 
           return (
             <div className="">
@@ -116,7 +115,7 @@ const ListAssignment = () => {
               ) : (
                 <>
                   {" "}
-                  {getCurrentRole() === roles.admin &&
+                  {getCurrentRole() === roles.admin ? (
                     <>
                       <div className="date">
                         <label htmlFor="startDate">Start Date: </label>
@@ -153,10 +152,16 @@ const ListAssignment = () => {
                         />
                       </div>
                     </>
-                  }
-
-
-
+                  ) : (
+                    <>
+                      <div className="date">
+                        <label htmlFor="startDate">Start Date: {startDate || "-"}</label>
+                      </div>
+                      <div className="date">
+                        <label htmlFor="endDate">End Date: {endDate || "-"}</label>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
