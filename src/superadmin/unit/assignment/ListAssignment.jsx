@@ -96,9 +96,9 @@ const ListAssignment = () => {
             }
           };
 
-          useEffect(()=>{
+          useEffect(() => {
             handleChange()
-          },[startDate, endDate])
+          }, [startDate, endDate])
 
           return (
             <div className="">
@@ -116,40 +116,47 @@ const ListAssignment = () => {
               ) : (
                 <>
                   {" "}
-                  <div className="date">
-                    <label htmlFor="startDate">Start Date: </label>
-                    <input
-                      type="date"
-                      className="form-control form-control-sm col-2"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      max={endDate}
-                      name="startDate"
-                      value={startDate}
-                      onChange={(e) => {
-                        setStartDate(e.target.value);
-                        e.stopPropagation();
-                      }}
-                    />
-                  </div>
-                  <div className="date">
-                    <label htmlFor="endDate">End Date: </label>
-                    <input
-                      type="date"
-                      className="form-control form-control-sm col-2"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      min={startDate}
-                      name="endDate"
-                      onChange={(e) => {
-                        setEndDate(e.target.value);
-                        e.stopPropagation();
-                      }}
-                      value={endDate}
-                    />
-                  </div>
+                  {getCurrentRole() === roles.admin &&
+                    <>
+                      <div className="date">
+                        <label htmlFor="startDate">Start Date: </label>
+                        <input
+                          type="date"
+                          className="form-control form-control-sm col-2"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          max={endDate}
+                          name="startDate"
+                          value={startDate}
+                          onChange={(e) => {
+                            setStartDate(e.target.value);
+                            e.stopPropagation();
+                          }}
+                        />
+                      </div>
+                      <div className="date">
+                        <label htmlFor="endDate">End Date: </label>
+                        <input
+                          type="date"
+                          className="form-control form-control-sm col-2"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          min={startDate}
+                          name="endDate"
+                          onChange={(e) => {
+                            setEndDate(e.target.value);
+                            e.stopPropagation();
+                          }}
+                          value={endDate}
+                        />
+                      </div>
+                    </>
+                  }
+
+
+
                 </>
               )}
             </div>
