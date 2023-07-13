@@ -117,7 +117,7 @@ const List = () => {
   const Values = {
     unit_name: "",
     course_id: courses.length
-      ? courses.find((cr) => cr.value?.toString() === courseid.toString())
+      ? courses.find((cr) => cr.value?.toString() === courseid.toString()).value
       : "",
     unit_code: "",
     credit_hours: 0,
@@ -225,9 +225,9 @@ const List = () => {
                     <label htmlFor="class">Course</label>
                     <Select
                       name="class"
-                      value={values.course_id}
+                      value={courses.length && courses.find((cr) => cr.value?.toString() === values.course_id.toString())}
                       options={courses}
-                      onChange={(e) => setFieldValue("course_id", e)}
+                      onChange={(e) => setFieldValue("course_id", e.value)}
                       onBlur={handleBlur}
                     />
                     {errors.course_id && touched.course_id ? (
