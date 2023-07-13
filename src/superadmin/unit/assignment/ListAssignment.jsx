@@ -12,12 +12,18 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { NavLink } from "react-router-dom";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormControlLabel, Switch } from "@mui/material";
 import { Accordan } from "../../../components/tableaccordan/Accordan";
-import { getAssignments, getSubmits } from "../../../services/assignments";
+import {
+  addSchedule,
+  getAssignments,
+  getSubmits,
+} from "../../../services/assignments";
 import { getUnits, getUnitsByCourse } from "../../../services/units";
 import { getCurrentRole, roles } from "../../../utils/common";
+import { ThreeDots } from "react-loader-spinner";
+import { error, success } from "../../../utils/toast";
 
 const ListAssignment = () => {
   const [loading, setLoading] = useState(false);
@@ -59,39 +65,107 @@ const ListAssignment = () => {
       // { Header: 'Assignment Id', accessor: 'id' },
       { Header: "Assignment Name", accessor: "title" },
       {
-        Header: "Start Date",
-        Cell: ({ row }) => (
-          <>
-            <input
-              type="date"
-              className=""
-              onChange={(e) => {
-                e.stopPropagation();
-              }}
-              value={row.original.end_date}
-            />
-          </>
-        ),
+        Header: "Schedule",
+        Cell: ({ row }) => {
+          const [loading, setLoading] = useState(false);
+          const [startDate, setStartDate] = useState(row.original.start_date);
+          const [endDate, setEndDate] = useState(row.original.end_date);
+
+          const handleChange = async () => {
+            if (
+              !row.original.end_date &&
+              !row.original.start_date &&
+              startDate &&
+              endDate
+            ) {
+              setLoading(true);
+              try {
+
+                await addSchedule({
+                  assignment_id: row.original.id.toString(),
+                  start_date: startDate,
+                  end_date: endDate,
+                  unit_id: id,
+                });
+                success("Schedule added to the assignment!")
+                setLoading(false)
+              } catch (e) {
+                error(e.message || "Failed to add schedule!")
+                setLoading(false)
+              }
+            }
+          };
+
+          useEffect(()=>{
+            handleChange()
+          },[startDate, endDate])
+
+          return (
+            <div className="">
+              {loading ? (
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#0AB39C"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
+              ) : (
+                <>
+                  {" "}
+                  <div className="date">
+                    <label htmlFor="startDate">Start Date: </label>
+                    <input
+                      type="date"
+                      className="form-control form-control-sm col-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      max={endDate}
+                      name="startDate"
+                      value={startDate}
+                      onChange={(e) => {
+                        setStartDate(e.target.value);
+                        e.stopPropagation();
+                      }}
+                    />
+                  </div>
+                  <div className="date">
+                    <label htmlFor="endDate">End Date: </label>
+                    <input
+                      type="date"
+                      className="form-control form-control-sm col-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      min={startDate}
+                      name="endDate"
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                        e.stopPropagation();
+                      }}
+                      value={endDate}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        },
       },
       {
-        Header: "Due Date",
-        Cell: ({ row }) => (
-          <>
-            <input
-              type="date"
-              className=""
-              onChange={(e) => {
-                e.stopPropagation();
-              }}
-              value={row.original.end_date}
-            />
-          </>
-        ),
+        Header: "Sent",
+        Cell: ({ row }) => <FormControlLabel control={<Switch />} />,
       },
       {
-        Header: 'Sent', Cell: ({ row }) => (
-          <FormControlLabel control={<Switch  />} />
-        )
+        Header: "Updated At",
+        Cell: ({ row }) =>
+          row.original.updated_at
+            ? new Date(row.original.updated_at).toLocaleString()
+            : "-",
       },
       {
         Header: "Action",
@@ -116,7 +190,7 @@ const ListAssignment = () => {
         ),
       },
     ],
-    [openAccordan, units]
+    [openAccordan, units, data]
   );
 
   return (

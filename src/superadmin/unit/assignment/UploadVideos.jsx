@@ -57,6 +57,7 @@ const UploadVideos = () => {
 
   const handleEdit = (data) => {
     setEditData(data);
+    setOpenAccordan(null);
     setOpen(true);
   };
 
@@ -103,7 +104,7 @@ const UploadVideos = () => {
     enableReinitialize: true,
     onSubmit: async (values, action) => {
       try {
-        if (editData) {
+        if (editData?.id) {
           const data = {
             ...values,
             file: values.image,
@@ -114,7 +115,7 @@ const UploadVideos = () => {
           } else {
             delete data.file;
           }
-          await updateQuestion(editData.id, data);
+          await updateQuestion(editData?.id, data);
         } else {
           if (!file) {
             return;
@@ -360,7 +361,7 @@ const UploadVideos = () => {
           >
             <Box className="modal-box ">
               <div className="create-detail">
-                <p>{editData ? "Edit" : "Add"} Question</p>
+                <p>{editData?.id ? "Edit" : "Add"} Question</p>
                 <Button className="closequestionicon" onClick={handleClose}>
                   <CloseIcon />
                 </Button>
@@ -427,7 +428,7 @@ const UploadVideos = () => {
                 </div>
 
                 <div className="submitbtn">
-                  {editData ? (
+                  {editData?.id ? (
                     <button disabled={isSubmitting} type="submit">
                       <AddIcon /> Update
                     </button>

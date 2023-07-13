@@ -15,6 +15,12 @@ export const addVideo = async (id, data) => {
   return addAssignment.data;
 };
 
+export const addSchedule = async (data) => {
+  const schedule = await axios.post(routes.addSchedule, data);
+
+  return schedule;
+};
+
 export const getAssignments = async (id) => {
   const assignment = await axios.get(
     (getCurrentRole() === roles.student
