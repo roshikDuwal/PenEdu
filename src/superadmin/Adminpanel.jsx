@@ -170,7 +170,9 @@ const Adminpanel = () => {
                   <div className="navigation">
                     <div className="titlenavigate">Home</div>
                     <ChevronRightIcon />{" "}
-                    <div className="titlenavigate">{JSON.parse(localStorage.getItem("user", "{}")).name}</div>
+                    <div className="titlenavigate">
+                      {JSON.parse(localStorage.getItem("user", "{}")).name}
+                    </div>
                   </div>
                   {/* ---start-page end---  */}
 
@@ -181,8 +183,18 @@ const Adminpanel = () => {
                         <AccountCircleIcon />
 
                         <div className="name">
-                          <h5>{JSON.parse(localStorage.getItem("user", "{}")).name}</h5>
-                          <p>{JSON.parse(localStorage.getItem("user", "{}")).student_number}</p>
+                          <h5>
+                            {
+                              JSON.parse(localStorage.getItem("user", "{}"))
+                                .name
+                            }
+                          </h5>
+                          <p>
+                            {
+                              JSON.parse(localStorage.getItem("user", "{}"))
+                                .student_number
+                            }
+                          </p>
                         </div>
                       </div>
 
@@ -202,7 +214,6 @@ const Adminpanel = () => {
             ) : null}
             {getCurrentRole() === roles.admin ? (
               <div className="instructorpanel">
-                <img src="/teacherpanel.png" alt="" />
                 <div>
                   <h2>Welcome to Admin Panel</h2>
                   <hr />
@@ -212,8 +223,6 @@ const Adminpanel = () => {
             ) : null}
             {getCurrentRole() === roles.instructor ? (
               <div className="instructorpanel">
-                <img src="/teacherpanel.png" alt="" />
-
                 <div className="">
                   <h2>Welcome to Teacher Panel</h2>
                   <hr />
