@@ -81,7 +81,7 @@ const ListAssignment = () => {
               setLoading(true);
               try {
                 await addSchedule({
-                  assignment_id: row.original.id.toString(),
+                  unit_assignment_id: row.original.id.toString(),
                   start_date: startDate,
                   end_date: endDate,
                   unit_id: id,
