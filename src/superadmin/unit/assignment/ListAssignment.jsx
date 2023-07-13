@@ -67,14 +67,18 @@ const ListAssignment = () => {
       {
         Header: "Schedule",
         Cell: ({ row }) => {
+          const schedule =
+            (row.original.assignment_schedule?.length &&
+              row.original.assignment_schedule[0]) ||
+            {};
           const [loading, setLoading] = useState(false);
-          const [startDate, setStartDate] = useState(row.original.start_date);
-          const [endDate, setEndDate] = useState(row.original.end_date);
+          const [startDate, setStartDate] = useState(schedule.start_date);
+          const [endDate, setEndDate] = useState(schedule.end_date);
 
           const handleChange = async () => {
             if (
-              !row.original.end_date &&
-              !row.original.start_date &&
+              !schedule.end_date &&
+              !schedule.start_date &&
               startDate &&
               endDate
             ) {
@@ -156,12 +160,12 @@ const ListAssignment = () => {
                     <>
                       <div className="date">
                         <label htmlFor="startDate">
-                          Start Date: {startDate || "-"}
+                          Start Date: {schedule.start_date || "-"}
                         </label>
                       </div>
                       <div className="date">
                         <label htmlFor="endDate">
-                          End Date: {endDate || "-"}
+                          End Date: {schedule.end_date || "-"}
                         </label>
                       </div>
                     </>
@@ -174,9 +178,7 @@ const ListAssignment = () => {
       },
       {
         Header: "Total Score",
-        Cell: ({ row }) => (
-          row.original.score || "-"
-        ),
+        Cell: ({ row }) => row.original.score || "-",
       },
       {
         Header: "Sent",

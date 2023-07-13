@@ -14,7 +14,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { updateAssignment } from "../../../services/assignments";
 
 const UpdateAssignment = ({ assignment, getData }) => {
-  console.log(assignment);
   const [file, setFile] = useState(null);
   const [pdf, setPdf] = useState(null);
   const [img, setImg] = useState(ASSIGNMENT_IMAGE_PREFIX + assignment.file);
@@ -159,7 +158,10 @@ const UpdateAssignment = ({ assignment, getData }) => {
       }
     },
   });
-
+  const schedule =
+    (assignment.assignment_schedule?.length &&
+      assignment.assignment_schedule[0]) ||
+    {};
   return (
     <>
       <div className="container">
@@ -174,8 +176,8 @@ const UpdateAssignment = ({ assignment, getData }) => {
               </Button>
             </div>
             <div className="space-between">
-              <h5>Start Date: {assignment.startData || "-"}</h5>
-              <h5>End Date: {assignment.endDate || "-"}</h5>
+              <h5>Start Date: {schedule.start_date || "-"}</h5>
+              <h5>End Date: {schedule.end_date || "-"}</h5>
               <h5>Total Score: {assignment.score || "-"}</h5>
             </div>
             <Modal
@@ -257,7 +259,9 @@ const UpdateAssignment = ({ assignment, getData }) => {
                       />
                     </>
                   ) : (
-                    <img src={img || ASSIGNMENT_IMAGE_PREFIX + assignment.file} />
+                    <img
+                      src={img || ASSIGNMENT_IMAGE_PREFIX + assignment.file}
+                    />
                   )}
                 </div>
               </Box>

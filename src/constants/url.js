@@ -28,6 +28,7 @@ export const routes={
     addVideo:"unit/assignment/question/update/",
     getClasses: "class/index",
     getClassesByStudent: "class/list",
+    getClassesByTeacher: "teacher/class/list",
     getCoursesByClass: "class/courses/",
     getUnitsByCourse: "class/courses/units/",
     addClasses:"class/create",

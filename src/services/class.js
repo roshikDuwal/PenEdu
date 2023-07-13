@@ -7,6 +7,8 @@ export const classData = async () => {
   const getclass = await axios.get(
     getCurrentRole() === roles.student
       ? routes.getClassesByStudent
+      : getCurrentRole() === roles.instructor
+      ? routes.getClassesByTeacher
       : routes.getClasses
   );
 
