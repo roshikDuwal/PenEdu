@@ -173,6 +173,12 @@ const ListAssignment = () => {
         },
       },
       {
+        Header: "Total Score",
+        Cell: ({ row }) => (
+          row.original.score || "-"
+        ),
+      },
+      {
         Header: "Sent",
         Cell: ({ row }) => (
           <FormControlLabel
