@@ -8,7 +8,6 @@ import { ASSIGNMENT_QUESTION_IMAGE_PREFIX, SOLUTION_VIDEO_PREFIX, VIDEO_PREFIX }
 
 const Video = ({ data }) => {
 
-
   return (
     <>
       <div className='videobox'>

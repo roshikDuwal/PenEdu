@@ -403,6 +403,7 @@ const UploadVideos = () => {
           >
             <Box className="modal-box ">
               <div className="create-detail">
+             
                 <p>{editData?.id ? "Edit" : "Add"} Question</p>
                 <Button className="closequestionicon" onClick={handleClose}>
                   <CloseIcon />

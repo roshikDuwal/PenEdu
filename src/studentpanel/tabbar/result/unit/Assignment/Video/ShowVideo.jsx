@@ -12,22 +12,17 @@ import { Button } from "@mui/material";
 
 import { ThreeDots } from "react-loader-spinner";
 
-
 import { getAssignment } from "../../../../../../services/assignments";
-import Overview from "../../../../overview/Overview";
 
 import Navbar from "../../../../../../components/panelnavbar/Navbar";
 import Video from "./Video";
 import Sidebar from "../../../../../../components/sidebar/Sidebar";
-import { getCurrentRole, roles } from "../../../../../../utils/common";
-
-
 
 
 const ShowVideo = () => {
   const [loading, setLoading] = useState(true);
   const [assignment, setAssignment] = useState([]);
-  const { unitid, assignmentid } = useParams();
+  const { assignmentid } = useParams();
 
 
   const getData = async () => {
@@ -39,12 +34,10 @@ const ShowVideo = () => {
 
 
   useEffect(() => {
-    if (getCurrentRole() === roles.student) {
-      getData();
-    }
+    getData();
   }, [])
 
-  console.log(assignment);
+
 
 
   return (
@@ -66,7 +59,7 @@ const ShowVideo = () => {
             <div className="studentdescription">
               <div className="tabbar">
                 <div className="box">
-                  
+
                   <h3>Video of Assignment </h3>
                 </div>
 
@@ -84,13 +77,14 @@ const ShowVideo = () => {
                     />
                   </>
                 ) : (
-                  <Video data={assignment} />
+                  <div className="studentnavbar">
+                    <Video data={assignment} />
+                  </div>
+
                 )}
               </div>
 
-              <div className="studentnavbar">
 
-              </div>
             </div>
           </section>
         </div>
