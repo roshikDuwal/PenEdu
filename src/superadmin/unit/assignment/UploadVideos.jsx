@@ -86,6 +86,8 @@ const UploadVideos = () => {
       img.onload = () => {
         var myCanvas = document.createElement("canvas");
         var ctx = myCanvas.getContext("2d");
+        myCanvas.width = img.width
+        myCanvas.height = img.height
         ctx.drawImage(img, 0, 0);
         resolve(myCanvas.toDataURL());
       };
