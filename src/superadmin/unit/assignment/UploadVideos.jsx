@@ -16,12 +16,14 @@ import {
   deleteQuestion,
   getAssignment,
   getAssignments,
+  getSubmits,
   saveQuestion,
   updateQuestion,
 } from "../../../services/assignments";
 import {
   ASSIGNMENT_IMAGE_PREFIX,
   ASSIGNMENT_QUESTION_IMAGE_PREFIX,
+  ASSIGNMENT_SUBMIT_IMAGE_PREFIX,
 } from "../../../constants/url";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { error, success } from "../../../utils/toast";
@@ -38,8 +40,8 @@ import Box from "@mui/material/Box";
 import { Accordan } from "../../../components/tableaccordan/Accordan";
 import UpdateAssignment from "./UpdateAssignment";
 
-import ReactFancyBox from 'react-fancybox'
-import 'react-fancybox/lib/fancybox.css'
+import ReactFancyBox from "react-fancybox";
+import "react-fancybox/lib/fancybox.css";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -86,8 +88,8 @@ const UploadVideos = () => {
       img.onload = () => {
         var myCanvas = document.createElement("canvas");
         var ctx = myCanvas.getContext("2d");
-        myCanvas.width = img.width
-        myCanvas.height = img.height
+        myCanvas.width = img.width;
+        myCanvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         resolve(myCanvas.toDataURL());
       };
@@ -151,7 +153,16 @@ const UploadVideos = () => {
     const assignmentData = await getAssignments(unit_id);
     const assignments =
       assignmentData.unitAssignment || assignmentData.unitAssignments;
-    setAssignment(assignments.find((as) => as.id.toString() === id));
+    let asgn = assignments.find((as) => as.id.toString() === id);
+    if (getCurrentRole() === roles.student) {
+      const submits = await getSubmits(unit_id);
+      submits.getAssessment.map((submit) => {
+        if (asgn.id.toString() === submit.unit_assignment_id) {
+          asgn = { ...asgn, submit: submit };
+        }
+      });
+    }
+    setAssignment(asgn);
 
     setLoading(false);
   };
@@ -174,7 +185,9 @@ const UploadVideos = () => {
               /> */}
 
               <ReactFancyBox
-                thumbnail={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
+                thumbnail={
+                  ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image
+                }
                 image={ASSIGNMENT_QUESTION_IMAGE_PREFIX + row.original.image}
               />
             </div>
@@ -271,9 +284,9 @@ const UploadVideos = () => {
                     handleDelete={async () => {
                       try {
                         setLoading(true);
-                        await deleteQuestion(row.original.id)
+                        await deleteQuestion(row.original.id);
                         success("Question deleted successfully!");
-                        getData()
+                        getData();
                       } catch (e) {
                         error(e.message || "Failed to delete question!");
                       }
@@ -354,8 +367,17 @@ const UploadVideos = () => {
     [openAccordan]
   );
   const title =
-    getCurrentRole() === roles.student ? "Do Assignment" : "Assignment Details";
-  const [page, setPage] = useState(0);
+    getCurrentRole() === roles.student
+      ? assignment.submit
+        ? "Assignment Details"
+        : "Do Assignment"
+      : "Assignment Details";
+
+  const schedule =
+    (assignment?.assignment_schedule?.length &&
+      assignment.assignment_schedule[0]) ||
+    {};
+  const [page, setPage] = useState(getCurrentRole() === roles.student ? 3 : 0);
 
   const PageDisplay = () => {
     if (page === 0) {
@@ -364,8 +386,7 @@ const UploadVideos = () => {
           <UpdateAssignment assignment={assignment} getData={getData} />
         </div>
       );
-    }
-    if (page === 1) {
+    } else if (page === 1) {
       return (
         <div>
           <Button className="addindividualques" onClick={handleOpen}>
@@ -466,6 +487,28 @@ const UploadVideos = () => {
           <CustomReactTable columns={columns} data={data} loading={loading} />
         </div>
       );
+    } else if (page === 3) {
+      return (
+        <div className="container">
+          <div className="form">
+            <div className="form-container p-5">
+              <div className="space-between">
+                <h5>Title: {assignment.title || "-"}</h5>
+              </div>
+              <div className="space-between">
+                <h5>Start Date: {schedule.start_date || "-"}</h5>
+                <h5>End Date: {schedule.end_date || "-"}</h5>
+                <h5>Total Score: {assignment.score || "-"}</h5>
+              </div>
+            </div>
+            <div className="body">
+              <img
+                src={ASSIGNMENT_SUBMIT_IMAGE_PREFIX + assignment.submit?.ansfile}
+              />
+            </div>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -494,10 +537,67 @@ const UploadVideos = () => {
                   </Button>
                 </NavLink>
               </div>
-              {getCurrentRole() === roles.student ? (
-                <>
-                  <SCanva {...assignment} />
-                </>
+
+              {loading ? (
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#0AB39C"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
+              ) : getCurrentRole() === roles.student ? (
+                assignment.submit ? (
+                  <>
+                    <div className="flex-box m-4">
+                      <div className="flex">
+                        <button
+                          disabled={page === 3}
+                          onClick={() => {
+                            setPage(3);
+                          }}
+                          className="form-control mt-2"
+                        >
+                          <BackupTableIcon />
+                          Submitted Assignment
+                        </button>
+                        <button
+                          disabled={page == 0}
+                          onClick={() => {
+                            setPage(0);
+                            handleClose();
+                          }}
+                          className="form-control"
+                        >
+                          <PictureAsPdfIcon />
+                          Assignment PDF
+                        </button>
+                      </div>
+                    </div>
+                    <div className="page">
+                      <div>{PageDisplay()}</div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="container">
+                      <div className="form">
+                        <div className="form-container p-5">
+                          <div className="space-between">
+                            <h5>Start Date: {schedule.start_date || "-"}</h5>
+                            <h5>End Date: {schedule.end_date || "-"}</h5>
+                            <h5>Total Score: {assignment.score || "-"}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr/>
+                    <SCanva {...assignment} />
+                  </>
+                )
               ) : (
                 <>
                   <div className="flex-box m-4">
@@ -530,18 +630,6 @@ const UploadVideos = () => {
                   </div>
                 </>
               )}
-              {loading ? (
-                <ThreeDots
-                  height="80"
-                  width="80"
-                  radius="9"
-                  color="#0AB39C"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClassName=""
-                  visible={true}
-                />
-              ) : null}
             </div>
           </div>
         </div>

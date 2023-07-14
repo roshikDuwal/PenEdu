@@ -203,6 +203,15 @@ const ListAssignment = () => {
         ),
       },
       {
+        Header: "Submitted",
+        Cell: ({ row }) =>
+          row.original?.submit ? (
+            <span className="status-green">SUBMITTED</span>
+          ) : (
+            <span className="status-orange">PENDING</span>
+          ),
+      },
+      {
         Header: "Updated At",
         Cell: ({ row }) =>
           row.original.updated_at

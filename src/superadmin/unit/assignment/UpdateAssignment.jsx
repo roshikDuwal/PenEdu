@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { addAssignment } from "../../../schema/validate";
 import CloseIcon from "@mui/icons-material/Close";
 import { updateAssignment } from "../../../services/assignments";
+import { getCurrentRole, roles } from "../../../utils/common";
 
 const UpdateAssignment = ({ assignment, getData }) => {
   const [file, setFile] = useState(null);
@@ -169,11 +170,13 @@ const UpdateAssignment = ({ assignment, getData }) => {
           <div className="form-container p-5">
             <div className="space-between">
               <h5>Title: {assignment.title || "-"}</h5>
-              <Button onClick={handleOpen}>
-                {" "}
-                <EditIcon />
-                {"  "} Edit
-              </Button>
+              {getCurrentRole() === roles.admin ? (
+                <Button onClick={handleOpen}>
+                  {" "}
+                  <EditIcon />
+                  {"  "} Edit
+                </Button>
+              ) : null}
             </div>
             <div className="space-between">
               <h5>Start Date: {schedule.start_date || "-"}</h5>

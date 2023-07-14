@@ -6,6 +6,7 @@ export const SERVER_BASE_URL=SERVER_URL +"/api/";
 export const IMAGE_PREFIX = SERVER_URL + "/uploads/assessment/"
 export const ASSIGNMENT_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment/"
 export const ASSIGNMENT_QUESTION_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/"
+export const ASSIGNMENT_SUBMIT_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/submits/"
 export const CHECK_IMAGE_PREFIX = SERVER_URL + "/uploads/assignment_check/"
 export const VIDEO_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/video/"
 export const SOLUTION_VIDEO_PREFIX = SERVER_URL + "/uploads/assessment/"

@@ -195,3 +195,16 @@
   text-align: center;
   align-items: baseline;
 }
+
+.status-green {
+  background-color: green;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
+
+.status-orange {
+  background-color: orange;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
