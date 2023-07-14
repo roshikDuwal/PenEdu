@@ -46,21 +46,21 @@ const ListAssignment = () => {
     }
     const unit =
       units.length && id
-        ? units.find((unit) => unit.id.toString() === id)
+        ? units.find((unit) => unit.id.toString() === id.toString())
         : null;
-    setUnit(unit.unit_name);
+    setUnit(unit?.unit_name);
 
-    let assignments = data.unitAssignment || data.unitAssignments
-    if(getCurrentRole() === roles.student) {
+    let assignments = data.unitAssignment || data.unitAssignments;
+    if (getCurrentRole() === roles.student) {
       const submits = await getSubmits(unit.id);
       submits.getAssessment.map((submit) => {
-        assignments = assignments.map(asgn => {
-          if(asgn.id.toString() === submit.unit_assignment_id) {
-            return {...asgn, submit: submit}
+        assignments = assignments.map((asgn) => {
+          if (asgn.id.toString() === submit.unit_assignment_id) {
+            return { ...asgn, submit: submit };
           }
           return asgn;
-        })
-      })
+        });
+      });
     }
     setData(assignments);
 
