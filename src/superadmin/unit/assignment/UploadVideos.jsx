@@ -8,6 +8,8 @@ import { ThreeDots } from "react-loader-spinner";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Navbar from "../../../components/panelnavbar/Navbar";
 import AddIcon from "@mui/icons-material/Add";
+import Select from "react-select";
+
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { CancelOutlined } from "@mui/icons-material";
 import CustomReactTable from "../../../components/CustomReactTable/CustomReactTable";
@@ -17,6 +19,7 @@ import {
   getAssignment,
   getAssignments,
   getSubmits,
+  getSubmitsByTeacher,
   saveQuestion,
   updateQuestion,
 } from "../../../services/assignments";
@@ -47,9 +50,11 @@ const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
   const [assignment, setAssignment] = useState([]);
   const [data, setData] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [open, setOpen] = React.useState(false);
   const [file, setFile] = useState(null);
-  const { id, unit_id } = useParams();
+  const { courseid, id, unit_id } = useParams();
   const [openAccordan, setOpenAccordan] = useState(null);
 
   const Values = {
@@ -146,9 +151,27 @@ const UploadVideos = () => {
 
   const getData = async () => {
     setLoading(true);
-    if (getCurrentRole() !== roles.student) {
+    if (getCurrentRole() === roles.admin) {
       const data = await getAssignment(id);
       setData(data.unitAssignmentQuestions);
+    } else if (getCurrentRole() === roles.instructor) {
+      const data = await getSubmitsByTeacher(courseid, unit_id);
+      const lv = data.classStudents?.map((std) => {
+        const submitted = data.assessmentSubmit?.find(
+          (sub) =>
+            sub.user_id.toString() === std.id.toString() &&
+            sub.unit_assignment_id.toString() === id.toString()
+        );
+        if (submitted?.unit_assignment?.single_questions) {
+          setData(submitted?.unit_assignment?.single_questions);
+        }
+        return {
+          label: std.name + (!submitted ? " (Not Submitted)" : ""),
+          value: std.id,
+          submitted,
+        };
+      });
+      setStudents(lv);
     }
     const assignmentData = await getAssignments(unit_id);
     const assignments =
@@ -377,7 +400,13 @@ const UploadVideos = () => {
     (assignment?.assignment_schedule?.length &&
       assignment.assignment_schedule[0]) ||
     {};
-  const [page, setPage] = useState(getCurrentRole() === roles.student ? 3 : 0);
+  const [page, setPage] = useState(
+    getCurrentRole() === roles.instructor
+      ? 4
+      : getCurrentRole() === roles.student
+      ? 3
+      : 0
+  );
 
   const PageDisplay = () => {
     if (page === 0) {
@@ -504,11 +533,56 @@ const UploadVideos = () => {
             </div>
             <div className="body">
               <img
-                src={ASSIGNMENT_SUBMIT_IMAGE_PREFIX + assignment.submit?.ansfile}
+                src={
+                  ASSIGNMENT_SUBMIT_IMAGE_PREFIX + assignment.submit?.ansfile
+                }
               />
             </div>
           </div>
         </div>
+      );
+    } else if (page === 4) {
+      return (
+        <>
+          <div className="container">
+            <div className="form">
+              <div className="form-container p-5">
+                <div className="">
+                  <div></div>
+                  <h5>
+                    Select Student:
+                    <Select
+                      name="class"
+                      value={students.find(
+                        (opt) => opt.value === selectedStudent?.value
+                      )}
+                      options={students}
+                      onChange={(e) => {
+                        setSelectedStudent(e);
+                      }}
+                    />
+                  </h5>
+                </div>
+                <>
+                  <div className="space-between">
+                    <h5>Title: {assignment.title || "-"}</h5>
+                  </div>
+                  <div className="space-between">
+                    <h5>Start Date: {schedule.start_date || "-"}</h5>
+                    <h5>End Date: {schedule.end_date || "-"}</h5>
+                    <h5>Total Score: {assignment.score || "-"}</h5>
+                  </div>
+                </>
+              </div>
+            </div>
+          </div>
+          <hr />
+          {!selectedStudent ? null : selectedStudent.submitted ? (
+            <SCanva {...assignment} submitted={selectedStudent.submitted} />
+          ) : (
+            <h3 className="not-submitted">Not Submitted</h3>
+          )}
+        </>
       );
     }
   };
@@ -595,10 +669,43 @@ const UploadVideos = () => {
                         </div>
                       </div>
                     </div>
-                    <hr/>
+                    <hr />
                     <SCanva {...assignment} />
                   </>
                 )
+              ) : getCurrentRole() === roles.instructor ? (
+                <>
+                  <>
+                    <div className="flex-box m-4">
+                      <div className="flex">
+                        <button
+                          disabled={page === 4}
+                          onClick={() => {
+                            setPage(4);
+                          }}
+                          className="form-control mt-2"
+                        >
+                          <BackupTableIcon />
+                          Check Assignment
+                        </button>
+                        <button
+                          disabled={page == 0}
+                          onClick={() => {
+                            setPage(0);
+                            handleClose();
+                          }}
+                          className="form-control"
+                        >
+                          <PictureAsPdfIcon />
+                          Assignment PDF
+                        </button>
+                      </div>
+                    </div>
+                    <div className="page">
+                      <div>{PageDisplay()}</div>
+                    </div>
+                  </>
+                </>
               ) : (
                 <>
                   <div className="flex-box m-4">

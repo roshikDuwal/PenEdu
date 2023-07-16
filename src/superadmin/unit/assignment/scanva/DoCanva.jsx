@@ -12,8 +12,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   ASSIGNMENT_IMAGE_PREFIX,
   ASSIGNMENT_QUESTION_IMAGE_PREFIX,
+  ASSIGNMENT_SUBMIT_IMAGE_PREFIX,
 } from "../../../../constants/url";
-import { getAssignment, saveAnswer } from "../../../../services/assignments";
+import {
+  checkAnswer,
+  getAssignment,
+  saveAnswer,
+  saveQuestionScore,
+} from "../../../../services/assignments";
 import CustomReactTable from "../../../../components/CustomReactTable/CustomReactTable";
 import { ThreeDots } from "react-loader-spinner";
 import { getCurrentRole, roles } from "../../../../utils/common";
@@ -40,11 +46,18 @@ const App = (props) => {
 
   const { unit_id, id } = useParams();
 
+  const mainImg =
+    getCurrentRole() === roles.instructor
+      ? ASSIGNMENT_SUBMIT_IMAGE_PREFIX + props.submitted?.ansfile
+      : ASSIGNMENT_IMAGE_PREFIX + props.file;
+
   const getData = async () => {
     setLoading(true);
-    if (getCurrentRole() !== roles.student) {
+    if (getCurrentRole() === roles.admin) {
       const data = await getAssignment(id);
       setData(data.unitAssignmentQuestions);
+    } else if (props.submitted?.unit_assignment?.single_questions) {
+      setData(props.submitted?.unit_assignment?.single_questions);
     }
 
     setLoading(false);
@@ -248,19 +261,45 @@ const App = (props) => {
       unit_assignment_id: id,
       answer: "",
       ansfile: image,
-    }
+    };
 
     saveAnswer(ansData)
       .then(() => {
         success("Answer submitted successfully");
 
-        setTimeout(()=>{
-          navigate("./..")
-        },1500)
+        setTimeout(() => {
+          navigate("./..");
+        }, 1500);
       })
       .catch((err) => {
         error(err.message);
+      });
+  };
+
+  const submitResult = (event) => {
+    event.preventDefault();
+    const image = canvasRef.current.toDataURL("image/png");
+    const checkData = {
+      unit_id: unit_id,
+      unit_assignment_id: id,
+      student_id: props.submitted.user_id,
+      feedback: "",
+      assessment_submit_id: props.submitted.id,
+      file: image,
+      checked: 1,
+    };
+
+    checkAnswer(checkData)
+      .then(() => {
+        success("Assignment checked");
+
+        setTimeout(() => {
+          navigate("./..");
+        }, 1500);
       })
+      .catch((err) => {
+        error(err.message);
+      });
   };
 
   // ///increase decrease size and color
@@ -273,13 +312,13 @@ const App = (props) => {
 
   //load question in canvas
   useEffect(() => {
-    loadQuestion(props.file);
-  }, [props.file]);
+    loadQuestion(mainImg);
+  }, [mainImg]);
 
   const loadQuestion = (file_name) => {
     if (file_name && canvasRef) {
       const question = new Image();
-      question.src = ASSIGNMENT_IMAGE_PREFIX + file_name;
+      question.src = file_name;
       question.crossOrigin = "";
       question.onload = () => {
         const inv =
@@ -407,7 +446,7 @@ const App = (props) => {
           context.drawImage(canvasPic, 0, 0);
         };
       } else {
-        loadQuestion(props.file);
+        loadQuestion(mainImg);
       }
       setCanvasStage(newStage);
     }
@@ -586,14 +625,61 @@ const App = (props) => {
         ),
       },
       {
-        Header: "Obtained Score",
+        Header: "Total Score",
+        Cell: ({ row }) => <h5>{row.original.score}</h5>,
+      },
+      {
+        Header: "Remark",
         Cell: ({ row }) => {
+          const [score, setScore] = useState(null);
+          const [feedback, setFeedback] = useState("");
           return (
             <>
               <div className="actionbox">
                 <div className="video">
-                  <input type="text" />
+                  Score:{" "}
+                  <input
+                    type="number"
+                    value={score}
+                    onChange={(e) => setScore(e.target.value)}
+                    className="form-control"
+                  />
+                  Feedback:{" "}
+                  <input
+                    type="text"
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    className="form-control"
+                  />
                 </div>
+                <input
+                  disabled={!score}
+                  type="button"
+                  onClick={async () => {
+                    if (score) {
+                      if(score > parseInt(row.original.score)) {
+                        error("Obtained score can not be greater than total question score")
+                        return;
+                      }
+                      try {
+                        const data = {
+                          unit_id: unit_id,
+                          unit_assignment_id: id,
+                          single_questions_id: row.original.id.toString(),
+                          student_id: props.submitted.user_id,
+                          feedback,
+                          marks: score,
+                        };
+                        await saveQuestionScore(data);
+                        success("Submitted Score!");
+                      } catch (e) {
+                        error(e.message || "Failed to submit score!");
+                      }
+                    }
+                  }}
+                  value="Submit"
+                  className="btn btn-secondary"
+                />
               </div>
             </>
           );
@@ -687,9 +773,15 @@ const App = (props) => {
           <div>
             <Button variant="contained">Save as draft</Button>
           </div>
-          <Button variant="contained" onClick={submitAnswer}>
-            Submit Answer
-          </Button>
+          {getCurrentRole() === roles.instructor ? (
+            <Button variant="contained" onClick={submitResult}>
+              Checking Complete
+            </Button>
+          ) : (
+            <Button variant="contained" onClick={submitAnswer}>
+              Submit Answer
+            </Button>
+          )}
         </div>
 
         <div className="canvasbox">
