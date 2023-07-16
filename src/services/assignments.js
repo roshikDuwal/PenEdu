@@ -75,6 +75,12 @@ export const saveQuestion = async (questionData) => {
   return saveResult;
 };
 
+export const saveQuestionScore = async (score) => {
+  const saveResult = await axios.post(routes.singleQueScore, score);
+
+  return saveResult;
+};
+
 export const getSubmits = async (unit_id) => {
   const submits = await axios.get(routes.getSubmits + unit_id);
 

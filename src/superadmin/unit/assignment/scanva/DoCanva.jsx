@@ -18,6 +18,7 @@ import {
   checkAnswer,
   getAssignment,
   saveAnswer,
+  saveQuestionScore,
 } from "../../../../services/assignments";
 import CustomReactTable from "../../../../components/CustomReactTable/CustomReactTable";
 import { ThreeDots } from "react-loader-spinner";
@@ -628,15 +629,53 @@ const App = (props) => {
         Cell: ({ row }) => <h5>{row.original.score}</h5>,
       },
       {
-        Header: "Obtained Score",
+        Header: "Remark",
         Cell: ({ row }) => {
+          const [score, setScore] = useState(null);
+          const [feedback, setFeedback] = useState("");
           return (
             <>
               <div className="actionbox">
                 <div className="video">
-                  <input type="text" className="form-control" />
+                  Score:{" "}
+                  <input
+                    type="number"
+                    value={score}
+                    onChange={(e) => setScore(e.target.value)}
+                    className="form-control"
+                  />
+                  Feedback:{" "}
+                  <input
+                    type="text"
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    className="form-control"
+                  />
                 </div>
-                <input type="button" value="Submit" className="btn" />
+                <input
+                  disabled={!score}
+                  type="button"
+                  onClick={async () => {
+                    if (score) {
+                      try {
+                        const data = {
+                          unit_id: unit_id,
+                          unit_assignment_id: id,
+                          single_questions_id: row.id.toString(),
+                          student_id: props.submitted.user_id,
+                          feedback,
+                          marks: score,
+                        };
+                        await saveQuestionScore(data);
+                        success("Submitted Score!");
+                      } catch (e) {
+                        error(e.message || "Failed to submit score!");
+                      }
+                    }
+                  }}
+                  value="Submit"
+                  className="btn btn-secondary"
+                />
               </div>
             </>
           );
