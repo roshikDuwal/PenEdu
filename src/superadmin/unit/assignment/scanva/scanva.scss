@@ -27,10 +27,10 @@
                     color: white;
                    }
                 }
-    
+
                 input{
                     cursor: pointer;
-    
+
                     >ul {
                         display: flex;
                         gap: 2rem;
@@ -38,7 +38,7 @@
                         list-style: none;
                         margin: 5rem 0rem;
                         padding-top: 2.5rem;
-    
+
                         >li {
                             >a {
                                 text-decoration: none;
@@ -48,7 +48,7 @@
                                 transition: all 0.5s linear;
                                 font-weight: 600;
                                 font-size: 1.2rem;
-    
+
                                 &:hover {
                                     background-color: #551A8B;
                                 }
@@ -102,4 +102,9 @@
 
 .errorval {
     color: red;
+}
+.modal-box {
+    max-height: 95vh;
+    width: 100%;
+    overflow-y: scroll;
 }
