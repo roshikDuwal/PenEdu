@@ -657,11 +657,15 @@ const App = (props) => {
                   type="button"
                   onClick={async () => {
                     if (score) {
+                      if(score > parseInt(row.original.score)) {
+                        error("Obtained score can not be greater than total question score")
+                        return;
+                      }
                       try {
                         const data = {
                           unit_id: unit_id,
                           unit_assignment_id: id,
-                          single_questions_id: row.id.toString(),
+                          single_questions_id: row.original.id.toString(),
                           student_id: props.submitted.user_id,
                           feedback,
                           marks: score,
