@@ -38,6 +38,7 @@ export const routes={
     addClasses:"class/create",
     deleteClasses:"class/delete/",
     answerStore: "class/courses/units/assignments/store",
+    checkAnswer: "teacher/checked/student/assessment",
     addSchedule: "unit/assignment/schedule/create",
     editQuestion: "unit/assignment/single-question/edit/",
     editAssignment: "unit/assignment/edit/",

@@ -1,6 +1,6 @@
 import { Axios } from "../utils/axios";
 const axios = new Axios();
-import { routes } from "../constants/url";
+import { SERVER_BASE_URL, routes } from "../constants/url";
 import { getCurrentRole, roles } from "../utils/common";
 
 export const addAssignments = async (data) => {
@@ -63,6 +63,12 @@ export const saveAnswer = async (answerData) => {
   return saveResult;
 };
 
+export const checkAnswer = async (answerData) => {
+  const checkResult = await axios.post(routes.checkAnswer, answerData);
+
+  return checkResult;
+};
+
 export const saveQuestion = async (questionData) => {
   const saveResult = await axios.post(routes.questionStore, questionData);
 
@@ -71,6 +77,18 @@ export const saveQuestion = async (questionData) => {
 
 export const getSubmits = async (unit_id) => {
   const submits = await axios.get(routes.getSubmits + unit_id);
+
+  return submits.data;
+};
+
+export const getSubmitsByTeacher = async (courseId, unitId) => {
+  const submits = await axios.get(
+    "teacher/class/course/" +
+      courseId +
+      "/unit/" +
+      unitId +
+      "/assignments/student"
+  );
 
   return submits.data;
 };
