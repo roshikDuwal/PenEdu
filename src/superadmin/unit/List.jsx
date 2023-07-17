@@ -227,7 +227,7 @@ const List = () => {
                       name="class"
                       value={courses.length && courses.find((cr) => cr.value?.toString() === values.course_id.toString())}
                       options={courses}
-                      onChange={(e) => setFieldValue("course_id", e.value)}
+                      onChange={(e) => setFieldValue("course_id", e)}
                       onBlur={handleBlur}
                     />
                     {errors.course_id && touched.course_id ? (
