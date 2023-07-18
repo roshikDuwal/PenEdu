@@ -24,3 +24,9 @@ export const getCoursesByClass = async (id) => {
 
   return courses.data;
 };
+
+export const deleteCourseData = async (id) => {
+  const deleteCourse = await axios.delete(routes.deleteCourse + id);
+
+  return deleteCourse;
+};

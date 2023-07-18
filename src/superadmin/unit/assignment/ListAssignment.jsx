@@ -17,6 +17,7 @@ import { FormControlLabel, Switch } from "@mui/material";
 import { Accordan } from "../../../components/tableaccordan/Accordan";
 import {
   addSchedule,
+  deleteAssignmentData,
   getAssignments,
   getSubmits,
 } from "../../../services/assignments";
@@ -233,7 +234,19 @@ const ListAssignment = () => {
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && (
-                  <Accordan setOpenAccordan={setOpenAccordan} />
+                  <Accordan
+                    setOpenAccordan={setOpenAccordan}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteAssignmentData(row.original.id);
+                        success("Assignment deleted successfully!");
+                        getData();
+                      } catch (e) {
+                        error(e.message || "Failed to delete assignment!");
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>

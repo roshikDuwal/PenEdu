@@ -53,6 +53,16 @@ const Learner = () => {
                   <Accordan
                     setOpenAccordan={setOpenAccordan}
                     id={row.original.id}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteClassData(row.original.id);
+                        success("Class deleted successfully!");
+                        getClass();
+                      } catch (e) {
+                        error(e.message || "Failed to delete class!");
+                      }
+                    }}
                   />
                 )}
               </div>

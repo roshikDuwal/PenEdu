@@ -7,6 +7,7 @@ export const IMAGE_PREFIX = SERVER_URL + "/uploads/assessment/"
 export const ASSIGNMENT_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment/"
 export const ASSIGNMENT_QUESTION_IMAGE_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/"
 export const ASSIGNMENT_SUBMIT_IMAGE_PREFIX = SERVER_URL + "/uploads/student_assignment/"
+export const ASSIGNMENT_RESULT_IMAGE_PREFIX = SERVER_URL + "/uploads/checked_assessment/"
 export const CHECK_IMAGE_PREFIX = SERVER_URL + "/uploads/assignment_check/"
 export const VIDEO_PREFIX = SERVER_URL + "/uploads/unit_assignment_question/video/"
 export const SOLUTION_VIDEO_PREFIX = SERVER_URL + "/uploads/assessment/"
@@ -38,6 +39,9 @@ export const routes={
     getUnitsByCourseByTeacher: "teacher/class/course/units/",
     addClasses:"class/create",
     deleteClasses:"class/delete/",
+    deleteCourse:"course/delete/",
+    deleteUnit:"unit/delete/",
+    deleteAssignment:"unit/assignment/delete/",
     answerStore: "class/courses/units/assignments/store",
     checkAnswer: "teacher/checked/student/assessment",
     addSchedule: "unit/assignment/schedule/create",

@@ -24,3 +24,9 @@ export const getUnitsByCourse = async (id) => {
 
   return units.data;
 };
+
+export const deleteUnitData = async (id) => {
+  const deleteUnit = await axios.delete(routes.deleteUnit + id);
+
+  return deleteUnit;
+};

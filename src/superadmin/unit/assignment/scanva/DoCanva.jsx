@@ -4,6 +4,7 @@ import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import UndoIcon from "@mui/icons-material/Undo";
 import CloseIcon from "@mui/icons-material/Close";
 import RedoIcon from "@mui/icons-material/Redo";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import jsPDF from "jspdf";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -12,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   ASSIGNMENT_IMAGE_PREFIX,
   ASSIGNMENT_QUESTION_IMAGE_PREFIX,
+  ASSIGNMENT_RESULT_IMAGE_PREFIX,
   ASSIGNMENT_SUBMIT_IMAGE_PREFIX,
 } from "../../../../constants/url";
 import {
@@ -48,7 +50,7 @@ const App = (props) => {
 
   const mainImg =
     getCurrentRole() === roles.instructor
-      ? ASSIGNMENT_SUBMIT_IMAGE_PREFIX + props.submitted?.ansfile
+      ? (props.checked?.file ? ASSIGNMENT_RESULT_IMAGE_PREFIX + props.checked?.file : ASSIGNMENT_SUBMIT_IMAGE_PREFIX + props.submitted?.ansfile)
       : ASSIGNMENT_IMAGE_PREFIX + props.file;
 
   const getData = async () => {
@@ -56,6 +58,8 @@ const App = (props) => {
     if (getCurrentRole() === roles.admin) {
       const data = await getAssignment(id);
       setData(data.unitAssignmentQuestions);
+    } else if (props.questions) {
+      setData(props.questions);
     } else if (props.submitted?.unit_assignment?.single_questions) {
       setData(props.submitted?.unit_assignment?.single_questions);
     }
@@ -631,8 +635,13 @@ const App = (props) => {
       {
         Header: "Remark",
         Cell: ({ row }) => {
-          const [score, setScore] = useState(null);
-          const [feedback, setFeedback] = useState("");
+          const [submitted, setSubmitted] = useState(false);
+          const [score, setScore] = useState(
+            row.original?.checked?.marks || null
+          );
+          const [feedback, setFeedback] = useState(
+            row.original?.checked?.feedback || ""
+          );
           return (
             <>
               <div className="actionbox">
@@ -640,6 +649,7 @@ const App = (props) => {
                   Score:{" "}
                   <input
                     type="number"
+                    disabled={row.original?.checked?.marks || submitted}
                     value={score}
                     onChange={(e) => setScore(e.target.value)}
                     className="form-control"
@@ -647,18 +657,21 @@ const App = (props) => {
                   Feedback:{" "}
                   <input
                     type="text"
+                    disabled={row.original?.checked?.marks || submitted}
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
                     className="form-control"
                   />
                 </div>
                 <input
-                  disabled={!score}
+                  disabled={!score || row.original?.checked?.marks || submitted}
                   type="button"
                   onClick={async () => {
                     if (score) {
-                      if(score > parseInt(row.original.score)) {
-                        error("Obtained score can not be greater than total question score")
+                      if (score > parseInt(row.original.score)) {
+                        error(
+                          "Obtained score can not be greater than total question score"
+                        );
                         return;
                       }
                       try {
@@ -671,6 +684,7 @@ const App = (props) => {
                           marks: score,
                         };
                         await saveQuestionScore(data);
+                        setSubmitted(true);
                         success("Submitted Score!");
                       } catch (e) {
                         error(e.message || "Failed to submit score!");
@@ -774,9 +788,16 @@ const App = (props) => {
             <Button variant="contained">Save as draft</Button>
           </div>
           {getCurrentRole() === roles.instructor ? (
-            <Button variant="contained" onClick={submitResult}>
-              Checking Complete
-            </Button>
+            props.checked ? (
+              <Button className="green" variant="contained" disabled={true}>
+                <CheckCircleIcon backgroundColor="green" />
+                Checked
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={submitResult}>
+                Checking Complete
+              </Button>
+            )
           ) : (
             <Button variant="contained" onClick={submitAnswer}>
               Submit Answer

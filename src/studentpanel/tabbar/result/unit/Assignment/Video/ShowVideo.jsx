@@ -44,7 +44,6 @@ const ShowVideo = () => {
     }
   }, [])
 
-  console.log(assignment);
 
 
   return (
@@ -66,7 +65,7 @@ const ShowVideo = () => {
             <div className="studentdescription">
               <div className="tabbar">
                 <div className="box">
-                  
+
                   <h3>Video of Assignment </h3>
                 </div>
 

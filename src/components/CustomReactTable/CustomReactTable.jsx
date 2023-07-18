@@ -14,7 +14,11 @@ const CustomReactTable = ({ columns, data, loading, rowClickable }) => {
       data,
       initialState: {
         hiddenColumns:
-          getCurrentRole() === roles.student ? ["Action", "Academic Year", "Sent"] : ["Submitted"],
+          getCurrentRole() === roles.student
+            ? ["Action", "Academic Year", "Sent"]
+            : getCurrentRole() === roles.instructor
+            ? ["Action", "Sent", "Submitted"]
+            : ["Submitted"],
       },
     });
 

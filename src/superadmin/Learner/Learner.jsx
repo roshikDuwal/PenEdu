@@ -37,9 +37,7 @@ const Learner = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(filterClass)
     if (filterClass) {
-      console.log(data)
       setFilteredData(
         data.filter(
           (student) =>
