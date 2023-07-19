@@ -162,13 +162,28 @@ const UploadVideos = () => {
             sub.user_id.toString() === std.id.toString() &&
             sub.unit_assignment_id.toString() === id.toString()
         );
+        const checked = data.getCheckAssessment?.find(
+          (sub) =>
+            sub.student_id.toString() === std.id.toString() &&
+            sub.unit_assignment_id.toString() === id.toString()
+        );
         if (submitted?.unit_assignment?.single_questions) {
-          setData(submitted?.unit_assignment?.single_questions);
+          const ques = submitted?.unit_assignment?.single_questions.map(
+            (sq) => {
+              const checked = data.getSingleCheckAssessment?.find((m) => {
+                return m.single_questions_id.toString() === sq.id.toString() &&
+                  m.student_id.toString() === std.id.toString();
+              });
+              return { ...sq, checked };
+            }
+          );
+          setData(ques);
         }
         return {
-          label: std.name + (!submitted ? " (Not Submitted)" : ""),
+          label: std.name + (!submitted ? " (Not Submitted)" : checked ? " (Checked)" : ""),
           value: std.id,
           submitted,
+          checked,
         };
       });
       setStudents(lv);
@@ -391,7 +406,7 @@ const UploadVideos = () => {
   );
   const title =
     getCurrentRole() === roles.student
-      ? assignment.submit
+      ? assignment?.submit
         ? "Assignment Details"
         : "Do Assignment"
       : "Assignment Details";
@@ -578,7 +593,7 @@ const UploadVideos = () => {
           </div>
           <hr />
           {!selectedStudent ? null : selectedStudent.submitted ? (
-            <SCanva {...assignment} submitted={selectedStudent.submitted} />
+            <SCanva {...assignment} submitted={selectedStudent.submitted} checked={selectedStudent.checked} questions={data} />
           ) : (
             <h3 className="not-submitted">Not Submitted</h3>
           )}

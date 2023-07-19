@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { error, success } from "../../utils/toast";
-import { addStudents, getStudents } from "../../services/students";
+import { addStudents, deleteStudentData, getStudents } from "../../services/students";
 import { addStudentSchema } from "../../schema/validate";
 import { Accordan } from "../../components/tableaccordan/Accordan";
 import { CountriesData } from "../../constants/countires";
@@ -37,9 +37,7 @@ const Learner = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(filterClass)
     if (filterClass) {
-      console.log(data)
       setFilteredData(
         data.filter(
           (student) =>
@@ -76,7 +74,19 @@ const Learner = () => {
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && (
-                  <Accordan setOpenAccordan={setOpenAccordan} />
+                  <Accordan
+                    setOpenAccordan={setOpenAccordan}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteStudentData(row.original.id);
+                        success("Student deleted successfully!");
+                        getStudentData();
+                      } catch (e) {
+                        error(e.message || "Failed to delete student!");
+                      }
+                    }}
+                  />
                 )}
               </div>
 

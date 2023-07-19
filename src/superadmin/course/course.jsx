@@ -21,6 +21,7 @@ import { NavLink } from "react-router-dom";
 import { Accordan } from "../../components/tableaccordan/Accordan";
 import {
   addCourses,
+  deleteCourseData,
   getCourses,
   getCoursesByClass,
 } from "../../services/courses";
@@ -103,7 +104,19 @@ const Course = () => {
                 </button>
 
                 {openAccordan === row.original.id && (
-                  <Accordan setOpenAccordan={setOpenAccordan} />
+                  <Accordan
+                    setOpenAccordan={setOpenAccordan}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteCourseData(row.original.id);
+                        success("Course deleted successfully!");
+                        getCourseData();
+                      } catch (e) {
+                        error(e.message || "Failed to delete course!");
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>

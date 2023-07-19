@@ -24,7 +24,7 @@ import { useFormik } from "formik";
 
 import { addUnitSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
-import { addUnits, getUnits, getUnitsByCourse } from "../../services/units";
+import { addUnits, deleteUnitData, getUnits, getUnitsByCourse } from "../../services/units";
 import { getCurrentRole, roles } from "../../utils/common";
 
 const List = () => {
@@ -103,7 +103,19 @@ const List = () => {
                   <MoreHorizIcon />
                 </button>
                 {openAccordan === row.original.id && (
-                  <Accordan setOpenAccordan={setOpenAccordan} />
+                  <Accordan
+                    setOpenAccordan={setOpenAccordan}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteUnitData(row.original.id);
+                        success("Unit deleted successfully!");
+                        getData();
+                      } catch (e) {
+                        error(e.message || "Failed to delete unit!");
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>
@@ -225,7 +237,13 @@ const List = () => {
                     <label htmlFor="class">Course</label>
                     <Select
                       name="class"
-                      value={courses.length && courses.find((cr) => cr.value?.toString() === values.course_id.toString())}
+                      value={
+                        courses.length &&
+                        courses.find(
+                          (cr) =>
+                            cr.value?.toString() === values.course_id.toString()
+                        )
+                      }
                       options={courses}
                       onChange={(e) => setFieldValue("course_id", e)}
                       onBlur={handleBlur}

@@ -27,6 +27,12 @@ export const deleteQuestion = async (id) => {
   return que;
 };
 
+export const deleteAssignmentData = async (id) => {
+  const deleteAssignment = await axios.delete(routes.deleteAssignment + id);
+
+  return deleteAssignment;
+};
+
 export const getAssignments = async (id) => {
   const assignment = await axios.get(
     (getCurrentRole() === roles.student

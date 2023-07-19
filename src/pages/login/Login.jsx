@@ -48,7 +48,6 @@ const Login = () => {
           navigate("/dashboard");
         })
         .catch((e) => {
-          console.log(e);
           setSubmitting(false);
           setLoading(false);
           error(e?.response?.data?.message || "Login failed");
