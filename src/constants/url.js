@@ -41,6 +41,8 @@ export const routes={
     deleteClasses:"class/delete/",
     deleteCourse:"course/delete/",
     deleteUnit:"unit/delete/",
+    deleteLearner:"learner/delete/",
+    deleteInstructor:"users/instructor/delete/",
     deleteAssignment:"unit/assignment/delete/",
     answerStore: "class/courses/units/assignments/store",
     checkAnswer: "teacher/checked/student/assessment",

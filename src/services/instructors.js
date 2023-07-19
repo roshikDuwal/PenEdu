@@ -1,19 +1,20 @@
 import { Axios } from "../utils/axios";
-const axios = new Axios()
-import {routes} from "../constants/url";
+const axios = new Axios();
+import { routes } from "../constants/url";
 
+export const addInstructors = async (InstructorData) => {
+  const addInstructor = await axios.post(routes.addInstructor, InstructorData);
 
-export const addInstructors = async (InstructorData)=>{
+  return addInstructor;
+};
 
-    const addInstructor = await axios.post(routes.addInstructor,InstructorData)
+export const getInstructors = async () => {
+  const instructors = await axios.get(routes.getInstructors);
 
-    return addInstructor;
-}
+  return instructors.data.teacher;
+};
+export const deleteInstructorData = async (id) => {
+  const deleteInstructor = await axios.delete(routes.deleteInstructor + id);
 
-
-export const getInstructors = async ()=>{
-
-    const instructors = await axios.get(routes.getInstructors)
-
-    return instructors.data.teacher;
-}
+  return deleteInstructor;
+};

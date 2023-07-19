@@ -20,23 +20,27 @@ import { NavLink } from "react-router-dom";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { Accordan } from "../../components/tableaccordan/Accordan";
-import { addInstructors, getInstructors } from "../../services/instructors";
+import {
+  addInstructors,
+  deleteInstructorData,
+  getInstructors,
+} from "../../services/instructors";
 
 import Select from "react-select";
 import { getCourses } from "../../services/courses";
 import { error, success } from "../../utils/toast";
 import { addTeacherSchema } from "../../schema/validate";
-import { CountriesData } from "../../constants/countires"
+import { CountriesData } from "../../constants/countires";
 
 const Learner = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     resetForm();
-    setClasses([])
-    setCourses([])
-    setOpen(false)
-};
+    setClasses([]);
+    setCourses([]);
+    setOpen(false);
+  };
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -79,7 +83,19 @@ const Learner = () => {
                 </button>
 
                 {openAccordan === row.original.id && (
-                  <Accordan setOpenAccordan={setOpenAccordan} />
+                  <Accordan
+                    setOpenAccordan={setOpenAccordan}
+                    handleDelete={async () => {
+                      try {
+                        setLoading(true);
+                        await deleteInstructorData(row.original.id);
+                        success("Instructor deleted successfully!");
+                        getInstructorData();
+                      } catch (e) {
+                        error(e.message || "Failed to delete instructor!");
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>
@@ -143,7 +159,7 @@ const Learner = () => {
         mobile: values.mobile.toString(),
         course_id: courses[0].value,
         class_id: classes[0].value,
-        type: "Onshore"
+        type: "Onshore",
       })
         .then(() => {
           success("Instructor submitted successfully");
@@ -228,7 +244,9 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     {errors.name && touched.name ? (<p className='errorval'>{errors.name}</p>) : null}
+                    {errors.name && touched.name ? (
+                      <p className="errorval">{errors.name}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -240,7 +258,9 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     {errors.email && touched.email ? (<p className='errorval'>{errors.email}</p>) : null}
+                    {errors.email && touched.email ? (
+                      <p className="errorval">{errors.email}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -252,20 +272,23 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     {errors.mobile && touched.mobile ? (<p className='errorval'>{errors.mobile}</p>) : null}
+                    {errors.mobile && touched.mobile ? (
+                      <p className="errorval">{errors.mobile}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
-                    <label
-                      htmlFor="address"
-                    >
-                      Address
-                    </label>
-                    <input type="text" name="address"
+                    <label htmlFor="address">Address</label>
+                    <input
+                      type="text"
+                      name="address"
                       value={values.address}
                       onChange={handleChange}
-                      onBlur={handleBlur}/>
-                       {errors.address && touched.address ? (<p className='errorval'>{errors.address}</p>) : null}
+                      onBlur={handleBlur}
+                    />
+                    {errors.address && touched.address ? (
+                      <p className="errorval">{errors.address}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -277,22 +300,31 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     {errors.license && touched.license ? (<p className='errorval'>{errors.license}</p>) : null}
+                    {errors.license && touched.license ? (
+                      <p className="errorval">{errors.license}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
                     <label htmlFor="name">Country</label>
 
-                    <select name="country" value={values.country}
+                    <select
+                      name="country"
+                      value={values.country}
                       onChange={handleChange}
-                      onBlur={handleBlur}>
+                      onBlur={handleBlur}
+                    >
                       <option value="">Select Country</option>
                       {CountriesData.map((curElem) => (
-                        <option key={curElem.code} value={curElem.name}>{curElem.name}</option>
+                        <option key={curElem.code} value={curElem.name}>
+                          {curElem.name}
+                        </option>
                       ))}
                     </select>
 
-                    {errors.country && touched.country ? (<p className='errorval'>{errors.country}</p>) : null}
+                    {errors.country && touched.country ? (
+                      <p className="errorval">{errors.country}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -307,7 +339,9 @@ const Learner = () => {
                       onChange={onClassChange}
                       onBlur={handleBlur}
                     />
-                     {errors.class_id && touched.class_id && !classes.length ? (<p className='errorval'>Please select class</p>) : null}
+                    {errors.class_id && touched.class_id && !classes.length ? (
+                      <p className="errorval">Please select class</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -315,14 +349,26 @@ const Learner = () => {
                     <Select
                       // isMulti
                       name="course"
-                      options={!classes.length ? [] :coursedata.filter((course) => course.value.toString() === classes[0].value.toString())}
+                      options={
+                        !classes.length
+                          ? []
+                          : coursedata.filter(
+                              (course) =>
+                                course.value.toString() ===
+                                classes[0].value.toString()
+                            )
+                      }
                       className="basic-multi-select"
                       classNamePrefix="select"
                       value={courses}
                       onChange={onCourseChange}
                       onBlur={handleBlur}
                     />
-                     {errors.course_id && touched.course_id && !courses.length ? (<p className='errorval'>Please select course</p>) : null}
+                    {errors.course_id &&
+                    touched.course_id &&
+                    !courses.length ? (
+                      <p className="errorval">Please select course</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -337,7 +383,9 @@ const Learner = () => {
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                     </select>
-                    {errors.gender && touched.gender ? (<p className='errorval'>{errors.gender}</p>) : null}
+                    {errors.gender && touched.gender ? (
+                      <p className="errorval">{errors.gender}</p>
+                    ) : null}
                   </div>
 
                   <div className="formbox">
@@ -349,7 +397,9 @@ const Learner = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     {errors.date_of_birth && touched.date_of_birth ? (<p className='errorval'>{errors.date_of_birth}</p>) : null}
+                    {errors.date_of_birth && touched.date_of_birth ? (
+                      <p className="errorval">{errors.date_of_birth}</p>
+                    ) : null}
                   </div>
 
                   <div className="submitbtn">
