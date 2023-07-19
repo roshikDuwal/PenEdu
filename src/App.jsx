@@ -58,11 +58,9 @@ const App = () => {
             <Route path='/dashboard/result/:courseid/:id' element={<StudentAssignment/>} />
             <Route path='/dashboard/result/:courseid/:unitid/:assignmentid' element={<ShowResultAssignment/>}/>
             {/* <Route path='/dashboard/result/:courseid/:unitid/:assignmentid/video' element={<ShowVideo/>}/> */}
-         
-
           </Route>
 
-          <Route path='/video/:assignmentid' element={<ShowVideo/>}/>
+          <Route path='/dashboard/result/:courseid/:unitid/:assignmentid/video' element={<ShowVideo/>}/>
 
           {/* <Route path='/student' >
             <Route index element={<Student />} />
@@ -78,8 +76,7 @@ const App = () => {
             <Route path='/student/result/:unit_id/:id/video' element={<ShowVideo/>}/>
           </Route> */}
 
-
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<Login/>} />
 
           <Route path='*' element={<Error />} />
 

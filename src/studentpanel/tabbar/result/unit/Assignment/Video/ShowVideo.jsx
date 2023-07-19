@@ -4,14 +4,14 @@ import "./video.scss";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import "react-tabs/style/react-tabs.css";
 import { NavLink, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 
 import { ThreeDots } from "react-loader-spinner";
 
-import { getAssignment } from "../../../../../../services/assignments";
+import { getAssignment, getSubmits } from "../../../../../../services/assignments";
 
 import Navbar from "../../../../../../components/panelnavbar/Navbar";
 import Video from "./Video";
@@ -22,9 +22,9 @@ const ShowVideo = () => {
   const [assignment, setAssignment] = useState([]);
   const { assignmentid } = useParams();
 
-  const getData = async () => {
+  const getData = async (id) => {
     setLoading(true);
-    const data = await getSubmits(unitid);
+    const data = await getSubmits(id);
     const singleChecks = data.getSingleCheckAssessment.filter((sc) => {
       return sc.single_questions.unit_assignment_id.toString() === assignmentid.toString();
     });
@@ -35,8 +35,10 @@ const ShowVideo = () => {
   };
 
   useEffect(() => {
-    getData();
+    getData(assignmentid);
   }, [])
+
+
 
 
 
@@ -50,16 +52,10 @@ const ShowVideo = () => {
 
           {/* -----startpage title---   */}
           <div className="navigation">
-            <div className="titlenavigate">Home</div>
-            <ChevronRightIcon />{" "}
-            <div className="titlenavigate">Roshin Lakhemaru</div>
-            <ChevronRightIcon />{" "}
-            <div className="titlenavigate">Course Unit</div>
-            <ChevronRightIcon />{" "}
-            <div className="titlenavigate">Unit Assignment</div>
-            <ChevronRightIcon />
-            <div className="titlenavigate">Assignment </div>
-            <ChevronRightIcon /> <div className="titlenavigate">Video</div>
+            <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
+            <NavLink to="./..">Units</NavLink><ChevronRightIcon />
+            <NavLink to="#">{assignment.title}</NavLink>
           </div>
           {/* ---start-page end---  */}
 

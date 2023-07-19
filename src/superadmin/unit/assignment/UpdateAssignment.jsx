@@ -247,6 +247,7 @@ const UpdateAssignment = ({ assignment, getData }) => {
                     </button>
                   </div>
                 </form>
+                <hr />
                 <div className="modal-body">
                   {loading ? (
                     <>
@@ -269,7 +270,7 @@ const UpdateAssignment = ({ assignment, getData }) => {
                 </div>
               </Box>
             </Modal>
-            <div className="body">
+            <div className="assignmentbody">
               <img src={ASSIGNMENT_IMAGE_PREFIX + assignment.file} />
             </div>
           </div>

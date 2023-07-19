@@ -131,7 +131,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div>
+      <div className="sidebarbox">
         <nav className="sidebar">
           <div className="position">
             <div className="logo-title">

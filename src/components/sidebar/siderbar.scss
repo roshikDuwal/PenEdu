@@ -12,11 +12,14 @@
   border: .5rem solid transparent;
 }
 
-div {
+.sidebarbox {
+  min-height: 100vh;
+
+
   .sidebar {
     width: 240px;
     z-index: 1038;
-    height: 100vh;
+    min-height: 100vh;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     display: flex;
     flex-direction: column;

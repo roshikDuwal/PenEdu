@@ -54,7 +54,6 @@
         color: white;
       }
     }
-
   }
 
 
@@ -252,20 +251,13 @@
         }
       }
     }
-
-
   }
-
 }
 
-.flex {
-  float: left;
-  margin-right: 2rem;
-  max-width: 25%;
-}
+
 
 .que-ans img {
-  max-width: 18.5rem;
+  width: 20rem;
   height: 6rem;
   object-fit: contain;
 
@@ -276,27 +268,28 @@
 
 .que-ans {
   .react-fancybox {
+
     span {
       .box {
         z-index: 999;
-
         .image-box {
           width: 60%;
           height: 90%;
           z-index: 999;
           background-color: white;
-          padding:0 ;
+          padding: 0;
           margin: 0;
+          display: flex;
+          align-items: center;
 
           img {
-            height: 100%;
-            width: 100%;
-         
+            width: 100% !important;
+            height: 100vh;
             object-fit: contain;
           }
 
           .close-btn {
-            width: 1.3vw;
+            width: 1.3vw !important;
             height: 2.9vh;
           }
         }
@@ -305,10 +298,17 @@
   }
 }
 
-.video video {
-  max-width: 8.5rem;
-  height: 6rem;
 
+
+.video  {
+  .videobox{
+    height: 50%;
+    
+    iframe{
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
 }
 
 .video {
@@ -357,13 +357,27 @@ h5 {
   justify-content: space-between;
   align-items: center;
 }
-.modal-body{
+
+.container{
+  .form{
+    .form-container{
+      .assignmentbody{
+        img{
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.modal-body {
   height: 50vh;
   overflow-y: auto;
   width: 100%;
   display: grid;
   justify-content: center;
 }
+
 .not-submitted {
   color: red;
   text-align: center;

@@ -274,7 +274,11 @@ const UploadVideos = () => {
                     // <video src={ row.original.video} controls>
                     //   Your browser does not support the video tag.
                     // </video>
-                    <ReactPlayer controls={true} url={row.original.video} />
+
+                    // <ReactPlayer controls={true} url={row.original.video} />
+                    <div className="videobox">
+                      <iframe src={row.original.video} allow="autoplay"></iframe>
+                    </div>
                   ) : uploading ? (
                     <ThreeDots
                       height="80"
@@ -419,8 +423,8 @@ const UploadVideos = () => {
     getCurrentRole() === roles.instructor
       ? 4
       : getCurrentRole() === roles.student
-      ? 3
-      : 0
+        ? 3
+        : 0
   );
 
   const PageDisplay = () => {
@@ -432,7 +436,7 @@ const UploadVideos = () => {
       );
     } else if (page === 1) {
       return (
-        <div>
+        <div >
           <Button className="addindividualques" onClick={handleOpen}>
             <AddIcon />
             Add Question
@@ -447,7 +451,7 @@ const UploadVideos = () => {
           >
             <Box className="modal-box ">
               <div className="create-detail">
-             
+
                 <p>{editData?.id ? "Edit" : "Add"} Question</p>
                 <Button className="closequestionicon" onClick={handleClose}>
                   <CloseIcon />
@@ -529,7 +533,10 @@ const UploadVideos = () => {
             </Box>
           </Modal>
 
-          <CustomReactTable columns={columns} data={data} loading={loading} />
+          <div className="tablequesans">
+            <CustomReactTable columns={columns} data={data} loading={loading} />
+          </div>
+
         </div>
       );
     } else if (page === 3) {
@@ -618,6 +625,7 @@ const UploadVideos = () => {
             </div>
 
             <div className="learner-list-box">
+
               <div className="modal-btn">
                 <h4>{assignment.title}</h4>
                 <h6>{title}</h6>
@@ -692,7 +700,9 @@ const UploadVideos = () => {
                 <>
                   <>
                     <div className="flex-box m-4">
+
                       <div className="flex">
+
                         <button
                           disabled={page === 4}
                           onClick={() => {
@@ -703,6 +713,7 @@ const UploadVideos = () => {
                           <BackupTableIcon />
                           Check Assignment
                         </button>
+
                         <button
                           disabled={page == 0}
                           onClick={() => {
@@ -723,7 +734,7 @@ const UploadVideos = () => {
                 </>
               ) : (
                 <>
-                  <div className="flex-box m-4">
+                  <div className="flex-box ">
                     <div className="flex">
                       <button
                         disabled={page == 0}

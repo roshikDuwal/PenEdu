@@ -18,19 +18,32 @@ const Video = ({ data }) => {
               data.map((curElem) => {
                 return (
                   <TabPanel className="tabpanel" >
-                    <ReactPlayer
+                    {/* <ReactPlayer
                       playing={false}
                       controls={true}
                       width="100%"
-                      height="400px"
+                      height="50%"
                       url={VIDEO_PREFIX + curElem.video}
-                    />
-                    <img src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + curElem.image} alt="" />
+                    /> */}
+                    <div className="videobox">
+                      <iframe src={curElem.video} width="640" height="480" allow="autoplay"></iframe>
+                    </div>
+
+                    <hr />
+                    <div style={{ textAlign: "center" }}>
+                      <h3>Answer</h3>
+                    </div>
+                    <div className="imagebox">
+                      <img src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + curElem.image} alt="" />
+                      <br />
+                    </div>
+
                   </TabPanel>
                 )
               })
             }
           </div>
+
 
           <div className="tabbox2">
             <div className="title">
