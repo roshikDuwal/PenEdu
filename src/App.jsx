@@ -10,7 +10,11 @@ import "./app.scss"
 import Instructor from "./superadmin/Instructor/Instructor"
 import Classyear from "./superadmin/class/Classyear"
 
-import Login from './pages/login/Login'
+
+import AdminLogin from "./pages/login/AdminLogin"
+import Studentlogin from "./pages/login/Studentlogin"
+import TeacherLogin from "./pages/login/TeacherLogin"
+
 import List from './superadmin/unit/List'
 import Error from './pages/error/Error'
 import Course from './superadmin/course/course'
@@ -76,7 +80,9 @@ const App = () => {
             <Route path='/student/result/:unit_id/:id/video' element={<ShowVideo/>}/>
           </Route> */}
 
-          <Route path='/login' element={<Login/>} />
+          <Route path='admin/login' element={<AdminLogin/>} />
+          <Route path='student/login' element={<Studentlogin/>} />
+          <Route path='teacher/login' element={<TeacherLogin/>} />
 
           <Route path='*' element={<Error />} />
 

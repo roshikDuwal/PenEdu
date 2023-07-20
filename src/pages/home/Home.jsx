@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./home.scss";
 import Herosection from "../../components/herosection/Herosection";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +33,25 @@ const Home = () => {
             <li>Course</li>
             <li>About Us</li>
             <li>
-              <NavLink to="/login">Login</NavLink>
+              <div className="right-menu">
+                <li className="menu-button"> Login <ArrowDropDownIcon /></li>
+                <ul className="dropdown-menu " >
+                  <div className="grid-container">
+                    <div className="grid-item">
+                      <button className="submenu-button ">
+                        <NavLink to={"/student/login"}>Student </NavLink>
+                      </button>
+                    </div>
+
+                    <div className="grid-item">
+                      <button className="submenu-button" >
+                        <NavLink to="/teacher/login">Teacher </NavLink>
+                      </button>
+                    </div>
+
+                  </div>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
