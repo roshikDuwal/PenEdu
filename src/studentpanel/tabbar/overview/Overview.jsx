@@ -25,10 +25,10 @@ const Overview = ({data, cls}) => {
 
                         <tbody>
                             <tr>
-                                <td>{JSON.parse(localStorage.getItem("user", "{}")).name}</td>
-                                <td>{JSON.parse(localStorage.getItem("user", "{}")).email}</td>
-                                <td>{JSON.parse(localStorage.getItem("user", "{}")).country}</td>
-                                <td>{JSON.parse(localStorage.getItem("user", "{}")).mobile}</td>
+                                <td>{JSON.parse(localStorage.getItem("user", "{}"))?.name}</td>
+                                <td>{JSON.parse(localStorage.getItem("user", "{}"))?.email}</td>
+                                <td>{JSON.parse(localStorage.getItem("user", "{}"))?.country}</td>
+                                <td>{JSON.parse(localStorage.getItem("user", "{}"))?.mobile}</td>
                                 <td>{cls || "-"}</td>
                             </tr>
                         </tbody>

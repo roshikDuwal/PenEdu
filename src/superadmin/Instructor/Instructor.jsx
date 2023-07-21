@@ -58,6 +58,7 @@ const Learner = () => {
 
   const onClassChange = (e) => {
     setClasses([e]);
+    setCourses([]);
   };
 
   const onCourseChange = (e) => {

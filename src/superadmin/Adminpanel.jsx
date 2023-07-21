@@ -171,7 +171,7 @@ const Adminpanel = () => {
                     <div className="titlenavigate">Home</div>
                     <ChevronRightIcon />{" "}
                     <div className="titlenavigate">
-                      {JSON.parse(localStorage.getItem("user", "{}")).name}
+                      {JSON.parse(localStorage.getItem("user", "{}"))?.name}
                     </div>
                   </div>
                   {/* ---start-page end---  */}
@@ -186,13 +186,13 @@ const Adminpanel = () => {
                           <h5>
                             {
                               JSON.parse(localStorage.getItem("user", "{}"))
-                                .name
+                                ?.name
                             }
                           </h5>
                           <p>
                             {
                               JSON.parse(localStorage.getItem("user", "{}"))
-                                .student_number
+                                ?.student_number
                             }
                           </p>
                         </div>
