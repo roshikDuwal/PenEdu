@@ -62,6 +62,14 @@ const ListAssignment = () => {
           return asgn;
         });
       });
+      submits.checkAssessment.map((check) => {
+        assignments = assignments.map((asgn) => {
+          if (asgn.id.toString() === check.unit_assignment_id) {
+            return { ...asgn, check: check };
+          }
+          return asgn;
+        });
+      });
     }
     setData(assignments);
 
@@ -207,9 +215,13 @@ const ListAssignment = () => {
         Header: "Submitted",
         Cell: ({ row }) =>
           row.original?.submit ? (
-            <span className="status-green">SUBMITTED</span>
+            row.original?.check ? (
+              <span className="status-green">SUBMITTED (CHECKED)</span>
+            ) : (
+              <span className="status-orange">SUBMITTED(PENDING CHECK)</span>
+            )
           ) : (
-            <span className="status-orange">PENDING</span>
+            <span className="status-red">PENDING</span>
           ),
       },
       {

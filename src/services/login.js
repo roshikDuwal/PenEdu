@@ -24,7 +24,7 @@ export const login = async (data, role) => {
         role:
           logInData.data?.adminUsers?.name === "admin"
             ? roles.admin
-            : logInData.data?.adminUsers?.name === "instructor"
+            : logInData.data?.instructorUsers?.name === "instructor"
             ? roles.instructor
             : roles.student,
       })
