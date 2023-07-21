@@ -39,6 +39,11 @@ const Home = () => {
                   <div className="grid-container">
                     <div className="grid-item">
                       <button className="submenu-button ">
+                        <NavLink to={"/admin/login"}>Admin</NavLink>
+                      </button>
+                    </div>
+                    <div className="grid-item">
+                      <button className="submenu-button ">
                         <NavLink to={"/student/login"}>Student </NavLink>
                       </button>
                     </div>
