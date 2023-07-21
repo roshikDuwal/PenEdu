@@ -34,7 +34,6 @@ import { CountriesData } from "../../constants/countires";
 
 const Learner = () => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     resetForm();
     setClasses([]);
@@ -43,6 +42,13 @@ const Learner = () => {
   };
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const handleOpen = () => {
+    if(!classes.length) {
+      error("No class data. Add a class first!");
+      return;
+    }
+    setOpen(true);
+  };
 
   const [openAccordan, setOpenAccordan] = useState(null);
   const [coursedata, setCourseData] = useState([]);

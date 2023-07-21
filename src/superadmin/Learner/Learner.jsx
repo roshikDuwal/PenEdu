@@ -16,7 +16,11 @@ import { NavLink } from "react-router-dom";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { error, success } from "../../utils/toast";
-import { addStudents, deleteStudentData, getStudents } from "../../services/students";
+import {
+  addStudents,
+  deleteStudentData,
+  getStudents,
+} from "../../services/students";
 import { addStudentSchema } from "../../schema/validate";
 import { Accordan } from "../../components/tableaccordan/Accordan";
 import { CountriesData } from "../../constants/countires";
@@ -26,7 +30,13 @@ const Learner = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if(!data.length) {
+      error("No class data. Add a class first!");
+      return;
+    }
+    setOpen(true);
+  };
   const handleClose = () => {
     setOpen(false);
     resetForm();
