@@ -16,7 +16,7 @@ export const Accordan = ({data}) => {
       <div className="accordanbox">
         <h6 className="dropdown-header">{data?.name}</h6>
         <li className="profile" onClick={Logout}>
-          <NavLink to="/login">Logout</NavLink>
+          <NavLink to="/">Logout</NavLink>
         </li>
       </div>
     </>

@@ -13,7 +13,7 @@ export class Axios {
       (error) => {
         if (error.response.status === 401) {
           localStorage.removeItem("user");
-          window.location.replace("/login");
+          window.location.replace("/");
         }
         throw error;
       }
