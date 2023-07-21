@@ -12,7 +12,7 @@
             display: flex;
             align-items: center;
             padding: 1rem;
-            
+
             a{
                 text-decoration: none;
                 font-size: 0.9rem;
@@ -20,22 +20,22 @@
                 color: black;
             }
         }
-    
+
         .studentpage {
             position: relative;
             height: 100vh;
-    
+
             .studentdescription {
                 height: 100%;
-    
+
                 .tabbar {
                     height: 100%;
                     display: flex;
                     flex-direction: column;
                     background-color: #f7f9fa;
-                 
-                    
-    
+
+
+
                     .box {
                         background-color: #1c1d1f;
                         color: white;
@@ -43,16 +43,16 @@
                         text-align: center;
                         font-family: 'Nunito', sans-serif;
                     }
-    
+
                     .studentnavbar {
                         display: flex;
                         min-height: 100vh;
-                       
-    
+
+
                         .videobox {
                             width: 100%;
                             .answer{
-                            
+
                                 font-family: 'Nunito', sans-serif;
                                 display: flex;
                                 justify-content: space-around;
@@ -62,33 +62,33 @@
                                     font-size: 1.3rem;
                                     font-weight: 700;
                                 }
-    
+
                                 p{
                                     font-size: 0.91rem;
                                     font-weight: 700;
-                                
+
                                 }
                             }
 
                             .feedback{
                                 padding: 0 1rem;
                             }
-    
+
                             .tab {
                                 display: flex;
                                 flex-wrap: wrap;
                                 height: 100%;
-    
+
                                 .tabbox2 {
-                                    width: 20%;
+                                    width: 30rem;
                                     background-color: #f2f2f2;
                                     height: 100%;
                                     right: 0;
                                     display: flex;
                                     flex-direction: column;
                                     top: 0.1% !important;
-    
-                           
+
+
                                     .title {
                                         width: 100%;
                                         border-bottom: 1.9px solid rgb(106, 106, 106);
@@ -96,11 +96,11 @@
                                         padding: 0.8rem;
                                         font-weight: 800;
                                         background-color: #fff;
-    
+
                                         h1 {
                                             font-family: 'Belanosima', sans-serif;
                                         }
-    
+
                                         p {
                                             margin: 0;
                                             padding-left: 1rem;
@@ -110,7 +110,7 @@
                                             font-family: 'Poppins', sans-serif;
                                         }
                                     }
-    
+
                                     .tabbar {
                                         display: flex;
                                         flex-direction: column;
@@ -125,9 +125,9 @@
                                         overflow-x: hidden;
                                         gap: 0.4rem;
                                         background-color: #f2f2f2;
-    
-    
-    
+
+
+
                                         li {
                                             display: flex;
                                             align-items: center;
@@ -141,23 +141,23 @@
                                             gap: 0.5rem;
                                             color: black;
                                             border-radius: 5px;
-    
+
                                             &:hover {
                                                 background-color: #d1d7dc;
                                             }
                                         }
                                     }
                                 }
-    
-    
+
+
                                 .tabbox1 {
                                     width: 80%;
-                                   
+
                                     .tabpanel {
-                                        max-height: 100vh;
+                                        // max-height: 100vh;
                                         display: flex;
                                         flex-direction: column;
-    
+
                                         .Videobox {
                                             height: 80rem;
                                             iframe {
@@ -165,19 +165,18 @@
                                                 height: 100% !important;
                                             }
                                         }
-    
+
                                         .imagebox {
                                             padding: 0 2rem;
                                             box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-                                            height: 70rem;
-                                            overflow-y: scroll;
-    
+                                            max-width: 75vw;
+
                                             img {
                                                 display: flex;
                                                 justify-content: center;
                                                 align-items: center;
                                                 object-fit: contain;
-                                                width: 100%;
+                                                max-width: 75vw;
                                             }
                                         }
                                     }
@@ -194,6 +193,6 @@
 }
 
 .react-tabs__tab--selected{
-    background-color: #d1d7dc !important; 
+    background-color: #d1d7dc !important;
 }
 

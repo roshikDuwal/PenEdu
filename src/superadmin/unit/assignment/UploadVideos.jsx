@@ -212,10 +212,10 @@ const UploadVideos = () => {
           asgn = { ...asgn, check: check };
         }
       });
-      let singleChecks = []
+      let singleChecks = [];
       submits.getSingleCheckAssessment.map((check) => {
         if (asgn.id.toString() === check.unit_assignment_id.toString()) {
-          singleChecks.push(check)
+          singleChecks.push(check);
         }
       });
       asgn = { ...asgn, singleChecks };
@@ -660,14 +660,11 @@ const UploadVideos = () => {
         <div className="container">
           <div className="form">
             <div className="form-container p-5">
-              <div className="space-between">
-                <h5>Title: {assignment.title || "-"}</h5>
-              </div>
-              <div className="space-between">
+              {/* <div className="space-between">
                 <h5>Start Date: {schedule.start_date || "-"}</h5>
                 <h5>End Date: {schedule.end_date || "-"}</h5>
                 <h5>Total Score: {assignment.score || "-"}</h5>
-              </div>
+              </div> */}
             </div>
             <div className="body">
               <Video singleChecks={assignment.singleChecks} />

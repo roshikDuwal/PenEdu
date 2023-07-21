@@ -33,13 +33,19 @@ const Video = ({ singleChecks }) => {
 
   return (
     <>
-      <div className="videobox">
-        <Tabs className="tab">
-          <div className="tabbox1">
-            {singleChecks.map((curElem, i) => {
-              return (
-                <TabPanel key={i} className="tabpanel">
-                  {/* <ReactPlayer
+      <div className="videopanel">
+        <div className="adminpanelpage">
+          <section className="studentpage">
+            <div className="studentdescription">
+              <div className="tabbar">
+                <div className="studentnavbar">
+                  <div className="videobox">
+                    <Tabs className="tab">
+                      <div className="tabbox1">
+                        {singleChecks.map((curElem, i) => {
+                          return (
+                            <TabPanel key={i} className="tabpanel">
+                              {/* <ReactPlayer
                       playing={false}
                       controls={true}
                       width="100%"
@@ -47,70 +53,81 @@ const Video = ({ singleChecks }) => {
                       url={VIDEO_PREFIX + curElem.video}
                     /> */}
 
-                  <div className="Videobox">
-                    <iframe
-                      allowFullScreen={true}
-                      webkitallowfullscreen="true"
-                      mozallowfullscreen="true"
-                      src={curElem.single_questions?.video}
-                      allow="autoplay"
-                    ></iframe>
-                  </div>
+                              <div className="Videobox">
+                                <iframe
+                                  allowFullScreen={true}
+                                  webkitallowfullscreen="true"
+                                  mozallowfullscreen="true"
+                                  src={curElem.single_questions?.video}
+                                  allow="autoplay"
+                                ></iframe>
+                              </div>
 
-                  <hr />
+                              <hr />
 
-                  <div className="answer">
-                    <h4>Answer</h4>
-                    <p>Total Marks:11</p>
-                    <p>Obtained Marks:qq</p>
-                  </div>
-                  <div className="feedback">
-                    <h5>Feedback:</h5> <p></p>
-                  </div>
+                              <div className="answer">
+                                <h4>{curElem?.single_questions?.title}</h4>
+                              </div>
+                              <div className="answer">
+                                <p>Total Marks:{curElem.single_questions?.score}</p>
+                                <p>Obtained Marks:{curElem.marks}</p>
+                              </div>
+                              <div className="feedback">
+                                <h5>Feedback:{curElem.feedback}</h5>
+                              </div>
 
-                  <div className="imagebox">
-                    <img
-                      src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + curElem?.single_questions?.image}
-                      alt=""
-                    />
-                    <br />
-                  </div>
-                </TabPanel>
-              );
-            })}
-          </div>
+                              <div className="imagebox">
+                                <img
+                                  src={
+                                    ASSIGNMENT_QUESTION_IMAGE_PREFIX +
+                                    curElem?.single_questions?.image
+                                  }
+                                  alt=""
+                                />
+                                <br />
+                              </div>
+                            </TabPanel>
+                          );
+                        })}
+                      </div>
 
-          <div
-            id="your-div-id"
-            className=" tabbox2"
-            style={{
-              position: isFixed ? "fixed" : "static",
-              width: isFixed ? "16.8%" : "20%",
-            }}
-          >
-            <div className="title">
-              <h3>Content</h3>
-              <p>
-                {singleChecks.length}/{singleChecks.length}
-              </p>
+                      <div
+                        id="your-div-id"
+                        className="tabbox2"
+                        style={{
+                          position: "static",
+                          width: "20%",
+                        }}
+                      >
+                        <div className="title">
+                          <h3>Content</h3>
+                          <p>
+                            {singleChecks.length}/{singleChecks.length}
+                          </p>
+                        </div>
+
+                        <TabList className="tabbar">
+                          {singleChecks.map((curElem) => {
+                            return (
+                              <>
+                                <Tab>
+                                  <form action="">
+                                    <input type="checkbox" name="" id="" />
+                                  </form>
+                                  {curElem?.single_questions?.title}
+                                </Tab>
+                              </>
+                            );
+                          })}
+                        </TabList>
+                      </div>
+                    </Tabs>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <TabList className="tabbar">
-              {singleChecks.map((curElem) => {
-                return (
-                  <>
-                    <Tab>
-                      <form action="">
-                        <input type="checkbox" name="" id="" />
-                      </form>
-                      {curElem?.single_questions?.title}
-                    </Tab>
-                  </>
-                );
-              })}
-            </TabList>
-          </div>
-        </Tabs>
+          </section>
+        </div>
       </div>
     </>
   );
