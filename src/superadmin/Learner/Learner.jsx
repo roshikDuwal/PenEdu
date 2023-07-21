@@ -31,7 +31,7 @@ const Learner = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const handleOpen = () => {
-    if(!data.length) {
+    if(!classdata.length) {
       error("No class data. Add a class first!");
       return;
     }
