@@ -43,7 +43,7 @@ const Learner = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const handleOpen = () => {
-    if(!classes.length) {
+    if(!classData.length) {
       error("No class data. Add a class first!");
       return;
     }
@@ -192,6 +192,7 @@ const Learner = () => {
     const courseOptions = rescourse.map((course) => ({
       label: course.course_name,
       value: course.id,
+      class_id: course.class_id
     }));
     const classOptions = resclass.map((course) => ({
       label: course.class,
@@ -360,7 +361,7 @@ const Learner = () => {
                           ? []
                           : coursedata.filter(
                               (course) =>
-                                course.value.toString() ===
+                                course.class_id.toString() ===
                                 classes[0].value.toString()
                             )
                       }
