@@ -37,11 +37,7 @@ const Home = () => {
                 <li className="menu-button"> Login <ArrowDropDownIcon /></li>
                 <ul className="dropdown-menu " >
                   <div className="grid-container">
-                    <div className="grid-item">
-                      <button className="submenu-button ">
-                        <NavLink to={"/admin/login"}>Admin</NavLink>
-                      </button>
-                    </div>
+                    
                     <div className="grid-item">
                       <button className="submenu-button ">
                         <NavLink to={"/student/login"}>Student </NavLink>

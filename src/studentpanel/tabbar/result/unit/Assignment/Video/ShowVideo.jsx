@@ -11,16 +11,19 @@ import { Button } from "@mui/material";
 
 import { ThreeDots } from "react-loader-spinner";
 
-import { getAssignment, getSubmits } from "../../../../../../services/assignments";
+import { getAssignment, getAssignments, getSubmits } from "../../../../../../services/assignments";
 
 import Navbar from "../../../../../../components/panelnavbar/Navbar";
 import Video from "./Video";
 import Sidebar from "../../../../../../components/sidebar/Sidebar";
+import { getCurrentRole, roles } from "../../../../../../utils/common";
 
 const ShowVideo = () => {
   const [loading, setLoading] = useState(true);
   const [assignment, setAssignment] = useState([]);
-  const { assignmentid } = useParams();
+  const [allData, setAllData] = useState([])
+  const [assignmentDetail, setAssignmentDetail] = useState([]);
+  const { unitid, assignmentid } = useParams();
 
   const getData = async (id) => {
     setLoading(true);
@@ -28,15 +31,34 @@ const ShowVideo = () => {
     const singleChecks = data.getSingleCheckAssessment.filter((sc) => {
       return sc.single_questions.unit_assignment_id.toString() === assignmentid.toString();
     });
-    console.log(singleChecks);
+
     const indivQues = singleChecks.map((cs) => cs.single_questions);
     setAssignment(indivQues);
+    setAllData(singleChecks)
     setLoading(false);
   };
 
   useEffect(() => {
     getData(assignmentid);
   }, [])
+
+  const getAssignmentData = async () => {
+    setLoading(true);
+
+    const data = await getAssignments(unitid);
+
+    data.unitAssignments.filter((filteredCourse) => filteredCourse.id == assignmentid).map((filterCourse, index) => {
+      setAssignmentDetail(filterCourse);
+    })
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (getCurrentRole() === roles.student) {
+      getAssignmentData();
+    }
+  }, []);
 
 
 
@@ -55,7 +77,7 @@ const ShowVideo = () => {
             <NavLink to="/dashboard">Dashboard</NavLink> <ChevronRightIcon />
             <NavLink to="./..">Courses</NavLink> <ChevronRightIcon />
             <NavLink to="./..">Units</NavLink><ChevronRightIcon />
-            <NavLink to="#">{assignment.title}</NavLink>
+            <NavLink to="#">{assignmentDetail.title}</NavLink>
           </div>
           {/* ---start-page end---  */}
 
@@ -64,7 +86,7 @@ const ShowVideo = () => {
             <div className="studentdescription">
               <div className="tabbar">
                 <div className="box">
-                  <h3>Video of Assignment </h3>
+                  <h3>Video of {assignmentDetail.title} </h3>
                 </div>
 
                 {loading ? (
@@ -82,7 +104,7 @@ const ShowVideo = () => {
                   </>
                 ) : (
                   <div className="studentnavbar">
-                    <Video data={assignment} />
+                    <Video data={assignment} alldata={allData} />
                   </div>
 
                 )}

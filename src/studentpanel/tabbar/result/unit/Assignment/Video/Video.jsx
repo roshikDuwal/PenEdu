@@ -6,7 +6,7 @@ import ReactPlayer from 'react-player'
 import { ASSIGNMENT_QUESTION_IMAGE_PREFIX, SOLUTION_VIDEO_PREFIX, VIDEO_PREFIX } from '../../../../../../constants/url';
 
 
-const Video = ({ data }) => {
+const Video = ({ data, alldata }) => {
   const [isFixed, setIsFixed] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Video = ({ data }) => {
     };
   }, []);
 
-  
+
 
 
   return (
@@ -50,14 +50,23 @@ const Video = ({ data }) => {
                       url={VIDEO_PREFIX + curElem.video}
                     /> */}
 
-                    <div className="videobox">
-                      <iframe src={curElem.video} allow="autoplay"></iframe>
+                    <div className="Videobox">
+                      <iframe allowFullScreen={true} webkitallowfullscreen="true" mozallowfullscreen="true" src={curElem.video} allow="autoplay"></iframe>
                     </div>
 
                     <hr />
-                    <div style={{ textAlign: "center" }}>
-                      <h3>Answer</h3>
+
+                    <div className='answer'>
+                      <h4>Answer</h4>
+                      <p>Total Marks:11</p>
+                      <p>Obtained Marks:qq</p>
+
                     </div>
+                    <div className="feedback">
+                      <h5>Feedback:</h5> <p></p>
+                    </div>
+
+
                     <div className="imagebox">
                       <img src={ASSIGNMENT_QUESTION_IMAGE_PREFIX + curElem.image} alt="" />
                       <br />
@@ -70,13 +79,13 @@ const Video = ({ data }) => {
           </div>
 
 
-          <div id="your-div-id" className=' tabbox2' style={{ position: isFixed ? 'fixed' : 'static',width:isFixed?"16.8%":"20%" }} >
+          <div id="your-div-id" className=' tabbox2' style={{ position: isFixed ? 'fixed' : 'static', width: isFixed ? "16.8%" : "20%" }} >
             <div className="title">
               <h3>Content</h3>
               <p>{data.length}/{data.length}</p>
             </div>
 
-            <TabList 
+            <TabList
               className="tabbar">
 
               {
@@ -84,7 +93,6 @@ const Video = ({ data }) => {
                   return (
                     <>
                       <Tab>
-
                         <form action="">
                           <input type="checkbox" name="" id="" />
                         </form>
