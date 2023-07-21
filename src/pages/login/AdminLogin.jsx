@@ -14,6 +14,7 @@ import { login } from "../../services/login";
 import { error, success } from "../../utils/toast";
 import { ThreeDots } from "react-loader-spinner";
 import { Button } from "@mui/material";
+import { roles } from "../../utils/common";
 
 const Values = {
   email: "",
@@ -40,7 +41,7 @@ const Login = () => {
     onSubmit: async (values, action) => {
       setSubmitting(true);
       setLoading(true);
-      login(values)
+      login(values, roles.admin)
         .then(() => {
           setSubmitting(false);
           setLoading(false);

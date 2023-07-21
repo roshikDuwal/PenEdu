@@ -14,6 +14,9 @@ export const SOLUTION_VIDEO_PREFIX = SERVER_URL + "/uploads/assessment/"
 
 export const routes={
     login:"login",
+    adminLogin:"admin/login",
+    teacherLogin:"instructor/login",
+    studentLogin:"student/login",
     addStudent:"learner/create",
     getStudents:"learner/index",
     addInstructor:"users/instructor/create",

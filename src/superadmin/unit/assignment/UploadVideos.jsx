@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import { ThreeDots } from "react-loader-spinner";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Navbar from "../../../components/panelnavbar/Navbar";
+import TaskIcon from "@mui/icons-material/Task";
+import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import AddIcon from "@mui/icons-material/Add";
 import Select from "react-select";
 
@@ -26,6 +28,7 @@ import {
 import {
   ASSIGNMENT_IMAGE_PREFIX,
   ASSIGNMENT_QUESTION_IMAGE_PREFIX,
+  ASSIGNMENT_RESULT_IMAGE_PREFIX,
   ASSIGNMENT_SUBMIT_IMAGE_PREFIX,
 } from "../../../constants/url";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
@@ -45,6 +48,7 @@ import UpdateAssignment from "./UpdateAssignment";
 
 import ReactFancyBox from "react-fancybox";
 import "react-fancybox/lib/fancybox.css";
+import Video from "./Video/Video";
 
 const UploadVideos = () => {
   const [loading, setLoading] = useState(false);
@@ -171,8 +175,10 @@ const UploadVideos = () => {
           const ques = submitted?.unit_assignment?.single_questions.map(
             (sq) => {
               const checked = data.getSingleCheckAssessment?.find((m) => {
-                return m.single_questions_id.toString() === sq.id.toString() &&
-                  m.student_id.toString() === std.id.toString();
+                return (
+                  m.single_questions_id.toString() === sq.id.toString() &&
+                  m.student_id.toString() === std.id.toString()
+                );
               });
               return { ...sq, checked };
             }
@@ -180,7 +186,9 @@ const UploadVideos = () => {
           setData(ques);
         }
         return {
-          label: std.name + (!submitted ? " (Not Submitted)" : checked ? " (Checked)" : ""),
+          label:
+            std.name +
+            (!submitted ? " (Not Submitted)" : checked ? " (Checked)" : ""),
           value: std.id,
           submitted,
           checked,
@@ -199,6 +207,18 @@ const UploadVideos = () => {
           asgn = { ...asgn, submit: submit };
         }
       });
+      submits.checkAssessment.map((check) => {
+        if (asgn.id.toString() === check.unit_assignment_id) {
+          asgn = { ...asgn, check: check };
+        }
+      });
+      let singleChecks = []
+      submits.getSingleCheckAssessment.map((check) => {
+        if (asgn.id.toString() === check.unit_assignment_id.toString()) {
+          singleChecks.push(check)
+        }
+      });
+      asgn = { ...asgn, singleChecks };
     }
     setAssignment(asgn);
 
@@ -277,7 +297,10 @@ const UploadVideos = () => {
 
                     // <ReactPlayer controls={true} url={row.original.video} />
                     <div className="videobox">
-                      <iframe src={row.original.video} allow="autoplay"></iframe>
+                      <iframe
+                        src={row.original.video}
+                        allow="autoplay"
+                      ></iframe>
                     </div>
                   ) : uploading ? (
                     <ThreeDots
@@ -423,8 +446,8 @@ const UploadVideos = () => {
     getCurrentRole() === roles.instructor
       ? 4
       : getCurrentRole() === roles.student
-        ? 3
-        : 0
+      ? 3
+      : 0
   );
 
   const PageDisplay = () => {
@@ -436,7 +459,7 @@ const UploadVideos = () => {
       );
     } else if (page === 1) {
       return (
-        <div >
+        <div>
           <Button className="addindividualques" onClick={handleOpen}>
             <AddIcon />
             Add Question
@@ -451,7 +474,6 @@ const UploadVideos = () => {
           >
             <Box className="modal-box ">
               <div className="create-detail">
-
                 <p>{editData?.id ? "Edit" : "Add"} Question</p>
                 <Button className="closequestionicon" onClick={handleClose}>
                   <CloseIcon />
@@ -536,31 +558,53 @@ const UploadVideos = () => {
           <div className="tablequesans">
             <CustomReactTable columns={columns} data={data} loading={loading} />
           </div>
-
         </div>
       );
     } else if (page === 3) {
       return (
         <div className="container">
-          <div className="form">
-            <div className="form-container p-5">
-              <div className="space-between">
-                <h5>Title: {assignment.title || "-"}</h5>
+          {assignment.check ? (
+            <div className="form">
+              <div className="form-container p-5">
+                <div className="space-between">
+                  <h5>Title: {assignment.title || "-"}</h5>
+                </div>
+                <div className="space-between">
+                  <h5>Start Date: {schedule.start_date || "-"}</h5>
+                  <h5>End Date: {schedule.end_date || "-"}</h5>
+                  <h5>Total Score: {assignment.score || "-"}</h5>
+                </div>
+                <div className="space-between">
+                  <h5>Feedback: {assignment.check?.feedback || "-"}</h5>
+                </div>
               </div>
-              <div className="space-between">
-                <h5>Start Date: {schedule.start_date || "-"}</h5>
-                <h5>End Date: {schedule.end_date || "-"}</h5>
-                <h5>Total Score: {assignment.score || "-"}</h5>
+              <div className="body">
+                <img
+                  src={ASSIGNMENT_RESULT_IMAGE_PREFIX + assignment.check?.file}
+                />
               </div>
             </div>
-            <div className="body">
-              <img
-                src={
-                  ASSIGNMENT_SUBMIT_IMAGE_PREFIX + assignment.submit?.ansfile
-                }
-              />
+          ) : (
+            <div className="form">
+              <div className="form-container p-5">
+                <div className="space-between">
+                  <h5>Title: {assignment.title || "-"}</h5>
+                </div>
+                <div className="space-between">
+                  <h5>Start Date: {schedule.start_date || "-"}</h5>
+                  <h5>End Date: {schedule.end_date || "-"}</h5>
+                  <h5>Total Score: {assignment.score || "-"}</h5>
+                </div>
+              </div>
+              <div className="body">
+                <img
+                  src={
+                    ASSIGNMENT_SUBMIT_IMAGE_PREFIX + assignment.submit?.ansfile
+                  }
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       );
     } else if (page === 4) {
@@ -600,11 +644,36 @@ const UploadVideos = () => {
           </div>
           <hr />
           {!selectedStudent ? null : selectedStudent.submitted ? (
-            <SCanva {...assignment} submitted={selectedStudent.submitted} checked={selectedStudent.checked} questions={data} />
+            <SCanva
+              {...assignment}
+              submitted={selectedStudent.submitted}
+              checked={selectedStudent.checked}
+              questions={data}
+            />
           ) : (
             <h3 className="not-submitted">Not Submitted</h3>
           )}
         </>
+      );
+    } else if (page === 5) {
+      return (
+        <div className="container">
+          <div className="form">
+            <div className="form-container p-5">
+              <div className="space-between">
+                <h5>Title: {assignment.title || "-"}</h5>
+              </div>
+              <div className="space-between">
+                <h5>Start Date: {schedule.start_date || "-"}</h5>
+                <h5>End Date: {schedule.end_date || "-"}</h5>
+                <h5>Total Score: {assignment.score || "-"}</h5>
+              </div>
+            </div>
+            <div className="body">
+              <Video singleChecks={assignment.singleChecks} />
+            </div>
+          </div>
+        </div>
       );
     }
   };
@@ -625,7 +694,6 @@ const UploadVideos = () => {
             </div>
 
             <div className="learner-list-box">
-
               <div className="modal-btn">
                 <h4>{assignment.title}</h4>
                 <h6>{title}</h6>
@@ -652,27 +720,54 @@ const UploadVideos = () => {
                   <>
                     <div className="flex-box m-4">
                       <div className="flex">
-                        <button
-                          disabled={page === 3}
-                          onClick={() => {
-                            setPage(3);
-                          }}
-                          className="form-control mt-2"
-                        >
-                          <BackupTableIcon />
-                          Submitted Assignment
-                        </button>
-                        <button
-                          disabled={page == 0}
-                          onClick={() => {
-                            setPage(0);
-                            handleClose();
-                          }}
-                          className="form-control"
-                        >
-                          <PictureAsPdfIcon />
-                          Assignment PDF
-                        </button>
+                        {assignment.check ? (
+                          <>
+                            <button
+                              disabled={page === 3}
+                              onClick={() => {
+                                setPage(3);
+                              }}
+                              className="form-control mt-2"
+                            >
+                              <TaskIcon />
+                              Checked Assignment
+                            </button>
+                            <button
+                              disabled={page === 5}
+                              onClick={() => {
+                                setPage(5);
+                              }}
+                              className="form-control mt-2"
+                            >
+                              <CollectionsBookmarkIcon />
+                              Answers and Videos
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              disabled={page === 3}
+                              onClick={() => {
+                                setPage(3);
+                              }}
+                              className="form-control mt-2"
+                            >
+                              <BackupTableIcon />
+                              Submitted Assignment
+                            </button>
+                            <button
+                              disabled={page == 0}
+                              onClick={() => {
+                                setPage(0);
+                                handleClose();
+                              }}
+                              className="form-control"
+                            >
+                              <PictureAsPdfIcon />
+                              Assignment PDF
+                            </button>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="page">
@@ -700,9 +795,7 @@ const UploadVideos = () => {
                 <>
                   <>
                     <div className="flex-box m-4">
-
                       <div className="flex">
-
                         <button
                           disabled={page === 4}
                           onClick={() => {

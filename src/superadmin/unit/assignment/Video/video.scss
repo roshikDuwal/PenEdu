@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600&display=swap');
+
+
+.videopanel {
+    display: flex;
+    width: 100%;
+    .adminpanelpage{
+        .navigation {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            
+            a{
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: black;
+            }
+        }
+    
+        .studentpage {
+            position: relative;
+            height: 100vh;
+    
+            .studentdescription {
+                height: 100%;
+    
+                .tabbar {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    background-color: #f7f9fa;
+                 
+                    
+    
+                    .box {
+                        background-color: #1c1d1f;
+                        color: white;
+                        padding: 0.5rem;
+                        text-align: center;
+                        font-family: 'Nunito', sans-serif;
+                    }
+    
+                    .studentnavbar {
+                        display: flex;
+                        min-height: 100vh;
+                       
+    
+                        .videobox {
+                            width: 100%;
+                            .answer{
+                            
+                                font-family: 'Nunito', sans-serif;
+                                display: flex;
+                                justify-content: space-around;
+                                padding: 0 1rem;
+                                h4{
+                                    text-decoration: underline;
+                                    font-size: 1.3rem;
+                                    font-weight: 700;
+                                }
+    
+                                p{
+                                    font-size: 0.91rem;
+                                    font-weight: 700;
+                                
+                                }
+                            }
+
+                            .feedback{
+                                padding: 0 1rem;
+                            }
+    
+                            .tab {
+                                display: flex;
+                                flex-wrap: wrap;
+                                height: 100%;
+    
+                                .tabbox2 {
+                                    width: 20%;
+                                    background-color: #f2f2f2;
+                                    height: 100%;
+                                    right: 0;
+                                    display: flex;
+                                    flex-direction: column;
+                                    top: 0.1% !important;
+    
+                           
+                                    .title {
+                                        width: 100%;
+                                        border-bottom: 1.9px solid rgb(106, 106, 106);
+                                        text-align: center;
+                                        padding: 0.8rem;
+                                        font-weight: 800;
+                                        background-color: #fff;
+    
+                                        h1 {
+                                            font-family: 'Belanosima', sans-serif;
+                                        }
+    
+                                        p {
+                                            margin: 0;
+                                            padding-left: 1rem;
+                                            text-align: left;
+                                            font-weight: 500;
+                                            font-size: 0.85rem;
+                                            font-family: 'Poppins', sans-serif;
+                                        }
+                                    }
+    
+                                    .tabbar {
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: flex-start;
+                                        padding: 0;
+                                        margin: 0;
+                                        padding-top: 1rem;
+                                        padding-left: .4rem;
+                                        border: none;
+                                        height: 100%;
+                                        overflow-y: scroll;
+                                        overflow-x: hidden;
+                                        gap: 0.4rem;
+                                        background-color: #f2f2f2;
+    
+    
+    
+                                        li {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            width: 100%;
+                                            border-bottom: 1px solid rgb(183, 182, 182);
+                                            font-weight: 500;
+                                            font-size: 1rem;
+                                            padding: 1rem 0;
+                                            margin: 0;
+                                            gap: 0.5rem;
+                                            color: black;
+                                            border-radius: 5px;
+    
+                                            &:hover {
+                                                background-color: #d1d7dc;
+                                            }
+                                        }
+                                    }
+                                }
+    
+    
+                                .tabbox1 {
+                                    width: 80%;
+                                   
+                                    .tabpanel {
+                                        max-height: 100vh;
+                                        display: flex;
+                                        flex-direction: column;
+    
+                                        .Videobox {
+                                            height: 80rem;
+                                            iframe {
+                                                width: 100% !important;
+                                                height: 100% !important;
+                                            }
+                                        }
+    
+                                        .imagebox {
+                                            padding: 0 2rem;
+                                            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                                            height: 70rem;
+                                            overflow-y: scroll;
+    
+                                            img {
+                                                display: flex;
+                                                justify-content: center;
+                                                align-items: center;
+                                                object-fit: contain;
+                                                width: 100%;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+.react-tabs__tab--selected{
+    background-color: #d1d7dc !important; 
+}
+
