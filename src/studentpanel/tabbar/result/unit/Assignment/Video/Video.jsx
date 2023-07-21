@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./video.scss"
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -7,6 +7,29 @@ import { ASSIGNMENT_QUESTION_IMAGE_PREFIX, SOLUTION_VIDEO_PREFIX, VIDEO_PREFIX }
 
 
 const Video = ({ data }) => {
+  const [isFixed, setIsFixed] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const divElement = document.getElementById('your-div-id');
+      if (divElement) {
+        const rect = divElement.getBoundingClientRect();
+        const shouldFix = rect.top <= 0;
+        setIsFixed(shouldFix);
+      }
+    };
+
+    // Add the event listener to handleScroll when component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  
+
 
   return (
     <>
@@ -18,6 +41,7 @@ const Video = ({ data }) => {
               data.map((curElem) => {
                 return (
                   <TabPanel className="tabpanel" >
+
                     {/* <ReactPlayer
                       playing={false}
                       controls={true}
@@ -25,8 +49,9 @@ const Video = ({ data }) => {
                       height="50%"
                       url={VIDEO_PREFIX + curElem.video}
                     /> */}
+
                     <div className="videobox">
-                      <iframe src={curElem.video} width="640" height="480" allow="autoplay"></iframe>
+                      <iframe src={curElem.video} allow="autoplay"></iframe>
                     </div>
 
                     <hr />
@@ -45,13 +70,14 @@ const Video = ({ data }) => {
           </div>
 
 
-          <div className="tabbox2">
+          <div id="your-div-id" className=' tabbox2' style={{ position: isFixed ? 'fixed' : 'static',width:isFixed?"16.8%":"20%" }} >
             <div className="title">
               <h3>Content</h3>
               <p>{data.length}/{data.length}</p>
             </div>
 
-            <TabList className="tabbar">
+            <TabList 
+              className="tabbar">
 
               {
                 data.map((curElem) => {

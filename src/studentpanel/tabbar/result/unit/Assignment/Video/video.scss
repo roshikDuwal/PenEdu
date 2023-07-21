@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
 
+
 .videopanel {
     display: flex;
     width: 100%;
@@ -22,10 +23,12 @@
 
         .studentdescription {
             height: 100%;
+
             .tabbar {
                 height: 100%;
                 display: flex;
                 flex-direction: column;
+
                 .box {
                     height: 10%;
                     padding: 0.8rem;
@@ -35,6 +38,7 @@
                 .studentnavbar {
                     display: flex;
                     height: 90%;
+
                     .videobox {
                         height: 100%;
                         width: 100%;
@@ -44,6 +48,17 @@
                             flex-wrap: wrap;
                             height: 100%;
 
+                            .fixed {
+                                position: fixed;
+                                top: 0;
+                                right: 0;
+                                max-height: 100% !important;
+                                border: 2px solid blue !important;
+
+
+                            }
+
+
                             .tabbox2 {
                                 width: 20%;
                                 background-color: #f2f2f2;
@@ -51,7 +66,9 @@
                                 right: 0;
                                 display: flex;
                                 flex-direction: column;
+                                top: 0.1% !important;
 
+                       
                                 .title {
                                     width: 100%;
                                     border-bottom: 1.9px solid rgb(106, 106, 106);
@@ -89,6 +106,7 @@
                                     background-color: #f2f2f2;
 
 
+
                                     li {
                                         display: flex;
                                         border: 2px solid black;
@@ -114,24 +132,28 @@
                                 width: 80%;
                                 height: 100%;
 
+
                                 .tabpanel {
-                                    height: 100%;
+                                    max-height: 100vh;
                                     display: flex;
                                     flex-direction: column;
 
-                                    .videobox{
-                                        height: 50%;
-                                        
-                                        iframe{
+
+
+                                    .videobox {
+                                        height: 50vh;
+                                        iframe {
                                             width: 100% !important;
                                             height: 100% !important;
                                         }
                                     }
 
                                     .imagebox {
+                                        height: 40vh;
                                         padding: 0.2rem;
                                         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-                                        height: 50%;
+
+
                                         overflow-y: scroll;
 
                                         img {
