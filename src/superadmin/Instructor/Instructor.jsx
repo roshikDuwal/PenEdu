@@ -108,7 +108,29 @@ const Learner = () => {
                     handleEdit={async () => {
                       try {
                         setLoading(true);
-                        setUpdateInstructor({ ...row.original, date_of_birth: row.original.dob });
+                        const cls =
+                          (row.original.instructor_class &&
+                            row.original.instructor_class.length &&
+                            row.original.instructor_class.map((cls) => ({
+                              label: cls.class,
+                              value: cls.id,
+                            }))) ||
+                          [];
+                        setClasses(cls);
+                        const crs =
+                          (row.original.instructor_courses &&
+                            row.original.instructor_courses.length &&
+                            row.original.instructor_courses.map((cls) => ({
+                              label: cls.course_name,
+                              value: cls.id,
+                            }))) ||
+                          [];
+                        setCourses(crs);
+                        setUpdateInstructor({
+                          ...row.original,
+                          date_of_birth: row.original.dob,
+                          country: 'Australia'
+                        });
                         setOpenAccordan(false);
                         setLoading(false);
                       } catch (e) {
@@ -150,7 +172,7 @@ const Learner = () => {
   const Values = {
     name: "",
     email: "",
-    country: "",
+    country: "Australia",
     mobile: "",
     license: "",
     date_of_birth: "",
@@ -174,7 +196,7 @@ const Learner = () => {
     enableReinitialize: true,
     validationSchema: addTeacherSchema,
     onSubmit: (values, action) => {
-      if(!classes.length || !courses.length) {
+      if (!classes.length || !courses.length) {
         error("Please select class and course");
       }
       setLoading(true);
@@ -187,10 +209,11 @@ const Learner = () => {
           type: "Onshore",
         })
           .then(() => {
-            success("Instructor submitted successfully");
+            success("Instructor updated successfully");
             action.resetForm();
             setLoading(false);
             setOpen(false);
+            setUpdateInstructor(null);
             getInstructorData();
           })
           .catch((err) => {
@@ -213,8 +236,8 @@ const Learner = () => {
             getInstructorData();
           })
           .catch((err) => {
-            if(err?.response?.data?.errors) {
-              action.setErrors(err?.response?.data?.errors)
+            if (err?.response?.data?.errors) {
+              action.setErrors(err?.response?.data?.errors);
             }
             error(err.message);
             setLoading(false);
@@ -367,6 +390,7 @@ const Learner = () => {
                       value={values.country}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      disabled={true}
                     >
                       <option value="">Select Country</option>
                       {CountriesData.map((curElem) => (

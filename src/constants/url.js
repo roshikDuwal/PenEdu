@@ -56,7 +56,7 @@ export const routes={
     editCourse: "course/update/",
     editUnit: "unit/update/",
     editInstructor: "users/instructor/update/",
-    editLearner: "users/learner/update/",
+    editLearner: "learner/update/",
     deleteQuestion: "unit/assignment/singlequestion/delete/",
     getSubmits: "class/courses/units/assignments/getSubmit/"
 }
