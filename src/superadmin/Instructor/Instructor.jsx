@@ -194,9 +194,6 @@ const Learner = () => {
             getInstructorData();
           })
           .catch((err) => {
-            if(err?.response?.data?.errors) {
-              action.setErrors(err?.response?.data?.errors)
-            }
             error(err.message);
             setLoading(false);
           });
@@ -216,6 +213,9 @@ const Learner = () => {
             getInstructorData();
           })
           .catch((err) => {
+            if(err?.response?.data?.errors) {
+              action.setErrors(err?.response?.data?.errors)
+            }
             error(err.message);
             setLoading(false);
           });
