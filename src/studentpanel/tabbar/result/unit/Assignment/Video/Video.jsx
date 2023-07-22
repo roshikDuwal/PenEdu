@@ -58,13 +58,13 @@ const Video = ({ data, alldata }) => {
 
                     <div className='answer'>
                       <h4>Answer</h4>
-                      <p>Total Marks:11</p>
-                      <p>Obtained Marks:qq</p>
+                      {/* <p>Total Marks:11</p>
+                      <p>Obtained Marks:qq</p> */}
 
                     </div>
-                    <div className="feedback">
+                    {/* <div className="feedback">
                       <h5>Feedback:</h5> <p></p>
-                    </div>
+                    </div> */}
 
 
                     <div className="imagebox">

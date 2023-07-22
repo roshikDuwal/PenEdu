@@ -109,15 +109,15 @@ const Sidebar = () => {
       subname: true,
     },
 
-    {
-      id: "6",
-      name: "Assignment Result",
-      link: "/dashboard/result",
-      display: getCurrentRole() === roles.student ? true : false,
-      dropdown: false,
-      icon: <AssignmentIcon />,
-      subname: true,
-    },
+    // {
+    //   id: "6",
+    //   name: "Assignment Result",
+    //   link: "/dashboard/result",
+    //   display: getCurrentRole() === roles.student ? true : false,
+    //   dropdown: false,
+    //   icon: <AssignmentIcon />,
+    //   subname: true,
+    // },
     // {
     //   id: "6",
     //   name: "Check Assignment",
