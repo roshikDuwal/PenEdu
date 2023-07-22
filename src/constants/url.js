@@ -52,6 +52,11 @@ export const routes={
     addSchedule: "unit/assignment/schedule/create",
     editQuestion: "unit/assignment/single-question/edit/",
     editAssignment: "unit/assignment/edit/",
+    editClass: "class/update/",
+    editCourse: "course/update/",
+    editUnit: "unit/update/",
+    editInstructor: "users/instructor/update/",
+    editLearner: "users/learner/update/",
     deleteQuestion: "unit/assignment/singlequestion/delete/",
     getSubmits: "class/courses/units/assignments/getSubmit/"
 }

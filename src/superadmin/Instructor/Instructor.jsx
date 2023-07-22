@@ -24,6 +24,7 @@ import {
   addInstructors,
   deleteInstructorData,
   getInstructors,
+  updateInstructorData,
 } from "../../services/instructors";
 
 import Select from "react-select";
@@ -34,22 +35,24 @@ import { CountriesData } from "../../constants/countires";
 
 const Learner = () => {
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    resetForm();
-    setClasses([]);
-    setCourses([]);
-    setOpen(false);
-  };
   const [loading, setLoading] = useState(true);
+  const [updateInstructor, setUpdateInstructor] = useState(null);
   const [data, setData] = useState([]);
   const handleOpen = () => {
-    if(!classData.length) {
+    if (!classData.length) {
       error("No class data. Add a class first!");
       return;
     }
     setOpen(true);
   };
 
+  const handleClose = () => {
+    resetForm();
+    setClasses([]);
+    setUpdateInstructor(null);
+    setCourses([]);
+    setOpen(false);
+  };
   const [openAccordan, setOpenAccordan] = useState(null);
   const [coursedata, setCourseData] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -100,6 +103,16 @@ const Learner = () => {
                         getInstructorData();
                       } catch (e) {
                         error(e.message || "Failed to delete instructor!");
+                      }
+                    }}
+                    handleEdit={async () => {
+                      try {
+                        setLoading(true);
+                        setUpdateInstructor({ ...row.original, date_of_birth: row.original.dob });
+                        setOpenAccordan(false);
+                        setLoading(false);
+                      } catch (e) {
+                        error(e.message || "Failed to update class!");
                       }
                     }}
                   />
@@ -157,28 +170,53 @@ const Learner = () => {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    initialValues: Values,
+    initialValues: updateInstructor || Values,
+    enableReinitialize: true,
     validationSchema: addTeacherSchema,
     onSubmit: (values, action) => {
+      if(!classes.length || !courses.length) {
+        error("Please select class and course");
+      }
       setLoading(true);
-      addInstructors({
-        ...values,
-        mobile: values.mobile.toString(),
-        course_id: courses[0].value,
-        class_id: classes[0].value,
-        type: "Onshore",
-      })
-        .then(() => {
-          success("Instructor submitted successfully");
-          action.resetForm();
-          setLoading(false);
-          setOpen(false);
-          getInstructorData();
+      if (updateInstructor) {
+        updateInstructorData(updateInstructor.id, {
+          ...values,
+          mobile: values.mobile.toString(),
+          course_id: courses[0].value,
+          class_id: classes[0].value,
+          type: "Onshore",
         })
-        .catch((err) => {
-          error(err.message);
-          setLoading(false);
-        });
+          .then(() => {
+            success("Instructor submitted successfully");
+            action.resetForm();
+            setLoading(false);
+            setOpen(false);
+            getInstructorData();
+          })
+          .catch((err) => {
+            error(err.message);
+            setLoading(false);
+          });
+      } else {
+        addInstructors({
+          ...values,
+          mobile: values.mobile.toString(),
+          course_id: courses[0].value,
+          class_id: classes[0].value,
+          type: "Onshore",
+        })
+          .then(() => {
+            success("Instructor submitted successfully");
+            action.resetForm();
+            setLoading(false);
+            setOpen(false);
+            getInstructorData();
+          })
+          .catch((err) => {
+            error(err.message);
+            setLoading(false);
+          });
+      }
     },
   });
 
@@ -193,7 +231,7 @@ const Learner = () => {
     const courseOptions = rescourse.map((course) => ({
       label: course.course_name,
       value: course.id,
-      class_id: course.class_id
+      class_id: course.class_id,
     }));
     const classOptions = resclass.map((course) => ({
       label: course.class,
@@ -229,14 +267,18 @@ const Learner = () => {
 
             <Modal
               className="modal"
-              open={open}
+              open={updateInstructor || open}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box className="modal-box">
                 <div className="create-detail">
-                  <p>Create Instructor</p>
+                  <p>
+                    {updateInstructor
+                      ? "Update Instructor"
+                      : "Create Instructor"}
+                  </p>
                   <Button className="closequestionicon" onClick={handleClose}>
                     <CloseIcon />
                   </Button>
@@ -412,7 +454,7 @@ const Learner = () => {
 
                   <div className="submitbtn">
                     <button type="submit">
-                      <AddIcon /> Create
+                      <AddIcon /> {updateInstructor ? "Update" : "Create"}
                     </button>
                   </div>
                 </form>

@@ -30,3 +30,9 @@ export const deleteCourseData = async (id) => {
 
   return deleteCourse;
 };
+
+export const updateCourseData = async (id, coursedata) => {
+  const postcourse = await axios.patch(routes.editCourse+id, coursedata);
+
+  return postcourse;
+};

@@ -21,6 +21,12 @@ export const postClassData = async (classdata) => {
   return postclass;
 };
 
+export const updateClassData = async (id, classdata) => {
+  const postclass = await axios.patch(routes.editClass+id, classdata);
+
+  return postclass;
+};
+
 export const deleteClassData = async (id) => {
   const deleteClass = await axios.delete(routes.deleteClasses + id);
 

@@ -20,6 +20,7 @@ import {
   addStudents,
   deleteStudentData,
   getStudents,
+  updateStudentData,
 } from "../../services/students";
 import { addStudentSchema } from "../../schema/validate";
 import { Accordan } from "../../components/tableaccordan/Accordan";
@@ -29,9 +30,10 @@ import { classData } from "../../services/class";
 const Learner = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [updateLearner, setUpdateLearner] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const handleOpen = () => {
-    if(!classdata.length) {
+    if (!classdata.length) {
       error("No class data. Add a class first!");
       return;
     }
@@ -39,6 +41,7 @@ const Learner = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setUpdateLearner(null);
     resetForm();
   };
   const [openAccordan, setOpenAccordan] = useState(null);
@@ -96,6 +99,21 @@ const Learner = () => {
                         error(e.message || "Failed to delete student!");
                       }
                     }}
+                    handleEdit={async () => {
+                      try {
+                        setLoading(true);
+                        const class_id =
+                          (row.original.student_class &&
+                            row.original.student_class.length &&
+                            row.original.student_class[0].id) ||
+                          null;
+                        setUpdateLearner({ ...row.original, class_id });
+                        setOpenAccordan(false);
+                        setLoading(false);
+                      } catch (e) {
+                        error(e.message || "Failed to update class!");
+                      }
+                    }}
                   />
                 )}
               </div>
@@ -130,21 +148,41 @@ const Learner = () => {
     resetForm,
     setSubmitting,
   } = useFormik({
-    initialValues: Values,
+    initialValues: updateLearner || Values,
+    enableReinitialize: true,
     validationSchema: addStudentSchema,
     onSubmit: (values, action) => {
-      addStudents({ ...values, class_id: parseInt(values.class_id) })
-        .then(() => {
-          success("Learner submitted successfully");
-          action.resetForm();
-          setSubmitting(false);
-          setOpen(false);
-          getStudentData();
+      if (updateLearner) {
+        updateStudentData(updateLearner.id, {
+          ...values,
+          class_id: parseInt(values.class_id),
         })
-        .catch((err) => {
-          error(err.message);
-          setSubmitting(false);
-        });
+          .then(() => {
+            success("Learner updated successfully");
+            action.resetForm();
+            setSubmitting(false);
+            setOpen(false);
+            setUpdateLearner(null);
+            getStudentData();
+          })
+          .catch((err) => {
+            error(err.message);
+            setSubmitting(false);
+          });
+      } else {
+        addStudents({ ...values, class_id: parseInt(values.class_id) })
+          .then(() => {
+            success("Learner submitted successfully");
+            action.resetForm();
+            setSubmitting(false);
+            setOpen(false);
+            getStudentData();
+          })
+          .catch((err) => {
+            error(err.message);
+            setSubmitting(false);
+          });
+      }
     },
   });
 
@@ -214,14 +252,14 @@ const Learner = () => {
 
             <Modal
               className="modal"
-              open={open}
+              open={open || updateLearner}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box className="modal-box">
                 <div className="create-detail">
-                  <p>Create Learner</p>
+                  <p>{updateLearner ? "Update Learner" : "Create Learner"}</p>
 
                   <Button className="closequestionicon" onClick={handleClose}>
                     <CloseIcon />
@@ -342,7 +380,7 @@ const Learner = () => {
 
                   <div className="submitbtn">
                     <button type="submit">
-                      <AddIcon /> Create
+                      <AddIcon /> {updateLearner ? "Update" : "Create"}
                     </button>
                   </div>
                 </form>

@@ -30,3 +30,9 @@ export const deleteUnitData = async (id) => {
 
   return deleteUnit;
 };
+
+export const updateUnitData = async (id, unitdata) => {
+  const postunit = await axios.patch(routes.editUnit+id, unitdata);
+
+  return postunit;
+};

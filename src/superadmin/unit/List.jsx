@@ -24,13 +24,20 @@ import { useFormik } from "formik";
 
 import { addUnitSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
-import { addUnits, deleteUnitData, getUnits, getUnitsByCourse } from "../../services/units";
+import {
+  addUnits,
+  deleteUnitData,
+  getUnits,
+  getUnitsByCourse,
+  updateUnitData,
+} from "../../services/units";
 import { getCurrentRole, roles } from "../../utils/common";
 
 const List = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const [updateUnit, setUpdateUnit] = useState(null);
   const [data, setData] = useState([]);
   const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
@@ -38,6 +45,7 @@ const List = () => {
   const handleClose = () => {
     resetForm();
     setOpen(false);
+    setUpdateUnit(null);
   };
   const { courseid } = useParams();
 
@@ -115,6 +123,16 @@ const List = () => {
                         error(e.message || "Failed to delete unit!");
                       }
                     }}
+                    handleEdit={async () => {
+                      try {
+                        setLoading(true);
+                        setUpdateUnit(row.original);
+                        setOpenAccordan(false);
+                        setLoading(false);
+                      } catch (e) {
+                        error(e.message || "Failed to update class!");
+                      }
+                    }}
                   />
                 )}
               </div>
@@ -147,20 +165,35 @@ const List = () => {
     isSubmitting,
   } = useFormik({
     validationSchema: addUnitSchema,
-    initialValues: Values,
+    initialValues: updateUnit || Values,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
-      try {
-        await addUnits({
-          ...values,
-          credit_hours: values.credit_hours.toString(),
-        });
-        success("Unit added successfully!");
-        action.resetForm();
-        getData();
-        handleClose();
-      } catch (e) {
-        error(e.message || "Failed to add course!");
+      if (updateUnit) {
+        try {
+          await updateUnitData(updateUnit.id, {
+            ...values,
+            credit_hours: values.credit_hours.toString(),
+          });
+          success("Unit updated successfully!");
+          action.resetForm();
+          getData();
+          handleClose();
+        } catch (e) {
+          error(e.message || "Failed to update course!");
+        }
+      } else {
+        try {
+          await addUnits({
+            ...values,
+            credit_hours: values.credit_hours.toString(),
+          });
+          success("Unit added successfully!");
+          action.resetForm();
+          getData();
+          handleClose();
+        } catch (e) {
+          error(e.message || "Failed to add course!");
+        }
       }
     },
   });
@@ -192,14 +225,14 @@ const List = () => {
 
             <Modal
               className="unitmodal"
-              open={open}
+              open={open || updateUnit}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box className="modal-box ">
                 <div className="create-detail">
-                  <p>Create Unit</p>
+                  <p>{updateUnit ? "Update Unit" : "Create Unit"}</p>
                   <Button className="closequestionicon" onClick={handleClose}>
                     <CloseIcon />
                   </Button>
@@ -269,7 +302,7 @@ const List = () => {
 
                   <div className="submitbtn">
                     <button disabled={isSubmitting} type="submit">
-                      <AddIcon /> Create
+                      <AddIcon /> {updateUnit ? "Update" : "Create"}
                     </button>
                   </div>
                 </form>

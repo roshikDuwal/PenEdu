@@ -23,3 +23,9 @@ export const deleteStudentData = async(id)=>{
 
     return deleteStudent
 }
+
+export const updateStudentData = async (id, studentdata) => {
+    const poststudent = await axios.patch(routes.editLearner+id, studentdata);
+
+    return poststudent;
+  };

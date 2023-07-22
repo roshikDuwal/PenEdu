@@ -17,6 +17,7 @@ import {
   classData,
   deleteClassData,
   postClassData,
+  updateClassData,
 } from "../../services/class";
 import { success, error } from "../../utils/toast";
 import { AddClassSchema } from "../../schema/validate";
@@ -29,9 +30,11 @@ const Learner = () => {
   const handleClose = () => {
     resetForm();
     setOpen(false);
+    setUpdateClass(null);
   };
   const [classdata, setClassData] = useState([]);
   const [openAccordan, setOpenAccordan] = useState(null);
+  const [updateClass, setUpdateClass] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const columns = useMemo(
@@ -63,6 +66,16 @@ const Learner = () => {
                         error(e.message || "Failed to delete class!");
                       }
                     }}
+                    handleEdit={async () => {
+                      try {
+                        setLoading(true);
+                        setUpdateClass(row.original);
+                        setOpenAccordan(false);
+                        setLoading(false);
+                      } catch (e) {
+                        error(e.message || "Failed to update class!");
+                      }
+                    }}
                   />
                 )}
               </div>
@@ -89,10 +102,25 @@ const Learner = () => {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    initialValues: Values,
+    initialValues: updateClass || Values,
     validationSchema: AddClassSchema,
+    enableReinitialize: true,
     onSubmit: (values, action) => {
-      postClassData(values)
+      if(updateClass) {
+        updateClassData(updateClass.id, values)
+        .then(() => {
+          success("Class Updated Successfully");
+          action.resetForm();
+
+          getClass();
+
+          setOpen(false);
+        })
+        .catch((err) => {
+          error(err.message || "Failed to update class");
+        });
+      } else {
+        postClassData(values)
         .then(() => {
           success("Class Added Successfully");
           action.resetForm();
@@ -104,6 +132,7 @@ const Learner = () => {
         .catch((err) => {
           error(err.message || "Failed to add class");
         });
+      }
     },
   });
 
@@ -153,14 +182,14 @@ const Learner = () => {
 
             <Modal
               className="classyearmodal "
-              open={open}
+              open={open || updateClass}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box className="modal-box">
                 <div className="create-detail">
-                  <p>Create Year Class</p>
+                  <p>{updateClass ? "Update Year Class" : "Create Year Class"}</p>
                   <Button className="closequestionicon" onClick={handleClose}>
                     <CloseIcon />
                   </Button>
@@ -176,7 +205,7 @@ const Learner = () => {
                       )}
                       options={classesOptions.filter(
                         (opt) =>
-                          !classdata.map((cls) => cls.class).includes(opt.value)
+                          !classdata.map((cls) => cls.class).includes(opt.value) || opt.value === updateClass?.class
                       )}
                       onChange={(e) => {
                         setFieldValue("class", e.value);
@@ -190,7 +219,7 @@ const Learner = () => {
 
                   <div className="submitbtn">
                     <button disabled={isSubmitting} type="submit">
-                      <AddIcon /> Create
+                      <AddIcon /> {updateClass ? "Update" : "Create"}
                     </button>
                   </div>
                 </form>

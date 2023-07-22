@@ -24,6 +24,7 @@ import {
   deleteCourseData,
   getCourses,
   getCoursesByClass,
+  updateCourseData,
 } from "../../services/courses";
 import { addCourseSchema } from "../../schema/validate";
 import { error, success } from "../../utils/toast";
@@ -35,12 +36,14 @@ const Course = () => {
   const [loading, setLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const [data, setData] = useState([]);
+  const [updateCourse, setUpdateCourse] = useState(null);
   const [classes, setClasses] = useState([]);
   const [myClass, setMyClass] = useState(null);
 
   const handleClose = () => {
     resetForm();
     setOpen(false);
+    setUpdateCourse(null);
   };
 
   const [openAccordan, setOpenAccordan] = useState(null);
@@ -116,6 +119,16 @@ const Course = () => {
                         error(e.message || "Failed to delete course!");
                       }
                     }}
+                    handleEdit={async () => {
+                      try {
+                        setLoading(true);
+                        setUpdateCourse(row.original);
+                        setOpenAccordan(false);
+                        setLoading(false);
+                      } catch (e) {
+                        error(e.message || "Failed to update class!");
+                      }
+                    }}
                   />
                 )}
               </div>
@@ -146,19 +159,35 @@ const Course = () => {
     isSubmitting,
   } = useFormik({
     validationSchema: addCourseSchema,
-    initialValues: Values,
+    initialValues: updateCourse || Values,
+    enableReinitialize: true,
     onSubmit: async (values, action) => {
-      try {
-        await addCourses({
-          ...values,
-          credit_hours: values.credit_hours.toString(),
-        });
-        success("Course added successfully!");
-        action.resetForm();
-        getCourseData();
-        handleClose();
-      } catch (e) {
-        error(e.message || "Failed to add course!");
+      if (updateCourse) {
+        try {
+          await updateCourseData(updateCourse.id, {
+            ...values,
+            credit_hours: values.credit_hours.toString(),
+          });
+          success("Course updated successfully!");
+          action.resetForm();
+          getCourseData();
+          handleClose();
+        } catch (e) {
+          error(e.message || "Failed to update course!");
+        }
+      } else {
+        try {
+          await addCourses({
+            ...values,
+            credit_hours: values.credit_hours.toString(),
+          });
+          success("Course added successfully!");
+          action.resetForm();
+          getCourseData();
+          handleClose();
+        } catch (e) {
+          error(e.message || "Failed to add course!");
+        }
       }
     },
   });
@@ -187,14 +216,14 @@ const Course = () => {
 
             <Modal
               className="coursemodal"
-              open={open}
+              open={open || updateCourse}
               onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box className="modal-box ">
                 <div className="create-detail">
-                  <p>Create Course</p>
+                  <p>{updateCourse ? "Update Course" : "Create Course"}</p>
                   <Button className="closequestionicon" onClick={handleClose}>
                     <CloseIcon />
                   </Button>
@@ -235,7 +264,7 @@ const Course = () => {
                       name="class"
                       value={
                         classes.length && values.class_id
-                          ? classes.find((cls) => cls.id === values.class_id)
+                          ? classes.find((cls) => cls.value?.toString() === values?.class_id?.toString())
                           : ""
                       }
                       options={classes}
@@ -263,7 +292,7 @@ const Course = () => {
 
                   <div className="submitbtn">
                     <button disabled={isSubmitting} type="submit">
-                      <AddIcon /> Create
+                      <AddIcon /> {updateCourse ? "Update" : "Create"}
                     </button>
                   </div>
                 </form>
