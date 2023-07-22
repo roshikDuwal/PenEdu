@@ -39,6 +39,7 @@
     position: relative;
     background-color: #f3f3f9;
 
+
     .create-detail {
       display: flex;
       align-items: center;
@@ -50,6 +51,7 @@
         padding-top: 1rem;
         width: 30rem;
         font-size: 1.1rem;
+
       }
 
       button {
@@ -64,6 +66,7 @@
     }
 
     form {
+
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
@@ -157,6 +160,7 @@
       padding: 1rem 2rem;
       border-bottom: 1px solid rgb(230, 230, 230);
       font-family: 'Poppins', sans-serif;
+      
 
       button {
         font-size: 0.7rem;
@@ -201,20 +205,20 @@
       flex-direction: column;
       background-color: white;
       width: 90vw;
+      height: 60vh;
+      align-items: center;
+      padding-top: 5rem;
       position: relative;
       background-color: #f3f3f9;
-      padding: 2rem;
-
-
-
       .create-detail {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 0.5rem 5rem;
           box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-
+          width: 80%;
           p {
+            
               padding-top: 1rem;
               width: 10rem;
               font-size: 1.1rem;
@@ -232,14 +236,18 @@
           gap: 2rem;
           padding: 2rem;
           place-items: center;
+        
+          width: 80%;
 
           .formbox {
               label {
                   padding-left: 1rem;
                   font-size: 0.8rem;
+                
               }
 
               input {
+              
                   width: 90%;
                   font-size: 0.7rem;
                   padding: 0.5rem;
