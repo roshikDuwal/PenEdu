@@ -79,18 +79,20 @@ export const Accordan = ({ setOpenAccordan, handleEdit, handleDelete }) => {
         </div>
 
         <li className="profile">
-          <Button
-            onClick={(e) => {
-              if (handleEdit) {
-                handleEdit();
-              }
-              e.stopPropagation();
-            }}
-            className="button"
-          >
-            {" "}
-            <CreateIcon /> Edit
-          </Button>
+          {handleEdit ? (
+            <Button
+              onClick={(e) => {
+                if (handleEdit) {
+                  handleEdit();
+                }
+                e.stopPropagation();
+              }}
+              className="button"
+            >
+              {" "}
+              <CreateIcon /> Edit
+            </Button>
+          ) : null}
         </li>
         <li className="profile">
           <Button className="button" onClick={deleteConfirm}>
