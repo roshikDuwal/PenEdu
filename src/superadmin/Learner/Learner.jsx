@@ -179,6 +179,9 @@ const Learner = () => {
             getStudentData();
           })
           .catch((err) => {
+            if(err?.response?.data?.errors) {
+              action.setErrors(err?.response?.data?.errors)
+            }
             error(err.message);
             setSubmitting(false);
           });
@@ -286,6 +289,7 @@ const Learner = () => {
                     <label htmlFor="email">Email</label>
                     <input
                       type="email"
+                      disabled={updateLearner}
                       name="email"
                       value={values.email}
                       onChange={handleChange}

@@ -194,6 +194,9 @@ const Learner = () => {
             getInstructorData();
           })
           .catch((err) => {
+            if(err?.response?.data?.errors) {
+              action.setErrors(err?.response?.data?.errors)
+            }
             error(err.message);
             setLoading(false);
           });
@@ -304,6 +307,7 @@ const Learner = () => {
                     <input
                       type="email"
                       name="email"
+                      disabled={updateInstructor}
                       value={values.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
