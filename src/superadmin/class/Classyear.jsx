@@ -115,6 +115,7 @@ const Learner = () => {
           getClass();
 
           setOpen(false);
+          setUpdateClass(false)
         })
         .catch((err) => {
           error(err.message || "Failed to update class");
